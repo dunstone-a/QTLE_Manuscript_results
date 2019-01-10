@@ -1,0 +1,21 @@
+name: "AAAA_2019_Project-Template"
+output_dir: "../docs"
+navbar:
+  title: "AAAA_2019_Project-Template"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "About"
+      href: about.html
+    - text: "License"
+      href: license.html
+  right:
+    - icon: fa-github
+      href: https://github.com/davismcc/AAAA_2019_Project-Template
+output:
+  workflowr::wflow_html:
+    toc: true
+    toc_float: true
+    theme: journal
+    highlight: pygments
+    code_folding: hide
