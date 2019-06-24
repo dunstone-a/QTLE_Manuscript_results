@@ -18,7 +18,7 @@ The convention for project names is that they are identified by a randomly-gener
 
 Thus, this template project has a valid identifier ("project ID"): `AAAA_2019_Project-Template`.
 
-R code to (reproducibly) generate a four-letter project code:
+R code to generate a unique four-letter project code (setting a random seed based on the date it is run):
 ```
 set.seed(as.numeric(Sys.Date()))
 c(sample(LETTERS, 1), sample(c("A","E","I","O","U"), 1), sample(LETTERS, 2))
