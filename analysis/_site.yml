@@ -11,7 +11,7 @@ navbar:
       href: license.html
   right:
     - icon: fa-github
-      href: https://github.com/davismcc/AAAA_2019_Project-Template
+      href: https://gitlab.svi.edu.au/biocellgen-public/aaaa_2019_project-template
 output:
   workflowr::wflow_html:
     toc: true
