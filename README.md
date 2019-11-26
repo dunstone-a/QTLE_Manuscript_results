@@ -1,4 +1,4 @@
-# Project AAAA_2019_Project-Template
+# Project EUUI_2019_sceQTL-Workflow
 
 ## Project overview
 
@@ -26,13 +26,7 @@ c(sample(LETTERS, 1), sample(c("A","E","I","O","U"), 1), sample(LETTERS, 2))
 
 ### Update template for new project
 
-To setup the new project, the project ID should be changed in the following files:
-* `cluster.json` (a file that defines defaults for running Snakemake on a cluster)
-* `Dockerfile` (a file that defines a Docker container with necessary software installed)
-* `environment.yml` (a file that defines the conda environment to use)
-* `analysis/_site.yml` (a YAML file with parameters for constructing the website with workflowr)
-* `envs/myenvs.yml` (a conda environment definition file)
-* `org/project_management.org` (an org-mode file for managing the project)
+
 
 Specify the way to cite the project in the `CITATION` file. This will likely need updating over the course of the project.
 
@@ -80,6 +74,6 @@ Workflow management software makes a very big difference when trying to run comp
 
 ## Acknowledgements
 
-This project is a [workflowr][] project. Making use of the workflowr package for reproducible analyses dictates certain structures for the project file.
+This project is a [workflmiowr][] project. Making use of the workflowr package for reproducible analyses dictates certain structures for the project file.
 
 [workflowr]: https://github.com/jdblischak/workflowr

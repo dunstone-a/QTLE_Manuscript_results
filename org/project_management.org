@@ -1,14 +1,17 @@
-#+TITLE: AAAA_2019_Project-Template
+#+TITLE: EUUI_2019_sceQTL-Workflow
 
-* TODO Organise roadmap for project [2019-2-2 Sat]
+* TODO Organise roadmap for project [2019-11-26 Tues]
 
 * Kanban 
 
 | Backlog         | Waiting On | Planned | Doing | Done |
 |-----------------+------------+---------+-------+------|
-| [[Update template]] |            |         |       |      |
-| [[Reproducibility]] |            |         |       |      |
-|                 |            |         |       |      |
+|  | |  | [[Download sc geno data]] |  |
+|  | [[Preprocessing]] | | | |
+| [[Barcode counts]] |  |  |  |  |
+| [[Normalizing]] |  |  |  |  |
+| [[Demultiplexing]] |  |  |  |  |
+|  |  |  |  |  |
   
 
 * [#C] Update template <<Update template>> [0%]

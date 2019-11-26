@@ -1,7 +1,7 @@
-name: "AAAA_2019_Project-Template"
+name: "EUUI_2019_sceQTL-Workflow"
 output_dir: "../docs"
 navbar:
-  title: "AAAA_2019_Project-Template"
+  title: "EUUI_2019_sceQTL-Workflow"
   left:
     - text: "Home"
       href: index.html
@@ -11,7 +11,7 @@ navbar:
       href: license.html
   right:
     - icon: fa-github
-      href: https://github.com/davismcc/AAAA_2019_Project-Template
+      href: https://github.com/davismcc/EUUI_2019_sceQTL-Workflow
 output:
   workflowr::wflow_html:
     toc: true

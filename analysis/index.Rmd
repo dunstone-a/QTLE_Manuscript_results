@@ -1,6 +1,6 @@
 ---
-title: "Human dermal fibroblast clonality project"
-author: "Davis J. McCarthy"
+title: "single-cell expression QTL Workflow project"
+author: "Christina B Azodi"
 site: workflowr::wflow_site
 output:
   workflowr::wflow_html:
@@ -9,9 +9,7 @@ output:
 
 ## Project overview
 
-This project investigates clonality in human dermal fibroblast cell populations
-in 32 cell lines from distinct donors, using bulk whole-exome sequencing and 
-single-cell RNA-sequencing data.
+This project developes a pipeline for eQTL analysis using single cell sequencing data from human dermal fibroblast cell populations and human induced pluripotent stem cells at different timepoints during differentiation. 
 
 **Key findings:**
 

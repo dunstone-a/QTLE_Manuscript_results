@@ -1,4 +1,4 @@
-name: AAAA_2019_Project-Template
+name: EUUI_2019_sceQTL-Workflow
 channels:
   - defaults
   - bioconda

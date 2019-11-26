@@ -1,0 +1,44 @@
+# preprocess sc data
+
+
+# FastQC on raw reads
+
+## Fibro
+for i in ERR*fastq.gz; do fastqc -f fastq -out /mnt/mcfiles/cazodi/projects/01_sceQTL/00_ReadQC $i; done
+
+## iPSC
+
+
+# Trim_galore!
+
+## Fibro
+
+## iPSC
+
+
+# FastQC on trimmed reads
+
+## Fibro
+
+## iPSC
+
+
+# Salmon
+
+## Fibro
+
+## iPSC
+
+
+# Scater
+
+## Fibro
+
+## iPSC
+
+
+# Scran
+
+## Fibro
+
+## iPSC
