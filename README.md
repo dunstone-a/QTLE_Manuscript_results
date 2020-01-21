@@ -1,4 +1,4 @@
-# Project EUUI_2019_sceQTL-Workflow
+# Project AAAA_2019_Project-Template
 
 ## Project overview
 
