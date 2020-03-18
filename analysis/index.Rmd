@@ -1,5 +1,5 @@
 ---
-title: "sc-eQTL-gen"
+title: "single-cell expression QTL Workflow project"
 author: "Christina B Azodi"
 site: workflowr::wflow_site
 output:
@@ -9,11 +9,17 @@ output:
 
 ## Project overview
 
-Goes Here
+This project developes a pipeline for eQTL analysis using single cell sequencing data from human dermal fibroblast cell populations and human induced pluripotent stem cells at different timepoints during differentiation. 
 
 **Key findings:**
 
-* List here
+* A novel approach for integrating DNA-seq and single-cell RNA-seq data to 
+reconstruct clonal substructure and single-cell transcriptomes.
+* A new computational method, [cardelino](https://github.com/PMBio/cardelino), to map 
+single-cell RNA-seq profiles to clones.
+* Evidence for non-neutral evolution of clonal populations in human fibroblasts.
+* Proliferation and cell cycle pathways are commonly distorted in mutated clonal
+populations, with implications for cancer and ageing. 
 
 For a richer overview, see the [About](about.html) page.
 
