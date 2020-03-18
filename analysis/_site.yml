@@ -1,7 +1,7 @@
-name: "EUUI_2019_sceQTL-Workflow"
+name: "AAAA_2019_Project-Template"
 output_dir: "../docs"
 navbar:
-  title: "EUUI_2019_sceQTL-Workflow"
+  title: "AAA_2019_Project-Template"
   left:
     - text: "Home"
       href: index.html
@@ -10,13 +10,8 @@ navbar:
     - text: "License"
       href: license.html
   right:
-<<<<<<< HEAD
-    - icon: fa-github
-      href: https://github.com/davismcc/EUUI_2019_sceQTL-Workflow
-=======
     - icon: fa-gitlab
       href: https://gitlab.svi.edu.au/biocellgen-public/aaaa_2019_project-template
->>>>>>> 0705adaf5f94937605df82ceb3a69e6f3cbe5723
 output:
   workflowr::wflow_html:
     toc: true

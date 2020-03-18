@@ -1,6 +1,6 @@
 ---
 title: "single-cell expression QTL Workflow project"
-author: "Christina B Azodi"
+author: "Davis McCarthy"
 site: workflowr::wflow_site
 output:
   workflowr::wflow_html:
