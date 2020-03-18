@@ -2,12 +2,12 @@
 """
 Snakefile for 
 
-Author: Davis McCarthy
+Author: Christina Azodi
 Affiliation: St Vincent's Institute of Medical Research and the University of Melbourne
 
 Run: snakemake -s Snakefile_canopy --jobs 1000 --latency-wait 30 --cluster-config cluster.json --cluster 'bsub -J {cluster.name} -q {cluster.queue} -n {cluster.n} -R "rusage[mem={cluster.memory}]" -M {cluster.memory}  -o {cluster.output} -e {cluster.error}' --keep-going --rerun-incomplete
 
-Davis McCarthy, 02 January 2019
+Christina Azodi, 18 March 2020
 """
 
 import glob
