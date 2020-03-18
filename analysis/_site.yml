@@ -1,7 +1,7 @@
 name: "AAAA_2019_Project-Template"
 output_dir: "../docs"
 navbar:
-  title: "AAA_2019_Project-Template"
+  title: "AAAA_2019_Project-Template"
   left:
     - text: "Home"
       href: index.html
