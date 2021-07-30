@@ -1,0 +1,201 @@
+---
+title: 'WEEO: Reference SC data processing - pbmc8k'
+author: "C.B. Azodi"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
+```
+
+```{r load-libraries-code}
+suppressPackageStartupMessages({
+  library(TENxPBMCData)
+  library(splatter)
+  library(VariantAnnotation)
+  library(org.Hs.eg.db)
+  library(tidyverse)
+  library(scater)
+  library(celldex)
+  library(SingleR)
+  library(RColorBrewer)
+  library(ggpubr)
+  library(cluster)
+})
+
+source("code/sce_plots.R")
+save.fig <- TRUE
+save.params <- TRUE
+save.params.path <- "output/01_simulations/01_reference-params/pbmc8k/"
+dataset <- "pbmc8k"
+
+n.genes <- 1255
+min.cells.for.estimation <- 100
+```
+
+## 10x PBMC data
+
+```{r load-annotate-pbmc-data, echo=FALSE}
+ref <- celldex::BlueprintEncodeData()
+pbmc <- TENxPBMCData(dataset = dataset)   # snapshotDate(): 2020-10-27
+pbmc <- logNormCounts(pbmc)
+
+
+rowData(pbmc)$Symbol <- mapIds(org.Hs.eg.db, keys=rownames(pbmc), 
+                               column="SYMBOL", keytype="ENSEMBL")
+
+pbmc <- pbmc[!is.na(rowData(pbmc)$Symbol), ]
+rownames(pbmc) <- rowData(pbmc)$Symbol
+
+pred <- SingleR(test=pbmc, ref=ref, labels=ref$label.main)
+
+colData(pbmc) <- cbind(colData(pbmc), pred)
+pbmc$pruned.labels <- gsub(" ", "_", pbmc$pruned.labels)
+pbmc$pruned.labels <- as.factor(pbmc$pruned.labels)
+pbmc <- pbmc[, !is.na(pbmc$pruned.labels)]
+
+dim(pbmc)
+table(pbmc$pruned.labels)
+```
+
+## Gene selection
+
+We will be simulating n=1255 genes (n genes on chromosome 2)
+
+```{r filter-out-low-coverage-genes-and-cells}
+rowData(pbmc)$percentZeros <- rowSums(counts(pbmc) == 0) / ncol(pbmc)
+pbmc$percentZeros <- colSums(counts(pbmc) == 0) / nrow(pbmc)
+
+pbmc.subset <- pbmc[rowData(pbmc)$percentZeros <= 0.9, 
+                    colData(pbmc)$percentZeros <= 0.95]
+dim(pbmc.subset)
+table(pbmc.subset$pruned.labels)
+```
+
+```{r random-subset-genes}
+set.seed(49)
+
+pbmc.subset <- pbmc.subset[sample(1:nrow(pbmc.subset), n.genes), ]
+dim(pbmc.subset)
+```
+
+
+## Plot reference data subset
+
+```{r plot-PCA}
+# Plot reference data
+pbmc.subset <- runPCA(pbmc.subset)
+
+plotPCA(pbmc.subset, colour_by="pruned.labels")
+
+if(save.fig){ggsave("output/00_Figures/reference_pbmc8/PCA.pdf", 
+                    height = 5, width = 5)}
+```
+
+```{r plot-UMAP}
+pbmc.subset <- runUMAP(pbmc.subset)
+
+plotUMAP(pbmc.subset, colour_by="pruned.labels")
+
+if(save.fig){ggsave("output/00_Figures/reference_pbmc8/UMAP.pdf", 
+                    height = 5, width = 5)}
+```
+
+```{r plot-varExplained}
+plotVarExp(pbmc.subset, variables = c("pruned.labels"))
+
+if(save.fig){ggsave("output/00_Figures/reference_pbmc8/varExplained.pdf",
+       height = 5, width = 5)}
+```
+
+```{r plot-silhouette-widths}
+plotSilhouette(pbmc.subset, group_by = "pruned.labels")
+
+if(save.fig){ggsave("output/00_Figures/reference_pbmc8/silhouette.pdf",
+       height = 5, width = 5)}
+```
+
+
+## Estimate splatPop parameters
+
+Will estimate parameters for each of the five cell types that have at least 100 cells (B-cells, CD4+, CD8+, monocytes, and NK cells). The following plots compare the estimated parameters across the celltypes. 
+
+```{r splatPopEstimate, results='hide', warning=FALSE, message=FALSE}
+celltypes <- unique(pbmc.subset$pruned.labels)
+
+params <- newSplatPopParams(pop.cv.bins = 50)
+params.of.interest <- c("mean.rate", "mean.shape", "lib.loc", "lib.scale",
+                        "out.prob", "out.facLoc", "out.facScale", 
+                        "bcv.common", "bcv.df")
+
+summarize.params <- list()
+i <- 0
+for(ct in celltypes){
+  ct.subset <- pbmc.subset[, pbmc.subset$pruned.labels == ct]
+  
+  if(ncol(ct.subset) >= min.cells.for.estimation){
+    i <- i+1
+    ct.params <- splatPopEstimate(params = params,
+                                  counts = as.matrix(counts(ct.subset)))
+    if(save.params) {
+      saveRDS(ct.params, file = paste0(save.params.path,
+                                       "splatPopParams_", ct, ".rds"))}
+    message(ct)
+    ct.summary <- getParams(ct.params, params.of.interest)
+    
+    summarize.params[[i]] <- c(as.character(ct), unname(unlist(ct.summary))) 
+  }
+}
+
+summarize.params.df <- as.data.frame(t(as.data.frame(summarize.params)))
+colnames(summarize.params.df) <- c("celltype", params.of.interest)
+rownames(summarize.params.df) <- summarize.params.df$celltype
+```
+
+```{r compare-estimated-means}
+summarize.params.df 
+n.sim <- 1000
+
+sim.means <-  apply(summarize.params.df, 1, 
+                    function(x) rgamma(n.sim, 
+                                       as.numeric(x["mean.shape"]), 
+                                       as.numeric(x[ "mean.rate"])))
+
+as.data.frame(sim.means) %>% pivot_longer(cols = everything()) %>%
+  ggdensity(x = "value", color = "name", size=1, xlab="gene.mean")
+```
+
+```{r compare-estimated-library-sizes}
+n.sim <- 1000
+
+sim.library <-  apply(summarize.params.df, 1, 
+                      function(x) rlnorm(n.sim, 
+                                       meanlog = as.numeric(x["lib.loc"]), 
+                                       sdlog = as.numeric(x[ "lib.scale"])))
+
+as.data.frame(sim.library) %>% pivot_longer(cols = everything()) %>%
+  ggdensity(x = "value", fill=NULL, color = "name", size=1, xlab="library.size")
+```
+
+
+```{r compare-estimated-outlier}
+message("Outlier probabilities:")
+summarize.params.df$out.prob <- round(as.numeric(summarize.params.df$out.prob), 4)
+summarize.params.df[, c("celltype", "out.prob")]
+sim.outlier <-  apply(summarize.params.df, 1, 
+                      function(x) rlnorm(n.sim, 
+                                       meanlog = as.numeric(x["out.facLoc"]), 
+                                       sdlog = as.numeric(x[ "out.facScale"])))
+
+as.data.frame(sim.outlier) %>% pivot_longer(cols = everything()) %>%
+  ggdensity(x = "value", fill=NULL, color = "name", size=1, 
+            xlab="log10(outlier factor)") + xscale("log10")
+```
+
+
+```{r compare-estimated-BCV}
+summarize.params.df$bcv.common <- round(as.numeric(summarize.params.df$bcv.common), 3)
+summarize.params.df$bcv.df <- round(as.numeric(summarize.params.df$bcv.df), 2)
+summarize.params.df[, c("bcv.common", "bcv.df")]
+```

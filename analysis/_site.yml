@@ -1,7 +1,7 @@
-name: "AAAA_2019_Project-Template"
-output_dir: "../docs"
+name: "WEEO_2021_multi-QTL-benchmark"
+output_dir: "../public"
 navbar:
-  title: "AAAA_2019_Project-Template"
+  title: "WEEO_2021_multi-QTL-benchmark"
   left:
     - text: "Home"
       href: index.html
@@ -11,7 +11,7 @@ navbar:
       href: license.html
   right:
     - icon: fa-gitlab
-      href: https://gitlab.svi.edu.au/biocellgen-public/aaaa_2019_project-template
+      href: https://gitlab.svi.edu.au/biocellgen-public/WEEO_2021_meta-eQTL
 output:
   workflowr::wflow_html:
     toc: true

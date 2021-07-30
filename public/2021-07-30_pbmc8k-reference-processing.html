@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="C.B. Azodi" />
+
+<meta name="date" content="2021-07-30" />
+
+<title>WEEO: Reference SC data processing - pbmc8k</title>
+
+<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">AAAA_2019_Project-Template</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://gitlab.svi.edu.au/biocellgen-public/aaaa_2019_project-template">
+    <span class="fa fa-gitlab"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">WEEO: Reference SC data processing - pbmc8k</h1>
+<h4 class="author">C.B. Azodi</h4>
+<h4 class="date">2021-07-30</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2021-07-30
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>WEEO_2021_meta-eQTL/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.2). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20190102code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20190102)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20190102code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20190102)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgitlabsvieduaubiocellgenprivateWEEO2021metaeQTLtreece60745960a219c2e0b77bc622c7f87ec6015baetargetblankce60745a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://gitlab.svi.edu.au/biocellgen-private/WEEO_2021_meta-eQTL/tree/ce60745960a219c2e0b77bc622c7f87ec6015bae" target="_blank">ce60745</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgitlabsvieduaubiocellgenprivateWEEO2021metaeQTLtreece60745960a219c2e0b77bc622c7f87ec6015baetargetblankce60745a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://gitlab.svi.edu.au/biocellgen-private/WEEO_2021_meta-eQTL/tree/ce60745960a219c2e0b77bc622c7f87ec6015bae" target="_blank">ce60745</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+
+Untracked files:
+    Untracked:  .gitignore
+    Untracked:  WEEO_2021_meta-eQTL.Rproj
+    Untracked:  analysis/2021-07-30_pbmc8k-reference-processing.Rmd
+    Untracked:  analysis/figure/
+    Untracked:  code/sce_plots.R
+    Untracked:  code/sim_celltypes.R
+    Untracked:  code/sim_celltypes.Rmd
+    Untracked:  output/00_Figures/
+    Untracked:  output/01_simulations/
+    Untracked:  references/chr2.filtered.log
+    Untracked:  references/chr2.filtered.vcf
+    Untracked:  references/chr2.filtered2.log
+    Untracked:  references/chr2.filtered2.vcf
+    Untracked:  references/chr2.filtered3.log
+    Untracked:  references/chr2.filtered3.vcf
+    Untracked:  references/chr2.genes.gff3
+    Untracked:  references/chr2.vcf.gz
+
+Unstaged changes:
+    Modified:   CITATION
+    Modified:   Dockerfile
+    Modified:   LICENSE
+    Modified:   README.md
+    Modified:   _workflowr.yml
+    Modified:   analysis/_site.yml
+    Modified:   analysis/about.Rmd
+    Modified:   analysis/index.Rmd
+    Modified:   analysis/license.Rmd
+    Modified:   cluster.json
+    Modified:   code/README.md
+    Modified:   data/README.md
+    Modified:   environment.yml
+    Modified:   envs/myenv.yaml
+    Modified:   org/README.md
+    Modified:   org/project_management.org
+    Modified:   output/README.md
+    Modified:   references/README.md
+    Modified:   resources/README.md
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">suppressPackageStartupMessages</span>({</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>  <span class="kw">library</span>(TENxPBMCData)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>  <span class="kw">library</span>(splatter)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>  <span class="kw">library</span>(VariantAnnotation)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>  <span class="kw">library</span>(org.Hs.eg.db)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>  <span class="kw">library</span>(tidyverse)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>  <span class="kw">library</span>(scater)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>  <span class="kw">library</span>(celldex)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>  <span class="kw">library</span>(SingleR)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>  <span class="kw">library</span>(RColorBrewer)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a>  <span class="kw">library</span>(ggpubr)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a>  <span class="kw">library</span>(cluster)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a>})</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a><span class="kw">source</span>(<span class="st">&quot;code/sce_plots.R&quot;</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true"></a>save.fig &lt;-<span class="st"> </span><span class="ot">TRUE</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true"></a>save.params &lt;-<span class="st"> </span><span class="ot">TRUE</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true"></a>save.params.path &lt;-<span class="st"> &quot;output/01_simulations/01_reference-params/pbmc8k/&quot;</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true"></a>dataset &lt;-<span class="st"> &quot;pbmc8k&quot;</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true"></a>n.genes &lt;-<span class="st"> </span><span class="dv">1255</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true"></a>min.cells.for.estimation &lt;-<span class="st"> </span><span class="dv">100</span></span></code></pre></div>
+<div id="x-pbmc-data" class="section level2">
+<h2>10x PBMC data</h2>
+<pre><code>snapshotDate(): 2020-10-27</code></pre>
+<pre><code>see ?celldex and browseVignettes(&#39;celldex&#39;) for documentation</code></pre>
+<pre><code>loading from cache</code></pre>
+<pre><code>see ?celldex and browseVignettes(&#39;celldex&#39;) for documentation</code></pre>
+<pre><code>loading from cache</code></pre>
+<pre><code>snapshotDate(): 2020-10-27</code></pre>
+<pre><code>see ?TENxPBMCData and browseVignettes(&#39;TENxPBMCData&#39;) for documentation</code></pre>
+<pre><code>loading from cache</code></pre>
+<pre><code>&#39;select()&#39; returned 1:many mapping between keys and columns</code></pre>
+<pre><code>[1] 23251  8349</code></pre>
+<pre><code>
+     B-cells CD4+_T-cells CD8+_T-cells Erythrocytes          HSC    Monocytes 
+        1198         1486         2905            1           19         2327 
+    NK_cells 
+         413 </code></pre>
+</div>
+<div id="gene-selection" class="section level2">
+<h2>Gene selection</h2>
+<p>We will be simulating n=1255 genes (n genes on chromosome 2)</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a><span class="kw">rowData</span>(pbmc)<span class="op">$</span>percentZeros &lt;-<span class="st"> </span><span class="kw">rowSums</span>(<span class="kw">counts</span>(pbmc) <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) <span class="op">/</span><span class="st"> </span><span class="kw">ncol</span>(pbmc)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a>pbmc<span class="op">$</span>percentZeros &lt;-<span class="st"> </span><span class="kw">colSums</span>(<span class="kw">counts</span>(pbmc) <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(pbmc)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true"></a>pbmc.subset &lt;-<span class="st"> </span>pbmc[<span class="kw">rowData</span>(pbmc)<span class="op">$</span>percentZeros <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.9</span>, </span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true"></a>                    <span class="kw">colData</span>(pbmc)<span class="op">$</span>percentZeros <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.95</span>]</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true"></a><span class="kw">dim</span>(pbmc.subset)</span></code></pre></div>
+<pre><code>[1] 3937 5476</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a><span class="kw">table</span>(pbmc.subset<span class="op">$</span>pruned.labels)</span></code></pre></div>
+<pre><code>
+     B-cells CD4+_T-cells CD8+_T-cells Erythrocytes          HSC    Monocytes 
+         485          805         2026            0           19         1804 
+    NK_cells 
+         337 </code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true"></a><span class="kw">set.seed</span>(<span class="dv">49</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true"></a>pbmc.subset &lt;-<span class="st"> </span>pbmc.subset[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pbmc.subset), n.genes), ]</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true"></a><span class="kw">dim</span>(pbmc.subset)</span></code></pre></div>
+<pre><code>[1] 1255 5476</code></pre>
+</div>
+<div id="plot-reference-data-subset" class="section level2">
+<h2>Plot reference data subset</h2>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true"></a><span class="co"># Plot reference data</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true"></a>pbmc.subset &lt;-<span class="st"> </span><span class="kw">runPCA</span>(pbmc.subset)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true"></a><span class="kw">plotPCA</span>(pbmc.subset, <span class="dt">colour_by=</span><span class="st">&quot;pruned.labels&quot;</span>)</span></code></pre></div>
+<p><img src="figure/2021-07-30_pbmc8k-reference-processing.Rmd/plot-PCA-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true"></a><span class="cf">if</span>(save.fig){<span class="kw">ggsave</span>(<span class="st">&quot;output/00_Figures/reference_pbmc8/PCA.pdf&quot;</span>, </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true"></a>                    <span class="dt">height =</span> <span class="dv">5</span>, <span class="dt">width =</span> <span class="dv">5</span>)}</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true"></a>pbmc.subset &lt;-<span class="st"> </span><span class="kw">runUMAP</span>(pbmc.subset)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true"></a><span class="kw">plotUMAP</span>(pbmc.subset, <span class="dt">colour_by=</span><span class="st">&quot;pruned.labels&quot;</span>)</span></code></pre></div>
+<p><img src="figure/2021-07-30_pbmc8k-reference-processing.Rmd/plot-UMAP-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true"></a><span class="cf">if</span>(save.fig){<span class="kw">ggsave</span>(<span class="st">&quot;output/00_Figures/reference_pbmc8/UMAP.pdf&quot;</span>, </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true"></a>                    <span class="dt">height =</span> <span class="dv">5</span>, <span class="dt">width =</span> <span class="dv">5</span>)}</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true"></a><span class="kw">plotVarExp</span>(pbmc.subset, <span class="dt">variables =</span> <span class="kw">c</span>(<span class="st">&quot;pruned.labels&quot;</span>))</span></code></pre></div>
+<p><img src="figure/2021-07-30_pbmc8k-reference-processing.Rmd/plot-varExplained-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true"></a><span class="cf">if</span>(save.fig){<span class="kw">ggsave</span>(<span class="st">&quot;output/00_Figures/reference_pbmc8/varExplained.pdf&quot;</span>,</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true"></a>       <span class="dt">height =</span> <span class="dv">5</span>, <span class="dt">width =</span> <span class="dv">5</span>)}</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true"></a><span class="kw">plotSilhouette</span>(pbmc.subset, <span class="dt">group_by =</span> <span class="st">&quot;pruned.labels&quot;</span>)</span></code></pre></div>
+<p><img src="figure/2021-07-30_pbmc8k-reference-processing.Rmd/plot-silhouette-widths-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true"></a><span class="cf">if</span>(save.fig){<span class="kw">ggsave</span>(<span class="st">&quot;output/00_Figures/reference_pbmc8/silhouette.pdf&quot;</span>,</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true"></a>       <span class="dt">height =</span> <span class="dv">5</span>, <span class="dt">width =</span> <span class="dv">5</span>)}</span></code></pre></div>
+</div>
+<div id="estimate-splatpop-parameters" class="section level2">
+<h2>Estimate splatPop parameters</h2>
+<p>Will estimate parameters for each of the five cell types that have at least 100 cells (B-cells, CD4+, CD8+, monocytes, and NK cells). The following plots compare the estimated parameters across the celltypes.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true"></a>celltypes &lt;-<span class="st"> </span><span class="kw">unique</span>(pbmc.subset<span class="op">$</span>pruned.labels)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true"></a>params &lt;-<span class="st"> </span><span class="kw">newSplatPopParams</span>(<span class="dt">pop.cv.bins =</span> <span class="dv">50</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true"></a>params.of.interest &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;mean.rate&quot;</span>, <span class="st">&quot;mean.shape&quot;</span>, <span class="st">&quot;lib.loc&quot;</span>, <span class="st">&quot;lib.scale&quot;</span>,</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true"></a>                        <span class="st">&quot;out.prob&quot;</span>, <span class="st">&quot;out.facLoc&quot;</span>, <span class="st">&quot;out.facScale&quot;</span>, </span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true"></a>                        <span class="st">&quot;bcv.common&quot;</span>, <span class="st">&quot;bcv.df&quot;</span>)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true"></a>summarize.params &lt;-<span class="st"> </span><span class="kw">list</span>()</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true"></a>i &lt;-<span class="st"> </span><span class="dv">0</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true"></a><span class="cf">for</span>(ct <span class="cf">in</span> celltypes){</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true"></a>  ct.subset &lt;-<span class="st"> </span>pbmc.subset[, pbmc.subset<span class="op">$</span>pruned.labels <span class="op">==</span><span class="st"> </span>ct]</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true"></a>  </span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true"></a>  <span class="cf">if</span>(<span class="kw">ncol</span>(ct.subset) <span class="op">&gt;=</span><span class="st"> </span>min.cells.for.estimation){</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true"></a>    i &lt;-<span class="st"> </span>i<span class="op">+</span><span class="dv">1</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true"></a>    ct.params &lt;-<span class="st"> </span><span class="kw">splatPopEstimate</span>(<span class="dt">params =</span> params,</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true"></a>                                  <span class="dt">counts =</span> <span class="kw">as.matrix</span>(<span class="kw">counts</span>(ct.subset)))</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true"></a>    <span class="cf">if</span>(save.params) {</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true"></a>      <span class="kw">saveRDS</span>(ct.params, <span class="dt">file =</span> <span class="kw">paste0</span>(save.params.path,</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true"></a>                                       <span class="st">&quot;splatPopParams_&quot;</span>, ct, <span class="st">&quot;.rds&quot;</span>))}</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true"></a>    <span class="kw">message</span>(ct)</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true"></a>    ct.summary &lt;-<span class="st"> </span><span class="kw">getParams</span>(ct.params, params.of.interest)</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true"></a>    </span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true"></a>    summarize.params[[i]] &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">as.character</span>(ct), <span class="kw">unname</span>(<span class="kw">unlist</span>(ct.summary))) </span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true"></a>  }</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true"></a>}</span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true"></a></span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true"></a>summarize.params.df &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">t</span>(<span class="kw">as.data.frame</span>(summarize.params)))</span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true"></a><span class="kw">colnames</span>(summarize.params.df) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;celltype&quot;</span>, params.of.interest)</span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true"></a><span class="kw">rownames</span>(summarize.params.df) &lt;-<span class="st"> </span>summarize.params.df<span class="op">$</span>celltype</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true"></a>summarize.params.df </span></code></pre></div>
+<pre><code>                 celltype        mean.rate       mean.shape          lib.loc
+CD4+_T-cells CD4+_T-cells 6.97542828283853 2.00209170449681 7.37777769725614
+Monocytes       Monocytes 4.00442037975632 1.60333087423193 7.49869469839397
+CD8+_T-cells CD8+_T-cells 6.64768130738316 2.01608981586537 7.31137908077668
+B-cells           B-cells 6.43718314954489 1.94466169373321  7.3232180854594
+NK_cells         NK_cells  5.8384361596826 1.79024813966821 6.95901112790671
+                     lib.scale           out.prob       out.facLoc
+CD4+_T-cells 0.248648672019637   0.10199203187251 2.97151231384555
+Monocytes    0.400398640089129 0.0972111553784861 3.05762204744502
+CD8+_T-cells 0.296813327810108  0.107569721115538 2.85170458268948
+B-cells      0.316650859662665 0.0908366533864542  3.0102131212442
+NK_cells     0.287752744282604  0.100398406374502 2.69535600248487
+                  out.facScale        bcv.common           bcv.df
+CD4+_T-cells   1.2164729114145 0.113411919716854 121.958731431982
+Monocytes    0.983213456856566 0.138019057958656 72.1037693443778
+CD8+_T-cells  1.16657860393538 0.125022673988992 94.1760665014571
+B-cells       1.20923606350777 0.116264699146439  163.83309981887
+NK_cells     0.880798736317075 0.130708828989223 158.064328125632</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true"></a>n.sim &lt;-<span class="st"> </span><span class="dv">1000</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true"></a>sim.means &lt;-<span class="st">  </span><span class="kw">apply</span>(summarize.params.df, <span class="dv">1</span>, </span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true"></a>                    <span class="cf">function</span>(x) <span class="kw">rgamma</span>(n.sim, </span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true"></a>                                       <span class="kw">as.numeric</span>(x[<span class="st">&quot;mean.shape&quot;</span>]), </span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true"></a>                                       <span class="kw">as.numeric</span>(x[ <span class="st">&quot;mean.rate&quot;</span>])))</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true"></a></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true"></a><span class="kw">as.data.frame</span>(sim.means) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> <span class="kw">everything</span>()) <span class="op">%&gt;%</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true"></a><span class="st">  </span><span class="kw">ggdensity</span>(<span class="dt">x =</span> <span class="st">&quot;value&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;name&quot;</span>, <span class="dt">size=</span><span class="dv">1</span>, <span class="dt">xlab=</span><span class="st">&quot;gene.mean&quot;</span>)</span></code></pre></div>
+<p><img src="figure/2021-07-30_pbmc8k-reference-processing.Rmd/compare-estimated-means-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true"></a>n.sim &lt;-<span class="st"> </span><span class="dv">1000</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true"></a>sim.library &lt;-<span class="st">  </span><span class="kw">apply</span>(summarize.params.df, <span class="dv">1</span>, </span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true"></a>                      <span class="cf">function</span>(x) <span class="kw">rlnorm</span>(n.sim, </span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true"></a>                                       <span class="dt">meanlog =</span> <span class="kw">as.numeric</span>(x[<span class="st">&quot;lib.loc&quot;</span>]), </span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true"></a>                                       <span class="dt">sdlog =</span> <span class="kw">as.numeric</span>(x[ <span class="st">&quot;lib.scale&quot;</span>])))</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true"></a></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true"></a><span class="kw">as.data.frame</span>(sim.library) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> <span class="kw">everything</span>()) <span class="op">%&gt;%</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true"></a><span class="st">  </span><span class="kw">ggdensity</span>(<span class="dt">x =</span> <span class="st">&quot;value&quot;</span>, <span class="dt">fill=</span><span class="ot">NULL</span>, <span class="dt">color =</span> <span class="st">&quot;name&quot;</span>, <span class="dt">size=</span><span class="dv">1</span>, <span class="dt">xlab=</span><span class="st">&quot;library.size&quot;</span>)</span></code></pre></div>
+<p><img src="figure/2021-07-30_pbmc8k-reference-processing.Rmd/compare-estimated-library-sizes-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true"></a><span class="kw">message</span>(<span class="st">&quot;Outlier probabilities:&quot;</span>)</span></code></pre></div>
+<pre><code>Outlier probabilities:</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true"></a>summarize.params.df<span class="op">$</span>out.prob &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">as.numeric</span>(summarize.params.df<span class="op">$</span>out.prob), <span class="dv">4</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true"></a>summarize.params.df[, <span class="kw">c</span>(<span class="st">&quot;celltype&quot;</span>, <span class="st">&quot;out.prob&quot;</span>)]</span></code></pre></div>
+<pre><code>                 celltype out.prob
+CD4+_T-cells CD4+_T-cells   0.1020
+Monocytes       Monocytes   0.0972
+CD8+_T-cells CD8+_T-cells   0.1076
+B-cells           B-cells   0.0908
+NK_cells         NK_cells   0.1004</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true"></a>sim.outlier &lt;-<span class="st">  </span><span class="kw">apply</span>(summarize.params.df, <span class="dv">1</span>, </span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true"></a>                      <span class="cf">function</span>(x) <span class="kw">rlnorm</span>(n.sim, </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true"></a>                                       <span class="dt">meanlog =</span> <span class="kw">as.numeric</span>(x[<span class="st">&quot;out.facLoc&quot;</span>]), </span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true"></a>                                       <span class="dt">sdlog =</span> <span class="kw">as.numeric</span>(x[ <span class="st">&quot;out.facScale&quot;</span>])))</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true"></a></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true"></a><span class="kw">as.data.frame</span>(sim.outlier) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> <span class="kw">everything</span>()) <span class="op">%&gt;%</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true"></a><span class="st">  </span><span class="kw">ggdensity</span>(<span class="dt">x =</span> <span class="st">&quot;value&quot;</span>, <span class="dt">fill=</span><span class="ot">NULL</span>, <span class="dt">color =</span> <span class="st">&quot;name&quot;</span>, <span class="dt">size=</span><span class="dv">1</span>, </span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true"></a>            <span class="dt">xlab=</span><span class="st">&quot;log10(outlier factor)&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xscale</span>(<span class="st">&quot;log10&quot;</span>)</span></code></pre></div>
+<p><img src="figure/2021-07-30_pbmc8k-reference-processing.Rmd/compare-estimated-outlier-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true"></a>summarize.params.df<span class="op">$</span>bcv.common &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">as.numeric</span>(summarize.params.df<span class="op">$</span>bcv.common), <span class="dv">3</span>)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true"></a>summarize.params.df<span class="op">$</span>bcv.df &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">as.numeric</span>(summarize.params.df<span class="op">$</span>bcv.df), <span class="dv">2</span>)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true"></a>summarize.params.df[, <span class="kw">c</span>(<span class="st">&quot;bcv.common&quot;</span>, <span class="st">&quot;bcv.df&quot;</span>)]</span></code></pre></div>
+<pre><code>             bcv.common bcv.df
+CD4+_T-cells      0.113 121.96
+Monocytes         0.138  72.10
+CD8+_T-cells      0.125  94.18
+B-cells           0.116 163.83
+NK_cells          0.131 158.06</code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true"></a>devtools<span class="op">::</span><span class="kw">session_info</span>()</span></code></pre></div>
+<pre><code>─ Session info ───────────────────────────────────────────────────────────────
+ setting  value                       
+ version  R version 4.0.4 (2021-02-15)
+ os       Red Hat Enterprise Linux    
+ system   x86_64, linux-gnu           
+ ui       X11                         
+ language (EN)                        
+ collate  en_AU.UTF-8                 
+ ctype    en_AU.UTF-8                 
+ tz       Australia/Melbourne         
+ date     2021-07-30                  
+
+─ Packages ───────────────────────────────────────────────────────────────────
+ package                * version  date       lib source        
+ abind                    1.4-5    2016-07-21 [1] CRAN (R 4.0.2)
+ AnnotationDbi          * 1.52.0   2020-10-27 [1] Bioconductor  
+ AnnotationHub            2.22.1   2021-04-16 [1] Bioconductor  
+ askpass                  1.1      2019-01-13 [1] CRAN (R 4.0.2)
+ assertthat               0.2.1    2019-03-21 [1] CRAN (R 4.0.2)
+ backports                1.2.1    2020-12-09 [1] CRAN (R 4.0.4)
+ beachmat                 2.6.4    2020-12-20 [1] Bioconductor  
+ beeswarm                 0.4.0    2021-06-01 [1] CRAN (R 4.0.4)
+ Biobase                * 2.50.0   2020-10-27 [1] Bioconductor  
+ BiocFileCache            1.14.0   2020-10-27 [1] Bioconductor  
+ BiocGenerics           * 0.36.1   2021-04-16 [1] Bioconductor  
+ BiocManager              1.30.16  2021-06-15 [1] CRAN (R 4.0.4)
+ BiocNeighbors            1.8.2    2020-12-07 [1] Bioconductor  
+ BiocParallel             1.24.1   2020-11-06 [1] Bioconductor  
+ BiocSingular             1.6.0    2020-10-27 [1] Bioconductor  
+ BiocVersion              3.12.0   2020-04-27 [1] Bioconductor  
+ biomaRt                  2.46.3   2021-02-09 [1] Bioconductor  
+ Biostrings             * 2.58.0   2020-10-27 [1] Bioconductor  
+ bit                      4.0.4    2020-08-04 [1] CRAN (R 4.0.2)
+ bit64                    4.0.5    2020-08-30 [1] CRAN (R 4.0.2)
+ bitops                   1.0-7    2021-04-24 [1] CRAN (R 4.0.4)
+ blob                     1.2.1    2020-01-20 [1] CRAN (R 4.0.2)
+ broom                    0.7.8    2021-06-24 [1] CRAN (R 4.0.4)
+ BSgenome                 1.58.0   2020-10-27 [1] Bioconductor  
+ bslib                    0.2.5.1  2021-05-18 [1] CRAN (R 4.0.4)
+ cachem                   1.0.5    2021-05-15 [1] CRAN (R 4.0.4)
+ callr                    3.7.0    2021-04-20 [1] CRAN (R 4.0.4)
+ car                      3.0-11   2021-06-27 [1] CRAN (R 4.0.4)
+ carData                  3.0-4    2020-05-22 [1] CRAN (R 4.0.2)
+ celldex                * 1.0.0    2020-10-29 [1] Bioconductor  
+ cellranger               1.1.0    2016-07-27 [1] CRAN (R 4.0.2)
+ checkmate                2.0.0    2020-02-06 [1] CRAN (R 4.0.2)
+ cli                      3.0.0    2021-06-30 [1] CRAN (R 4.0.4)
+ cluster                * 2.1.0    2019-06-19 [2] CRAN (R 4.0.4)
+ codetools                0.2-18   2020-11-04 [1] CRAN (R 4.0.2)
+ colorspace               2.0-2    2021-06-24 [1] CRAN (R 4.0.4)
+ cowplot                  1.1.1    2020-12-30 [1] CRAN (R 4.0.4)
+ crayon                   1.4.1    2021-02-08 [1] CRAN (R 4.0.4)
+ curl                     4.3.2    2021-06-23 [1] CRAN (R 4.0.4)
+ data.table               1.14.0   2021-02-21 [1] CRAN (R 4.0.4)
+ DBI                      1.1.1    2021-01-15 [1] CRAN (R 4.0.4)
+ dbplyr                   2.1.1    2021-04-06 [1] CRAN (R 4.0.4)
+ DelayedArray           * 0.16.3   2021-03-24 [1] Bioconductor  
+ DelayedMatrixStats       1.12.3   2021-02-03 [1] Bioconductor  
+ desc                     1.3.0    2021-03-05 [1] CRAN (R 4.0.4)
+ devtools                 2.4.2    2021-06-07 [1] CRAN (R 4.0.4)
+ digest                   0.6.27   2020-10-24 [1] CRAN (R 4.0.2)
+ dplyr                  * 1.0.7    2021-06-18 [1] CRAN (R 4.0.4)
+ edgeR                    3.32.1   2021-01-14 [1] Bioconductor  
+ ellipsis                 0.3.2    2021-04-29 [1] CRAN (R 4.0.4)
+ evaluate                 0.14     2019-05-28 [1] CRAN (R 4.0.2)
+ ExperimentHub            1.16.1   2021-04-16 [1] Bioconductor  
+ fansi                    0.5.0    2021-05-25 [1] CRAN (R 4.0.4)
+ farver                   2.1.0    2021-02-28 [1] CRAN (R 4.0.4)
+ fastmap                  1.1.0    2021-01-25 [1] CRAN (R 4.0.3)
+ fitdistrplus             1.1-5    2021-05-28 [1] CRAN (R 4.0.4)
+ forcats                * 0.5.1    2021-01-27 [1] CRAN (R 4.0.4)
+ foreign                  0.8-81   2020-12-22 [2] CRAN (R 4.0.4)
+ fs                       1.5.0    2020-07-31 [1] CRAN (R 4.0.2)
+ generics                 0.1.0    2020-10-31 [1] CRAN (R 4.0.2)
+ GenomeInfoDb           * 1.26.7   2021-04-08 [1] Bioconductor  
+ GenomeInfoDbData         1.2.4    2020-11-10 [1] Bioconductor  
+ GenomicAlignments        1.26.0   2020-10-27 [1] Bioconductor  
+ GenomicFeatures          1.42.3   2021-04-01 [1] Bioconductor  
+ GenomicRanges          * 1.42.0   2020-10-27 [1] Bioconductor  
+ ggbeeswarm               0.6.0    2017-08-07 [1] CRAN (R 4.0.2)
+ ggplot2                * 3.3.5    2021-06-25 [1] CRAN (R 4.0.4)
+ ggpubr                 * 0.4.0    2020-06-27 [1] CRAN (R 4.0.3)
+ ggsignif                 0.6.2    2021-06-14 [1] CRAN (R 4.0.4)
+ git2r                    0.28.0   2021-01-10 [1] CRAN (R 4.0.4)
+ glue                     1.4.2    2020-08-27 [1] CRAN (R 4.0.2)
+ gridExtra                2.3      2017-09-09 [1] CRAN (R 4.0.2)
+ gtable                   0.3.0    2019-03-25 [1] CRAN (R 4.0.2)
+ haven                    2.4.1    2021-04-23 [1] CRAN (R 4.0.4)
+ HDF5Array              * 1.18.1   2021-02-04 [1] Bioconductor  
+ highr                    0.9      2021-04-16 [1] CRAN (R 4.0.4)
+ hms                      1.1.0    2021-05-17 [1] CRAN (R 4.0.4)
+ htmltools                0.5.1.1  2021-01-22 [1] CRAN (R 4.0.3)
+ httpuv                   1.6.1    2021-05-07 [1] CRAN (R 4.0.4)
+ httr                     1.4.2    2020-07-20 [1] CRAN (R 4.0.2)
+ interactiveDisplayBase   1.28.0   2020-10-27 [1] Bioconductor  
+ IRanges                * 2.24.1   2020-12-12 [1] Bioconductor  
+ irlba                    2.3.3    2019-02-05 [1] CRAN (R 4.0.2)
+ jquerylib                0.1.4    2021-04-26 [1] CRAN (R 4.0.4)
+ jsonlite                 1.7.2    2020-12-09 [1] CRAN (R 4.0.4)
+ knitr                    1.33     2021-04-24 [1] CRAN (R 4.0.4)
+ labeling                 0.4.2    2020-10-20 [1] CRAN (R 4.0.2)
+ later                    1.2.0    2021-04-23 [1] CRAN (R 4.0.4)
+ lattice                  0.20-41  2020-04-02 [2] CRAN (R 4.0.4)
+ lifecycle                1.0.0    2021-02-15 [1] CRAN (R 4.0.4)
+ limma                    3.46.0   2020-10-27 [1] Bioconductor  
+ locfit                   1.5-9.4  2020-03-25 [1] CRAN (R 4.0.2)
+ lubridate                1.7.10   2021-02-26 [1] CRAN (R 4.0.4)
+ magrittr                 2.0.1    2020-11-17 [1] CRAN (R 4.0.3)
+ MASS                     7.3-54   2021-05-03 [1] CRAN (R 4.0.4)
+ Matrix                 * 1.3-4    2021-06-01 [1] CRAN (R 4.0.4)
+ MatrixGenerics         * 1.2.1    2021-01-30 [1] Bioconductor  
+ matrixStats            * 0.59.0   2021-06-01 [1] CRAN (R 4.0.4)
+ memoise                  2.0.0    2021-01-26 [1] CRAN (R 4.0.4)
+ mime                     0.11     2021-06-23 [1] CRAN (R 4.0.4)
+ modelr                   0.1.8    2020-05-19 [1] CRAN (R 4.0.2)
+ munsell                  0.5.0    2018-06-12 [1] CRAN (R 4.0.2)
+ openssl                  1.4.4    2021-04-30 [1] CRAN (R 4.0.4)
+ openxlsx                 4.2.4    2021-06-16 [1] CRAN (R 4.0.4)
+ org.Hs.eg.db           * 3.12.0   2021-04-28 [1] Bioconductor  
+ pillar                   1.6.1    2021-05-16 [1] CRAN (R 4.0.4)
+ pkgbuild                 1.2.0    2020-12-15 [1] CRAN (R 4.0.4)
+ pkgconfig                2.0.3    2019-09-22 [1] CRAN (R 4.0.2)
+ pkgload                  1.2.1    2021-04-06 [1] CRAN (R 4.0.4)
+ prettyunits              1.1.1    2020-01-24 [1] CRAN (R 4.0.2)
+ processx                 3.5.2    2021-04-30 [1] CRAN (R 4.0.4)
+ progress                 1.2.2    2019-05-16 [1] CRAN (R 4.0.2)
+ promises                 1.2.0.1  2021-02-11 [1] CRAN (R 4.0.4)
+ ps                       1.6.0    2021-02-28 [1] CRAN (R 4.0.4)
+ purrr                  * 0.3.4    2020-04-17 [1] CRAN (R 4.0.2)
+ R6                       2.5.0    2020-10-28 [1] CRAN (R 4.0.2)
+ rappdirs                 0.3.3    2021-01-31 [1] CRAN (R 4.0.4)
+ RColorBrewer           * 1.1-2    2014-12-07 [1] CRAN (R 4.0.2)
+ Rcpp                     1.0.7    2021-07-07 [1] CRAN (R 4.0.4)
+ RcppAnnoy                0.0.18   2020-12-15 [1] CRAN (R 4.0.4)
+ RCurl                    1.98-1.3 2021-03-16 [1] CRAN (R 4.0.4)
+ readr                  * 1.4.0    2020-10-05 [1] CRAN (R 4.0.2)
+ readxl                   1.3.1    2019-03-13 [1] CRAN (R 4.0.2)
+ remotes                  2.4.0    2021-06-02 [1] CRAN (R 4.0.4)
+ reprex                   2.0.0    2021-04-02 [1] CRAN (R 4.0.4)
+ rhdf5                  * 2.34.0   2020-10-27 [1] Bioconductor  
+ rhdf5filters             1.2.1    2021-05-03 [1] Bioconductor  
+ Rhdf5lib                 1.12.1   2021-01-26 [1] Bioconductor  
+ rio                      0.5.27   2021-06-21 [1] CRAN (R 4.0.4)
+ rlang                    0.4.11   2021-04-30 [1] CRAN (R 4.0.4)
+ rmarkdown                2.9      2021-06-15 [1] CRAN (R 4.0.4)
+ rprojroot                2.0.2    2020-11-15 [1] CRAN (R 4.0.3)
+ Rsamtools              * 2.6.0    2020-10-27 [1] Bioconductor  
+ RSpectra                 0.16-0   2019-12-01 [1] CRAN (R 4.0.3)
+ RSQLite                  2.2.7    2021-04-22 [1] CRAN (R 4.0.4)
+ rstatix                  0.7.0    2021-02-13 [1] CRAN (R 4.0.4)
+ rstudioapi               0.13     2020-11-12 [1] CRAN (R 4.0.3)
+ rsvd                     1.0.5    2021-04-16 [1] CRAN (R 4.0.4)
+ rtracklayer              1.50.0   2020-10-27 [1] Bioconductor  
+ rvest                    1.0.0    2021-03-09 [1] CRAN (R 4.0.4)
+ S4Vectors              * 0.28.1   2020-12-09 [1] Bioconductor  
+ sass                     0.4.0    2021-05-12 [1] CRAN (R 4.0.4)
+ scales                   1.1.1    2020-05-11 [1] CRAN (R 4.0.2)
+ scater                 * 1.18.6   2021-02-26 [1] Bioconductor  
+ scuttle                  1.0.4    2020-12-17 [1] Bioconductor  
+ sessioninfo              1.1.1    2018-11-05 [1] CRAN (R 4.0.2)
+ shiny                    1.6.0    2021-01-25 [1] CRAN (R 4.0.4)
+ SingleCellExperiment   * 1.12.0   2020-10-27 [1] Bioconductor  
+ SingleR                * 1.4.1    2021-02-02 [1] Bioconductor  
+ sparseMatrixStats        1.2.1    2021-02-02 [1] Bioconductor  
+ splatter               * 1.15.2   2021-04-15 [1] Bioconductor  
+ stringi                  1.7.2    2021-07-14 [1] CRAN (R 4.0.4)
+ stringr                * 1.4.0    2019-02-10 [1] CRAN (R 4.0.2)
+ SummarizedExperiment   * 1.20.0   2020-10-27 [1] Bioconductor  
+ survival                 3.2-11   2021-04-26 [1] CRAN (R 4.0.4)
+ TENxPBMCData           * 1.8.0    2020-10-29 [1] Bioconductor  
+ testthat                 3.0.4    2021-07-01 [1] CRAN (R 4.0.4)
+ tibble                 * 3.1.2    2021-05-16 [1] CRAN (R 4.0.4)
+ tidyr                  * 1.1.3    2021-03-03 [1] CRAN (R 4.0.4)
+ tidyselect               1.1.1    2021-04-30 [1] CRAN (R 4.0.4)
+ tidyverse              * 1.3.1    2021-04-15 [1] CRAN (R 4.0.4)
+ usethis                  2.0.1    2021-02-10 [1] CRAN (R 4.0.4)
+ utf8                     1.2.1    2021-03-12 [1] CRAN (R 4.0.4)
+ uwot                     0.1.10   2020-12-15 [1] CRAN (R 4.0.4)
+ VariantAnnotation      * 1.36.0   2020-10-27 [1] Bioconductor  
+ vctrs                    0.3.8    2021-04-29 [1] CRAN (R 4.0.4)
+ vipor                    0.4.5    2017-03-22 [1] CRAN (R 4.0.2)
+ viridis                  0.6.1    2021-05-11 [1] CRAN (R 4.0.4)
+ viridisLite              0.4.0    2021-04-13 [1] CRAN (R 4.0.4)
+ withr                    2.4.2    2021-04-18 [1] CRAN (R 4.0.4)
+ workflowr                1.6.2    2020-04-30 [1] CRAN (R 4.0.2)
+ xfun                     0.24     2021-06-15 [1] CRAN (R 4.0.4)
+ XML                      3.99-0.6 2021-03-16 [1] CRAN (R 4.0.4)
+ xml2                     1.3.2    2020-04-23 [1] CRAN (R 4.0.2)
+ xtable                   1.8-4    2019-04-21 [1] CRAN (R 4.0.3)
+ XVector                * 0.30.0   2020-10-27 [1] Bioconductor  
+ yaml                     2.2.1    2020-02-01 [1] CRAN (R 4.0.2)
+ zip                      2.2.0    2021-05-31 [1] CRAN (R 4.0.4)
+ zlibbioc                 1.36.0   2020-10-27 [1] Bioconductor  
+
+[1] /mnt/mcfiles/cazodi/R/x86_64-pc-linux-gnu-library/4.0
+[2] /opt/R/4.0.4/lib/R/library</code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

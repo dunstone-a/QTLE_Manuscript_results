@@ -1,0 +1,109 @@
+---
+title: "20210713_sim-sc-celltypes"
+author: "C.B. Azodi"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
+```
+
+```{r load-environment}
+suppressPackageStartupMessages({
+  library(TENxPBMCData)
+  library(splatter)
+  library(VariantAnnotation)
+  library(org.Hs.eg.db)
+  library(tidyverse)
+  library(scater)
+  library(celldex)
+  library(SingleR)
+  library(RColorBrewer)
+  library(ggpubr)
+})
+source("/mnt/beegfs/mccarthy/scratch/general/cazodi/Projects/KEJP_2020_splatPop/code/plot_functions.R")
+```
+
+## Reference data
+
+```{r chromosome-2-reference}
+gff <- read.table("references/chr2.genes.gff3", sep="\t", header=TRUE, quote="")
+n.genes <- nrow(gff)
+vcf <-  readVcf("references/chr2.filtered3.vcf", "hg38")
+sampleNames <- colnames(geno(vcf)$GT)
+```
+
+## Annotate 10x-PBMC data
+
+```{r annotate-10x-PBMC-data}
+# Load PBMC data from 10x
+pbmc <- TENxPBMCData(dataset = "pbmc68k")
+pbmc <- logNormCounts(pbmc)
+
+# Get gene IDs
+rowData(pbmc)$Symbol <- mapIds(org.Hs.eg.db, keys=rownames(pbmc), 
+                   column="SYMBOL", keytype="ENSEMBL")
+pbmc <- pbmc[!is.na(rowData(pbmc)$Symbol), ]
+rownames(pbmc) <- rowData(pbmc)$Symbol
+
+# Annotate 10x PBMC data with SingleR
+ref <- BlueprintEncodeData()
+pred <- SingleR(test=pbmc, ref=ref, labels=ref$label.main)
+pbmc$celltype <- pred$labels
+table(pbmc$celltype)
+pbmc$Group <- pbmc$celltype
+```
+
+```{r plot-empirical-pbmc-data}
+pbmc$sum <- colSums(counts(pbmc))
+rowData(pbmc)$sum <- rowSums(counts(pbmc))
+pbmc <- pbmc[rowData(pbmc)$sum > 100, ]
+pbmc_subset <- pbmc[sample(1:nrow(pbmc), 1000), ]
+
+
+pbmc_subset <- runPCA(pbmc_subset)
+plotPCA(pbmc_subset, colour_by = "celltype")
+```
+
+
+## Parameter estimation
+
+```{r splatPop-param-estimation}
+pbmc.Bcells <- subset(pbmc, , celltype=="B-cells")
+pbmc.Bcells <- pbmc.Bcells[sample(1:nrow(pbmc.Bcells), n.genes), ]
+
+params <- newSplatPopParams(pop.cv.bins = 50)
+params.fit <- splatPopEstimate(params = params, 
+                               counts = as.matrix(counts(pbmc.Bcells)))
+```
+
+
+## Simulations
+
+```{r simulate}
+nCells <- 200
+nSamples <- 100
+  
+vcf.subset <- vcf[, sample(sampleNames, nSamples)]
+  
+paramsCelltypes <- setParams(params.fit, 
+                             eqtl.n = 0.5,
+                             similarity.scale = 2,
+                             batchCells = nCells,
+                             group.prob = rep(0.1, 10),
+                             eqtl.group.specific = 0.5)
+
+simCelltypes <- splatPopSimulate(vcf = vcf.subset, 
+                                 gff = gff, 
+                                 params = paramsCelltypes, 
+                                 sparsify = FALSE)
+
+simCelltypes.1 <- subset(simCelltypes, , Sample == "NA21125_NA21125")
+pbmc_subset$Group <- pbmc_subset$celltype
+plotComparisons(sim=simCelltypes.1, emp=pbmc_subset, maxCells=50, colour_by="Group") 
+
+```
+
+
+
