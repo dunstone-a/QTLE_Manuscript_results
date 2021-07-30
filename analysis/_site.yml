@@ -11,7 +11,7 @@ navbar:
       href: license.html
   right:
     - icon: fa-gitlab
-      href: https://gitlab.svi.edu.au/biocellgen-public/WEEO_2021_meta-eQTL
+      href: https://gitlab.svi.edu.au/biocellgen-private/WEEO_2021_meta-eQTL
 output:
   workflowr::wflow_html:
     toc: true
