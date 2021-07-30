@@ -2,7 +2,7 @@
 
 ## Project overview
 
-https://biocellgen-private.svi.edu.au/weeo_2021_meta-eqtl/public/index.html
+https://biocellgen-private.svi.edu.au/WEEO_2021_meta-eQTL/public/index.html
 
 
 ## Reproducibility and version control
