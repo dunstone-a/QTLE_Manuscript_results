@@ -1,0 +1,214 @@
+---
+title: "QTLExperiment and multistateQTL: GTEx analysis"
+author: "C.B. Del Azodi"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+## Set up environment
+
+```{r knitr-options, echo = FALSE}
+knitr::opts_chunk$set(warning=FALSE, error=FALSE, message=FALSE, 
+                      fig.height = 6, fig.width = 8)
+
+```
+
+```{r load-packages}
+suppressPackageStartupMessages({
+  library(ggpubr)
+  library(dplyr)
+  library(ComplexHeatmap)
+  library(cowplot)
+  library(QTLExperiment)
+  devtools::load_all("/mnt/mcfiles/cazodi/Software/multiStateQTL")
+})
+
+set.seed(42)
+rerun <- FALSE
+plot_theme <- theme_cowplot(8)
+
+save <- TRUE
+save.loc <- paste0("output/00_Figures/", Sys.Date(), "_")
+
+
+# Simulation parameters
+n_tests <- 500
+n_states <- 6
+thresh <- 0.1
+second_thresh <- 0.2
+factor <- 0.75
+sharing <- c(0, 1)
+```
+
+
+# GTEx analysis
+
+## Load empirical data
+
+For this study and to set default simulation parameters for `qtleParams()`, GTEx v8 eQTL summary statistics from 10 tissues with the largest sample size for eQTL mapping:
+
+1. Muscle_Skeletal : 706
+2. Whole_Blood : 670 
+3. Skin_Sun_Exposed_Lower_leg : 605
+4. Artery_Tibial : 584
+5. Adipose_Subcutaneous : 581
+6. Thyroid : 574
+7. Nerve_Tibial : 532
+8. Skin_Not_Sun_Exposed_Suprapubic : 517
+9. Lung : 515
+10. Esophagus_Mucosa : 497
+
+Data were downloaded from [Google Cloud](https://console.cloud.google.com/storage/browser/gtex-resources/GTEx_Analysis_v8_QTLs/GTEx_Analysis_v8_eQTL_all_associations?pageState=(%22StorageObjectListTable%22%3A(%22f%22%3A%22%255B%255D%22))&prefix&forceOnObjectsSortingFiltering=false&cloudshell=true)). To speed up calculations, only associations on chromosome 1 were used. The threshold for tests used to estimate significant parameters was <0.01 and for null QTL parameters was >0.1. 
+
+```{r load-gtex}
+if(rerun){
+  wd <- "data/"
+  file_id <- ".allpairs.txt.gz_alltests_chr1.txt"
+  input_hpc <- list(Lung = paste0(wd, "Lung", file_id),
+                    Whole_Blood = paste0(wd, "Whole_Blood", file_id),
+                    Thyroid = paste0(wd, "Thyroid", file_id),
+                    Skin_nosun = paste0(wd, "Skin_Not_Sun_Exposed_Suprapubic", file_id),
+                    Skin_sun = paste0(wd, "Skin_Sun_Exposed_Lower_leg", file_id),
+                    Nerve_Tibial = paste0(wd, "Nerve_Tibial", file_id),
+                    Muscle_Skeletal = paste0(wd, "Muscle_Skeletal", file_id),
+                    Adipose_Subcutaneous = paste0(wd, "Adipose_Subcutaneous", file_id),
+                    Artery_Tibial = paste0(wd, "Artery_Tibial", file_id),
+                    Esophagus_Mucosa = paste0(wd, "Esophagus_Mucosa", file_id))
+  
+  system.time(gtex <- sumstats2qtle(input_hpc, 
+                                    feature_id="gene_id",
+                                    variant_id="variant_id", 
+                                    betas = "slope", 
+                                    errors = "slope_se",
+                                    pvalues = "pval_nominal"))
+  saveRDS(gtex, "output/gtex10_chr1_QTLE.rds")
+  
+  message("Filtering to remove tests with NAs in any tissue:")
+  system.time(gtex <- getComplete(gtex, verbose=TRUE))
+  saveRDS(gtex, "output/gtex10_chr1_QTLE_filt.rds")
+  
+} else{
+  gtex <- readRDS("output/gtex10_chr1_QTLE_filt.rds")
+}
+
+gtex
+```
+
+Note it took 637.990 seconds (10 min 38 sec) to load 20,177,150 QTL for 10 tissues. Note that 11,680,281 QTL remain after removing those with NAs in any of the 10 tissues.
+
+## Call significant and top QTL
+
+Next we call QTL as significant if it has a p.value < 0.01 in at least one tissue and < 0.05 in any other tissues using `callSignificance()`. We then filter to keep only the most significant QTL for each feature (i.e. gene) for each tissue using `getTopHits()`. 
+
+```{r get-top-hits-stats, fig.cap="The distribution of the number of top-QTL hits for each feature, where 10 means a different QTL was the top hit in each tissue."}
+system.time(gtex <- callSignificance(gtex, 
+                                     assay="pvalues",
+                                     thresh=thresh, 
+                                     second.thresh=second_thresh))
+
+
+system.time(gtex_top <- getTopHits(gtex, mode="state"))
+
+
+hist(table(feature_id(gtex_top)), xlab = "# top QTL per feature")
+```
+
+## Global patterns of multi-tissue QTL
+
+With significant QTL called, we can next calculate the degree of pairwise sharing of eQTL across tissues using the `runPairwiseSharing()` function and visualize the pattern of sharing with `plotPairwiseSharing()`
+
+```{r plot-gtex-pairwise-sharing, fig.height=6, fig.width=6, fig.cap="Pairwise sharing of GTEx top-eQTL."}
+system.time(gtex_top <- runPairwiseSharing(gtex_top, 
+                                           assay="significant", 
+                                           factor=factor))
+
+system.time(p_gtex <- plotPairwiseSharing(gtex_top, 
+                                          cell_annotate = TRUE, 
+                                          col_range = sharing))
+
+draw(p_gtex)
+
+if(save){
+  tmp <- paste0(save.loc, "gtex_pairwise.pdf")
+  message("Saving to: ", tmp)
+  pdf(tmp, height=6, width=6.5)
+  draw(p_gtex)
+  while (!is.null(dev.list()))  dev.off()
+}
+```
+
+```{r plot-gtex-comparisons, fig.height=4, fig.width=7, fig.cap="Comparison of estimated effect sizes of top-eQTL in (a) skin sun vs skin no-sun and (b) skin sun vs whole blood."}
+message("Comparing skin sun vs skin no-sun:")
+p1 <- plotCompareStates(gtex_top, x="Skin_sun", y="Skin_nosun")
+p1$counts
+p1 <- p1$plot + theme_cowplot()
+
+message("Comparing skin sun vs whole blood:")
+p2 <- plotCompareStates(gtex_top, x="Skin_sun", y="Whole_Blood")
+p2$counts
+p2 <- p2$plot + theme_cowplot()
+
+plot_grid(p1 + theme(legend.position="none"), p2, 
+          rel_widths = c(1, 1.6), labels = "auto")
+
+if(save){
+  ggsave(paste0(save.loc, "GTEX_compare-states.pdf"), last_plot(), height = 4, width = 7)
+}
+```
+
+
+## Inspecting multi-tissue QTL
+
+```{r plot-GTEx-tissue-specific, fig.height=5, fig.width=4, fig.cap="The absolute values of estimated effect sizes for a subset of multi-state QTL."}
+gtex_top <- runTestMetrics(gtex_top, global_buffer = 2)
+table(rowData(gtex_top)$qtl_type_simple)
+
+gtex_top_multistate <- subset(gtex_top, nSignificant > 4 & nSignificant <= 8)
+p_qtl <- plotQTLClusters(gtex_top_multistate, FUN=abs, row_km = 5, 
+                         annotate_tests = c("effect_sd", "nSignificant"))
+draw(p_qtl)
+
+if(save){
+  tmp <- paste0(save.loc, "sim_simple_pairwise.pdf")
+  message("Saving to: ", tmp)
+  pdf(tmp, height=5, width=4)
+  draw(p_qtl)
+  while (!is.null(dev.list()))  dev.off()
+}
+```
+
+## Estimating simulation parameters
+
+Using `qtleEstimate()`, simulation parameters are estimated from the provided GTEx data. The GTEx summary statistics with p values in the lowest quantile are used to estimate parameters to significant tests and those in the largest quantile are used to estimate parameters for null tests.  
+
+```{r estimate-parameters}
+params <- qtleEstimate(gtex, assay = "pvalues", verbose=TRUE,
+                       thresh_sig=0.001, 
+                       thresh_null=0.1)
+
+if(save){
+  saveRDS(params, "output/gtex_estimated_params.rds")
+}
+params
+```
+
+```{r plot-estimated params, fig.height=3, fig.width=6, fig.cap = "Distribution of sampled betas and coefficient of variation values for significant and null tests using the parameters estimated from GTEx."}
+plotSimulationParams(params=params) +
+  scale_fill_brewer(palette = "Dark2") + 
+  scale_color_brewer(palette = "Dark2") + 
+  plot_theme
+
+if(save){
+  ggsave(paste0(save.loc, "GTEX_estParam.pdf"), last_plot(), height = 4, width = 6)
+}
+```
+
+These parameters are used as the default parameters with `qtleParams()`.
+
+
+
+# Session Info
+
+```{r session-info}
+sessionInfo()
+```

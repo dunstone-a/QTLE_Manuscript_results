@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="C.B. Azodi" />
+
+<meta name="date" content="2022-11-02" />
+
+<title>Manuscript Figures</title>
+
+<script src="site_libs/header-attrs-2.15/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Manuscript Figures</h1>
+<h4 class="author">C.B. Azodi</h4>
+<h4 class="date">2022-11-02</h4>
+
+</div>
+
+
+<div id="set-up-environment" class="section level2">
+<h2>Set up environment</h2>
+<pre class="r"><code>suppressPackageStartupMessages({
+  library(ggpubr)
+  library(dplyr)
+  library(InteractiveComplexHeatmap)
+  library(ggpubr)
+  library(cowplot)
+  devtools::load_all(&quot;/mnt/mcfiles/cazodi/Software/QTLExperiment&quot;)
+  devtools::load_all(&quot;/mnt/mcfiles/cazodi/Software/multiStateQTL&quot;)
+})
+
+set.seed(42)
+plot_theme &lt;- theme_cowplot(8)
+
+save &lt;- TRUE
+save.loc &lt;- paste0(&quot;output/00_Figures/&quot;, Sys.Date(), &quot;_&quot;)
+
+
+# Simulation parameters
+n_tests &lt;- 500
+n_states &lt;- 6
+thresh &lt;- 0.05
+factor &lt;- 0.5
+sharing &lt;- c(0, 1)</code></pre>
+</div>
+<div id="load-empirical-data" class="section level1">
+<h1>Load empirical data</h1>
+<div id="gtex" class="section level2">
+<h2>GTEx</h2>
+<p>For this study and to set default simulation parameters for
+<code>qtleParams()</code>, GTEx v8 eQTL summary statistics from 10
+tissues for chromosome 1 were used. The 10 tissues with the largest
+sample size for eQTL mapping were used:</p>
+<ol style="list-style-type: decimal">
+<li>Muscle_Skeletal : 706</li>
+<li>Whole_Blood : 670</li>
+<li>Skin_Sun_Exposed_Lower_leg : 605</li>
+<li>Artery_Tibial : 584</li>
+<li>Adipose_Subcutaneous : 581</li>
+<li>Thyroid : 574</li>
+<li>Nerve_Tibial : 532</li>
+<li>Skin_Not_Sun_Exposed_Suprapubic : 517</li>
+<li>Lung : 515</li>
+<li>Esophagus_Mucosa : 497</li>
+</ol>
+<pre class="r"><code>wd &lt;- &quot;data/&quot;
+file_id &lt;- &quot;.v8.signif_variant_gene_pairs.txt.gz_chr1.txt&quot;
+input_hpc &lt;- list(Lung = paste0(wd, &quot;Lung&quot;, file_id),
+                  Whole_Blood = paste0(wd, &quot;Whole_Blood&quot;, file_id),
+                  Thyroid = paste0(wd, &quot;Thyroid&quot;, file_id),
+                  Skin_nosun = paste0(wd, &quot;Skin_Not_Sun_Exposed_Suprapubic&quot;, file_id),
+                  Skin_sun = paste0(wd, &quot;Skin_Sun_Exposed_Lower_leg&quot;, file_id),
+                  Nerve_Tibial = paste0(wd, &quot;Nerve_Tibial&quot;, file_id),
+                  Muscle_Skeletal = paste0(wd, &quot;Muscle_Skeletal&quot;, file_id),
+                  Adipose_Subcutaneous = paste0(wd, &quot;Adipose_Subcutaneous&quot;, file_id),
+                  Artery_Tibial = paste0(wd, &quot;Artery_Tibial&quot;, file_id),
+                  Esophagus_Mucosa = paste0(wd, &quot;Esophagus_Mucosa&quot;, file_id))
+
+system.time(gtex &lt;- summaryStats_2_qtle(input_hpc, 
+                                        feature_id=&quot;gene_id&quot;,
+                                        variant_id=&quot;variant_id&quot;, 
+                                        betas = &quot;slope&quot;, 
+                                        error = &quot;slope_se&quot;,
+                                        pval = &quot;pval_beta&quot;))</code></pre>
+<pre><code>## 
+indexing Lung.v8.signif_variant_gene_pairs.txt.gz_chr1.txt [] 6.78GB/s, eta:  0s
+indexing Lung.v8.signif_variant_gene_pairs.txt.gz_chr1.txt [] 240.27MB/s, eta:  0s
+                                                                                
+
+indexing Whole_Blood.v8.signif_variant_gene_pairs.txt.gz_chr1.txt [] 10.94GB/s, eta:  0s
+indexing Whole_Blood.v8.signif_variant_gene_pairs.txt.gz_chr1.txt [] 196.52MB/s, eta:  0s
+                                                                                
+
+indexing Thyroid.v8.signif_variant_gene_pairs.txt.gz_chr1.txt [] 33.10GB/s, eta:  0s
+indexing Thyroid.v8.signif_variant_gene_pairs.txt.gz_chr1.txt [] 190.51MB/s, eta:  0s
+                                                                                
+
+indexing Skin_Not_Sun_Exposed_Suprapubic.v8.signif_variant_gene_pairs.txt.gz_chr1.txt [] 12.62GB/s, eta:  0s
+indexing Skin_Not_Sun_Exposed_Suprapubic.v8.signif_variant_gene_pairs.txt.gz_chr1.txt [] 226.73MB/s, eta:  0s
+                                                                                
+
+indexing Skin_Sun_Exposed_Lower_leg.v8.signif_variant_gene_pairs.txt.gz_chr1.txt [] 14.28GB/s, eta:  0s
+indexing Skin_Sun_Exposed_Lower_leg.v8.signif_variant_gene_pairs.txt.gz_chr1.txt [] 186.56MB/s, eta:  0s
+                                                                                
+
+indexing Nerve_Tibial.v8.signif_variant_gene_pairs.txt.gz_chr1.txt [] 16.40GB/s, eta:  0s
+indexing Nerve_Tibial.v8.signif_variant_gene_pairs.txt.gz_chr1.txt [] 117.29MB/s, eta:  0s
+indexing Nerve_Tibial.v8.signif_variant_gene_pairs.txt.gz_chr1.txt [] 139.60MB/s, eta:  0s
+indexing Nerve_Tibial.v8.signif_variant_gene_pairs.txt.gz_chr1.txt [] 158.01MB/s, eta:  0s
+                                                                                
+
+indexing Muscle_Skeletal.v8.signif_variant_gene_pairs.txt.gz_chr1.txt [] 13.81GB/s, eta:  0s
+indexing Muscle_Skeletal.v8.signif_variant_gene_pairs.txt.gz_chr1.txt [] 69.05MB/s, eta:  0s
+indexing Muscle_Skeletal.v8.signif_variant_gene_pairs.txt.gz_chr1.txt [] 83.04MB/s, eta:  0s
+indexing Muscle_Skeletal.v8.signif_variant_gene_pairs.txt.gz_chr1.txt [] 100.51MB/s, eta:  0s
+indexing Muscle_Skeletal.v8.signif_variant_gene_pairs.txt.gz_chr1.txt [] 108.55MB/s, eta:  0s
+                                                                                
+
+indexing Adipose_Subcutaneous.v8.signif_variant_gene_pairs.txt.gz_chr1.txt [] 14.56GB/s, eta:  0s
+indexing Adipose_Subcutaneous.v8.signif_variant_gene_pairs.txt.gz_chr1.txt [] 244.60MB/s, eta:  0s
+                                                                                
+
+indexing Artery_Tibial.v8.signif_variant_gene_pairs.txt.gz_chr1.txt [] 10.34GB/s, eta:  0s
+indexing Artery_Tibial.v8.signif_variant_gene_pairs.txt.gz_chr1.txt [] 173.32MB/s, eta:  0s
+                                                                                
+
+indexing Artery_Tibial.v8.signif_variant_gene_pairs.txt.gz_chr1.txt [] 173.26MB/s, eta:  0s
+                                                                                
+
+indexing Esophagus_Mucosa.v8.signif_variant_gene_pairs.txt.gz_chr1.txt [] 11.08GB/s, eta:  0s
+indexing Esophagus_Mucosa.v8.signif_variant_gene_pairs.txt.gz_chr1.txt [] 135.29MB/s, eta:  0s
+                                                                                </code></pre>
+<pre><code>##    user  system elapsed 
+##  14.914   0.921  16.358</code></pre>
+<pre class="r"><code>dim(gtex)</code></pre>
+<pre><code>## [1] 810533     10</code></pre>
+<pre class="r"><code>message(&quot;filter to remove tests with NAs in any tissue:&quot;)
+gtex &lt;- subsetComplete(gtex)
+
+gtex</code></pre>
+<pre><code>## class: QTLExperiment 
+## dim: 23502 10 
+## metadata(0):
+## assays(3): betas error pval
+## rownames(23502): ENSG00000227232.5|chr1_64764_C_T_b38
+##   ENSG00000227232.5|chr1_665098_G_A_b38 ...
+##   ENSG00000175137.10|chr1_248831906_A_G_b38
+##   ENSG00000175137.10|chr1_248833202_C_G_b38
+## rowData names(2): variant_id feature_id
+## colnames(10): Lung Whole_Blood ... Artery_Tibial Esophagus_Mucosa
+## colData names(1): state_id</code></pre>
+</div>
+</div>
+<div id="simulate-data" class="section level1">
+<h1>Simulate data</h1>
+<div id="estimate-parameters" class="section level2">
+<h2>Estimate parameters</h2>
+<p>Using <code>qtleEstimate()</code>, simulation parameters are
+estimated from the provided GTEx data. The GTEx summary statistics with
+p values in the lowest quantile are used to estimate parameters to
+significant tests and those in the largest quantile are used to estimate
+parameters for null tests.</p>
+<pre class="r"><code>gtex_pval_thresh &lt;- quantile(unlist(array(pval(gtex))), c(0.25, 0.75))
+
+params &lt;- qtleEstimate(gtex, 
+                       thresh_sig=gtex_pval_thresh[&quot;25%&quot;], 
+                       thresh_null=gtex_pval_thresh[&quot;75%&quot;])
+params</code></pre>
+<pre><code>## $cv.sig.shape
+## [1] 3.387213
+## 
+## $cv.sig.rate
+## [1] 35.28081
+## 
+## $cv.null.shape
+## [1] 12.29935
+## 
+## $cv.null.rate
+## [1] 75.69514
+## 
+## $betas.sig.shape
+## [1] 6.020092
+## 
+## $betas.sig.rate
+## [1] 9.977374
+## 
+## $betas.null.shape
+## [1] 3.143392
+## 
+## $betas.null.rate
+## [1] 11.57387</code></pre>
+<pre class="r"><code>plot_qtle_params(params=params) +
+  scale_fill_brewer(palette = &quot;Dark2&quot;) + 
+  scale_color_brewer(palette = &quot;Dark2&quot;) + 
+  plot_theme</code></pre>
+<div class="figure">
+<img src="Manuscript-Figures_files/figure-html/plot-estimated%20params-1.png" alt="Distribution of sampled betas and coefficient of variation values for significant and null tests using the parameters estimated from GTEx." width="576" />
+<p class="caption">
+Distribution of sampled betas and coefficient of variation values for
+significant and null tests using the parameters estimated from GTEx.
+</p>
+</div>
+<pre class="r"><code>if(save){
+  ggsave(paste0(save.loc, &quot;estParam.pdf&quot;), last_plot(), height = 4, width = 6)
+}</code></pre>
+<p>These parameters are used as the default parameters with
+<code>qtleParams()</code>.</p>
+</div>
+<div id="simulate-and-visualize" class="section level2">
+<h2>Simulate and visualize</h2>
+<div id="simple-simulation" class="section level3">
+<h3>Simple simulation</h3>
+<p>Simulating a data set with 80% of QTL effects shared across all
+states and the remaining 20% of QTL effects unique to a single
+state.</p>
+<pre class="r"><code>sim_simple &lt;- qtleSimulate(params=params, ntests=n_tests, nstates=n_states, 
+                           global=0.8, unique=0.2)
+
+sim_simple &lt;- getSignificant(sim_simple, mode=&quot;simple&quot;, assay=&quot;lfsr&quot;, thresh=thresh)
+sim_simple &lt;- getPairwiseSharing(sim_simple, assay=&quot;significant&quot;, factor=factor)
+p_simple &lt;- plotPairwiseSharing(sim_simple, col_range=sharing, 
+                                cell_annotate = TRUE)
+draw(p_simple)</code></pre>
+<p><img src="Manuscript-Figures_files/figure-html/global-QTL-simulation-1.png" width="768" /></p>
+<pre class="r"><code>if(save){
+  tmp &lt;- paste0(save.loc, &quot;sim_simple_pairwise.pdf&quot;)
+  message(&quot;Saving to: &quot;, tmp)
+  pdf(tmp, height=5, width=5.5)
+  draw(p_simple)
+  while (!is.null(dev.list()))  dev.off()
+}</code></pre>
+</div>
+<div id="variable-power-simulation" class="section level3">
+<h3>Variable power simulation</h3>
+<p>Simulating a data set again with 80% of QTL effects shared across all
+states and the remaining 20% of QTL effects unique to a single state.
+However, in this simulation, the betas for each state are sampled using
+state-specific standard deviations. This situation could occur if you
+have less data available for some states and therefore expect more
+variance in the estimated QTL effect sizes. Here we simulate S1-S4 with
+sd=0.1 (default), S5 with sd=0.5, and S6 with sd=1.</p>
+<pre class="r"><code>sim_sd &lt;- qtleSimulate(params=params, ntests=n_tests, nstates=n_states, 
+                       global=0.8, unique=0.2, 
+                       beta_sd=c(0.1, 0.1, 0.1, 0.1, 0.5, 1))
+
+sim_sd &lt;- getSignificant(sim_sd, mode=&quot;simple&quot;, assay=&quot;lfsr&quot;, thresh=thresh)
+sim_sd &lt;- getPairwiseSharing(sim_sd, assay=&quot;significant&quot;, factor=factor)
+p_sd &lt;- plotPairwiseSharing(sim_sd, col_range=sharing,
+                                cell_annotate = TRUE)
+draw(p_sd)</code></pre>
+<p><img src="Manuscript-Figures_files/figure-html/variable-sd-QTL-simulation-1.png" width="768" /></p>
+<pre class="r"><code>if(save){
+  tmp &lt;- paste0(save.loc, &quot;sim_sd_pairwise.pdf&quot;)
+  message(&quot;Saving to: &quot;, tmp)
+  pdf(tmp, height=5, width=5.5)
+  draw(p_sd)
+  while (!is.null(dev.list()))  dev.off()
+}</code></pre>
+</div>
+<div id="multi-state-simulation" class="section level3">
+<h3>Multi-state simulation</h3>
+<p>Simulating a dataset where states are clustered in groups, with 60%
+of QTL assigned randomly to only one cluster, 20% shared across all
+states, and 20% unique to a state. Here we simulate two clusters, but k
+can be set to any number smaller than the number of states.</p>
+<pre class="r"><code>sim_multi1 &lt;- qtleSimulate(params=params, ntests=n_tests, nstates=n_states, 
+                           global=0.2, unique=0.2, multi=0.6, k=2)
+
+sim_multi1 &lt;- getSignificant(sim_multi1, mode=&quot;simple&quot;, assay=&quot;lfsr&quot;, thresh=thresh)
+sim_multi1 &lt;- getPairwiseSharing(sim_multi1, assay=&quot;significant&quot;, factor=factor)
+p_multi1 &lt;- plotPairwiseSharing(sim_multi1, col_range=c(0, 1), 
+                                cell_annotate = TRUE, annotate_rows = &quot;cluster&quot;)
+draw(p_multi1)</code></pre>
+<p><img src="Manuscript-Figures_files/figure-html/multistate-QTL-simulation-1.png" width="768" /></p>
+<pre class="r"><code>if(save){
+  tmp &lt;- paste0(save.loc, &quot;sim_multistate_pairwise.pdf&quot;)
+  message(&quot;Saving to: &quot;, tmp)
+  pdf(tmp, height=5, width=5.5)
+  draw(p_multi1)
+  while (!is.null(dev.list()))  dev.off()
+}</code></pre>
+<p>To get more detailed insight into the patterns of QTL sharing across
+states, we can also visualize sharing with UpSet plots.</p>
+<pre class="r"><code>p_upset &lt;- plotUpSet(sim_multi1, annotate_by = c(&quot;cluster&quot;, &quot;nSignificant&quot;))
+draw(p_upset)</code></pre>
+<div class="figure">
+<img src="Manuscript-Figures_files/figure-html/multi-state-upset-plot-1.png" alt="Upset plot of significant QTL tests for the multi-state simulation." width="576" />
+<p class="caption">
+Upset plot of significant QTL tests for the multi-state simulation.
+</p>
+</div>
+<pre class="r"><code>if(save){
+  tmp &lt;- paste0(save.loc, &quot;multistate_upset.pdf&quot;)
+  message(&quot;Saving to: &quot;, tmp)
+  pdf(tmp, height=5, width=6)
+  draw(p_upset)
+  while (!is.null(dev.list()))  dev.off()
+}</code></pre>
+</div>
+</div>
+</div>
+<div id="qtl-test-level-analysis" class="section level1">
+<h1>QTL test level analysis</h1>
+<div id="qtl-classification" class="section level2">
+<h2>QTL Classification</h2>
+<p>The <code>.perTestMetrics</code> function outputs helpful information
+about each QTL test, including the number of states where the test was
+significant, the standard deviation of the betas across states, and the
+classification of that QTL. Here we compare the simulate QTL types
+(columns: global, multistate, unique) to the QTL classifications based
+on our analysis pipeline (rows: global, multistate, unique, not
+significant).</p>
+<pre class="r"><code>sim_multi1 &lt;- .perTestMetrics(sim_multi1)
+sim_stats &lt;- table(rowData(sim_multi1)$qtl_type_simple, 
+                   rowData(sim_multi1)$QTL)
+sim_stats[c(&quot;global&quot;, &quot;multistate&quot;, &quot;unique&quot;), ]</code></pre>
+<pre><code>##             
+##              global multistate unique
+##   global         79          4      2
+##   multistate     21        290     78
+##   unique          0          6     20</code></pre>
+</div>
+<div id="qtl-visualizations" class="section level2">
+<h2>QTL visualizations</h2>
+<p>The <code>plotQTLClusters</code> function automates plotting a
+heatmap of betas or any other user defined assay for tests and states.
+Here we show simulated betas from the multi-state simulation and
+annotate the plot with helpful information from the colData and
+rowData.</p>
+<pre class="r"><code>rowData(sim_multi1)$mean_beta_abs &lt;- abs(rowData(sim_multi1)$mean_beta)
+sim_multi1_subset &lt;- subset(sim_multi1, QTL == &quot;multistate&quot;)
+
+p_ms_clusters &lt;- plotQTLClusters(sim_multi1, FUN=identity, 
+                annotate_states = c(&quot;cluster&quot;, &quot;nSignificant&quot;),
+                annotate_tests = c(&quot;mean_beta&quot;, &quot;qtl_type_simple&quot;, &quot;QTL&quot;))
+
+draw(p_ms_clusters)</code></pre>
+<p><img src="Manuscript-Figures_files/figure-html/plot-multistate-betas-1.png" width="576" /></p>
+<pre class="r"><code>if(save){
+  tmp &lt;- paste0(save.loc, &quot;multistate_clusters.pdf&quot;)
+  message(&quot;Saving to: &quot;, tmp)
+  pdf(tmp, height=8, width=6)
+  draw(p_ms_clusters)
+  while (!is.null(dev.list()))  dev.off()
+}</code></pre>
+</div>
+</div>
+<div id="session-info" class="section level1">
+<h1>Session Info</h1>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>## R version 4.2.1 (2022-06-23)
+## Platform: x86_64-pc-linux-gnu (64-bit)
+## Running under: Rocky Linux 8.6 (Green Obsidian)
+## 
+## Matrix products: default
+## BLAS/LAPACK: /usr/lib64/libopenblasp-r0.3.15.so
+## 
+## locale:
+##  [1] LC_CTYPE=en_AU.UTF-8       LC_NUMERIC=C              
+##  [3] LC_TIME=en_AU.UTF-8        LC_COLLATE=en_AU.UTF-8    
+##  [5] LC_MONETARY=en_AU.UTF-8    LC_MESSAGES=en_AU.UTF-8   
+##  [7] LC_PAPER=en_AU.UTF-8       LC_NAME=C                 
+##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+## [11] LC_MEASUREMENT=en_AU.UTF-8 LC_IDENTIFICATION=C       
+## 
+## attached base packages:
+## [1] stats4    grid      stats     graphics  grDevices utils     datasets 
+## [8] methods   base     
+## 
+## other attached packages:
+##  [1] multiStateQTL_0.1.0             collapse_1.8.8                 
+##  [3] data.table_1.14.4               QTLExperiment_0.1.0            
+##  [5] testthat_3.1.4                  SummarizedExperiment_1.26.1    
+##  [7] Biobase_2.56.0                  GenomicRanges_1.48.0           
+##  [9] GenomeInfoDb_1.32.4             IRanges_2.30.1                 
+## [11] S4Vectors_0.34.0                BiocGenerics_0.42.0            
+## [13] MatrixGenerics_1.8.1            matrixStats_0.62.0             
+## [15] cowplot_1.1.1                   InteractiveComplexHeatmap_1.4.0
+## [17] ComplexHeatmap_2.12.1           dplyr_1.0.10                   
+## [19] ggpubr_0.4.0                    ggplot2_3.3.6                  
+## 
+## loaded via a namespace (and not attached):
+##   [1] utf8_1.2.2             tidyselect_1.2.0       htmlwidgets_1.5.4     
+##   [4] BiocParallel_1.30.4    devtools_2.4.4         munsell_0.5.0         
+##   [7] ScaledMatrix_1.4.0     codetools_0.2-18       ragg_1.2.2            
+##  [10] miniUI_0.1.1.1         withr_2.5.0            colorspace_2.0-3      
+##  [13] highr_0.9              knitr_1.39             rstudioapi_0.14       
+##  [16] ggsignif_0.6.3         labeling_0.4.2         GenomeInfoDbData_1.2.8
+##  [19] mixsqp_0.3-47          bit64_4.0.5            mashr_0.2.57          
+##  [22] farver_2.1.1           rprojroot_2.0.3        vctrs_0.4.1           
+##  [25] generics_0.1.3         xfun_0.32              R6_2.5.1              
+##  [28] doParallel_1.0.17      clue_0.3-61            rsvd_1.0.5            
+##  [31] invgamma_1.1           bitops_1.0-7           cachem_1.0.6          
+##  [34] DelayedArray_0.22.0    assertthat_0.2.1       promises_1.2.0.1      
+##  [37] scales_1.2.1           vroom_1.6.0            gtable_0.3.1          
+##  [40] beachmat_2.12.0        Cairo_1.6-0            processx_3.7.0        
+##  [43] workflowr_1.7.0        rlang_1.0.5            clisymbols_1.2.0      
+##  [46] systemfonts_1.0.4      GlobalOptions_0.1.2    splines_4.2.1         
+##  [49] rstatix_0.7.0          broom_1.0.0            checkmate_2.1.0       
+##  [52] yaml_2.3.6             abind_1.4-5            backports_1.4.1       
+##  [55] httpuv_1.6.5           tools_4.2.1            usethis_2.1.6         
+##  [58] ellipsis_0.3.2         kableExtra_1.3.4       jquerylib_0.1.4       
+##  [61] RColorBrewer_1.1-3     sessioninfo_1.2.2      Rcpp_1.0.9            
+##  [64] plyr_1.8.7             zlibbioc_1.42.0        purrr_0.3.5           
+##  [67] RCurl_1.98-1.9         ps_1.7.1               prettyunits_1.1.1     
+##  [70] GetoptLong_1.0.5       viridis_0.6.2          ashr_2.2-54           
+##  [73] urlchecker_1.0.1       fontawesome_0.3.0      cluster_2.1.3         
+##  [76] fs_1.5.2               magrittr_2.0.3         magick_2.7.3          
+##  [79] circlize_0.4.15        truncnorm_1.0-8        mvtnorm_1.1-3         
+##  [82] SQUAREM_2021.1         fitdistrplus_1.1-8     pkgload_1.3.0         
+##  [85] mime_0.12              evaluate_0.16          xtable_1.8-4          
+##  [88] gridExtra_2.3          shape_1.4.6            compiler_4.2.1        
+##  [91] tibble_3.1.8           crayon_1.5.2           htmltools_0.5.3       
+##  [94] later_1.3.0            tzdb_0.3.0             tidyr_1.2.1           
+##  [97] DBI_1.1.3              MASS_7.3-57            Matrix_1.4-1          
+## [100] car_3.1-0              rmeta_3.0              brio_1.1.3            
+## [103] cli_3.4.0              parallel_4.2.1         pkgconfig_2.0.3       
+## [106] xml2_1.3.3             foreach_1.5.2          svglite_2.1.0         
+## [109] bslib_0.4.0            webshot_0.5.3          XVector_0.36.0        
+## [112] rvest_1.0.3            stringr_1.4.1          callr_3.7.1           
+## [115] digest_0.6.30          softImpute_1.4-1       rmarkdown_2.15        
+## [118] shiny_1.7.2            rjson_0.2.21           lifecycle_1.0.2       
+## [121] jsonlite_1.8.3         carData_3.0-5          desc_1.4.1            
+## [124] viridisLite_0.4.1      fansi_1.0.3            pillar_1.8.1          
+## [127] lattice_0.20-45        fastmap_1.1.0          httr_1.4.4            
+## [130] pkgbuild_1.3.1         survival_3.3-1         glue_1.6.2            
+## [133] remotes_2.4.2          png_0.1-7              iterators_1.0.14      
+## [136] bit_4.0.4              stringi_1.7.8          sass_0.4.2            
+## [139] profvis_0.3.7          textshaping_0.3.6      BiocSingular_1.12.0   
+## [142] memoise_2.0.1          irlba_2.3.5.1</code></pre>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -36,6 +36,8 @@ min.cells.for.estimation <- 100
 
 ## 10x PBMC data
 
+Load reference data from 10x Genomics [here](https://support.10xgenomics.com/single-cell-gene-expression/datasets/2.1.0/pbmc8k). Data contains peripheral blood mononuclear cells (PBMCs) from a healthy donor (same donor as pbmc4k). Cellranger was run with with --expect-cells=10000, and 8,381 cells were detected. Then annotate these cells using BlueprintEncodeData, with the following number of cells annotated as each cell type (note, unannotated cells are removed at this point): 
+
 ```{r load-annotate-pbmc-data, echo=FALSE}
 ref <- celldex::BlueprintEncodeData()
 pbmc <- TENxPBMCData(dataset = dataset)   # snapshotDate(): 2020-10-27
@@ -59,9 +61,11 @@ dim(pbmc)
 table(pbmc$pruned.labels)
 ```
 
-## Gene selection
+## Gene and cell selection
 
-We will be simulating n=1255 genes (n genes on chromosome 2)
+Gene wise filtering will be done to remove genes with no/little variance across cells (percent zero < 90% kept) and then the number of genes to be simulated (n=1255, # of genes on chromosome 2) will be randomly selected from the remaining genes. Filtering down our empirical data to include the same number of genes as the desired simulated dataset will ensure the library.size and gene mean estimates for splatPop reflect the real data. 
+
+We also remove cells with fewer than 5% of genes expressed. Below is the number of genes and cells remaining after filtering. 
 
 ```{r filter-out-low-coverage-genes-and-cells}
 rowData(pbmc)$percentZeros <- rowSums(counts(pbmc) == 0) / ncol(pbmc)
@@ -69,21 +73,27 @@ pbmc$percentZeros <- colSums(counts(pbmc) == 0) / nrow(pbmc)
 
 pbmc.subset <- pbmc[rowData(pbmc)$percentZeros <= 0.9, 
                     colData(pbmc)$percentZeros <= 0.95]
+
+
+set.seed(49)
+pbmc.subset <- pbmc.subset[sample(1:nrow(pbmc.subset), n.genes), ]
+
 dim(pbmc.subset)
-table(pbmc.subset$pruned.labels)
+
 ```
 
-```{r random-subset-genes}
-set.seed(49)
+The number of cells from each cell-type remaining after filtering: 
 
-pbmc.subset <- pbmc.subset[sample(1:nrow(pbmc.subset), n.genes), ]
-dim(pbmc.subset)
+```{r cell-types-after-filtering}
+table(pbmc.subset$pruned.labels)
 ```
 
 
 ## Plot reference data subset
 
-```{r plot-PCA}
+With the reference data filtered, we can now look at key properties of the data, these will be useful references when we start generating splatPop simulated datasets, as we will want the simulations to have similar characteristics.
+
+```{r plot-PCA, fig.cap="PCA plot"}
 # Plot reference data
 pbmc.subset <- runPCA(pbmc.subset)
 
@@ -93,7 +103,7 @@ if(save.fig){ggsave("output/00_Figures/reference_pbmc8/PCA.pdf",
                     height = 5, width = 5)}
 ```
 
-```{r plot-UMAP}
+```{r plot-UMAP, fig.cap="UMAP plot"}
 pbmc.subset <- runUMAP(pbmc.subset)
 
 plotUMAP(pbmc.subset, colour_by="pruned.labels")
@@ -102,14 +112,14 @@ if(save.fig){ggsave("output/00_Figures/reference_pbmc8/UMAP.pdf",
                     height = 5, width = 5)}
 ```
 
-```{r plot-varExplained}
+```{r plot-varExplained, fig.cap="Perdent of genes with different levels of their variance explained by cell-type."}
 plotVarExp(pbmc.subset, variables = c("pruned.labels"))
 
 if(save.fig){ggsave("output/00_Figures/reference_pbmc8/varExplained.pdf",
        height = 5, width = 5)}
 ```
 
-```{r plot-silhouette-widths}
+```{r plot-silhouette-widths, fig.cap="Distribution of silhouette widths for cells by cell-type."}
 plotSilhouette(pbmc.subset, group_by = "pruned.labels")
 
 if(save.fig){ggsave("output/00_Figures/reference_pbmc8/silhouette.pdf",
@@ -119,7 +129,7 @@ if(save.fig){ggsave("output/00_Figures/reference_pbmc8/silhouette.pdf",
 
 ## Estimate splatPop parameters
 
-Will estimate parameters for each of the five cell types that have at least 100 cells (B-cells, CD4+, CD8+, monocytes, and NK cells). The following plots compare the estimated parameters across the celltypes. 
+Finally, we estimate parameters for each of the five cell types that have at least 100 cells (B-cells, CD4+, CD8+, monocytes, and NK cells). The following plots compare the estimated parameters across the celltypes. 
 
 ```{r splatPopEstimate, results='hide', warning=FALSE, message=FALSE}
 celltypes <- unique(pbmc.subset$pruned.labels)
@@ -153,7 +163,7 @@ colnames(summarize.params.df) <- c("celltype", params.of.interest)
 rownames(summarize.params.df) <- summarize.params.df$celltype
 ```
 
-```{r compare-estimated-means}
+```{r compare-estimated-means, fig.cap="Estimated gamma distribution of gene means for each cell-type."}
 summarize.params.df 
 n.sim <- 1000
 
@@ -166,7 +176,7 @@ as.data.frame(sim.means) %>% pivot_longer(cols = everything()) %>%
   ggdensity(x = "value", color = "name", size=1, xlab="gene.mean")
 ```
 
-```{r compare-estimated-library-sizes}
+```{r compare-estimated-library-sizes, fig.cap="Estimated log normal distribution of library sizes for each cell-type."}
 n.sim <- 1000
 
 sim.library <-  apply(summarize.params.df, 1, 
@@ -178,8 +188,9 @@ as.data.frame(sim.library) %>% pivot_longer(cols = everything()) %>%
   ggdensity(x = "value", fill=NULL, color = "name", size=1, xlab="library.size")
 ```
 
+Outlier effects get assigned to a proportion of cases, estimated for each cell type as: 
 
-```{r compare-estimated-outlier}
+```{r compare-estimated-outlier, fig.cap="Estimated log normal distribution of outlier effect sizes for each cell-type."}
 message("Outlier probabilities:")
 summarize.params.df$out.prob <- round(as.numeric(summarize.params.df$out.prob), 4)
 summarize.params.df[, c("celltype", "out.prob")]
@@ -193,6 +204,7 @@ as.data.frame(sim.outlier) %>% pivot_longer(cols = everything()) %>%
             xlab="log10(outlier factor)") + xscale("log10")
 ```
 
+Estimates of BCV across cells for each cell-type.
 
 ```{r compare-estimated-BCV}
 summarize.params.df$bcv.common <- round(as.numeric(summarize.params.df$bcv.common), 3)
