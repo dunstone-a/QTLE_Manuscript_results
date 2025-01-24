@@ -14,7 +14,7 @@
 
 <title>WEEO: QTLExperiment and multistateQTL manuscript</title>
 
-<script src="site_libs/header-attrs-2.15/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
@@ -32,8 +32,8 @@
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
-<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
 
 <link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
 <!-- Add a small amount of space between sections. -->
@@ -180,8 +180,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -189,16 +189,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -298,7 +291,7 @@ manuscript</h1>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -309,8 +302,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -319,17 +312,17 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-11-10
+<strong>Last updated:</strong> 2025-01-24
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
-<strong>Knit directory:</strong> <code>WEEO_2021_meta-eQTL/</code> <span
-class="glyphicon glyphicon-question-sign" aria-hidden="true"
+<strong>Knit directory:</strong> <code>QTLE_Manuscript_results/</code>
+<span class="glyphicon glyphicon-question-sign" aria-hidden="true"
 title="This is the local directory in which the code in this file was executed.">
 </span>
 </p>
@@ -337,7 +330,7 @@ title="This is the local directory in which the code in this file was executed."
 This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
 analysis was created with <a
   href="https://github.com/workflowr/workflowr">workflowr</a> (version
-1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+1.7.1). The <em>Checks</em> tab describes the reproducibility checks
 that were applied when the results were created. The <em>Past
 versions</em> tab lists the development history.
 </p>
@@ -348,36 +341,33 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has staged changes. To know which version of the
-R Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgitlabsvieduaubiocellgenprivateWEEO2022multistateQTLtree83405215772a39a777bd477308feb9ba4b0b9f14targetblank8340521a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomdunstoneaQTLEManuscriptresultstree8987a3222e3881c106ad2508fe90b5c1e6376f88targetblank8987a32a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://gitlab.svi.edu.au/biocellgen-private/WEEO_2022_multistateQTL/tree/83405215772a39a777bd477308feb9ba4b0b9f14" target="_blank">8340521</a>
+<a href="https://github.com/dunstone-a/QTLE_Manuscript_results/tree/8987a3222e3881c106ad2508fe90b5c1e6376f88" target="_blank">8987a32</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgitlabsvieduaubiocellgenprivateWEEO2022multistateQTLtree83405215772a39a777bd477308feb9ba4b0b9f14targetblank8340521a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomdunstoneaQTLEManuscriptresultstree8987a3222e3881c106ad2508fe90b5c1e6376f88targetblank8987a32a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -387,7 +377,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://gitlab.svi.edu.au/biocellgen-private/WEEO_2022_multistateQTL/tree/83405215772a39a777bd477308feb9ba4b0b9f14" target="_blank">8340521</a>.
+<a href="https://github.com/dunstone-a/QTLE_Manuscript_results/tree/8987a3222e3881c106ad2508fe90b5c1e6376f88" target="_blank">8987a32</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -402,111 +392,11 @@ were generated:
 </p>
 <pre><code>
 Ignored files:
-    Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-    Ignored:    Manuscript-Figures_files/
-    Ignored:    data/Adipose_Subcutaneous.allpairs.txt.gz_alltests_chr1.txt
-    Ignored:    data/Adipose_Subcutaneous.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Adipose_Visceral_Omentum.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Adrenal_Gland.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Artery_Aorta.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Artery_Coronary.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Artery_Tibial.allpairs.txt.gz_alltests_chr1.txt
-    Ignored:    data/Artery_Tibial.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Brain_Amygdala.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Brain_Anterior_cingulate_cortex_BA24.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Brain_Caudate_basal_ganglia.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Brain_Cerebellar_Hemisphere.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Brain_Cerebellum.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Brain_Cortex.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Brain_Frontal_Cortex_BA9.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Brain_Hippocampus.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Brain_Hypothalamus.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Brain_Nucleus_accumbens_basal_ganglia.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Brain_Putamen_basal_ganglia.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Brain_Spinal_cord_cervical_c-1.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Brain_Substantia_nigra.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Breast_Mammary_Tissue.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Cells_Cultured_fibroblasts.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Cells_EBV-transformed_lymphocytes.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Colon_Sigmoid.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Colon_Transverse.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Esophagus_Gastroesophageal_Junction.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Esophagus_Mucosa.allpairs.txt.gz_alltests_chr1.txt
-    Ignored:    data/Esophagus_Mucosa.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Esophagus_Muscularis.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/GTEx_Analysis_v8_eQTL_all_associations/
-    Ignored:    data/Heart_Atrial_Appendage.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Heart_Left_Ventricle.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Kidney_Cortex.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Liver.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Lung.allpairs.txt.gz_alltests_chr1.txt
-    Ignored:    data/Lung.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Lung.v8.signif_variant_gene_pairs_chr1.txt
-    Ignored:    data/Minor_Salivary_Gland.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Muscle_Skeletal.allpairs.txt.gz_alltests_chr1.txt
-    Ignored:    data/Muscle_Skeletal.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Nerve_Tibial.allpairs.txt.gz_alltests_chr1.txt
-    Ignored:    data/Nerve_Tibial.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Ovary.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Pancreas.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Pituitary.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Prostate.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Skin_Not_Sun_Exposed_Suprapubic.allpairs.txt.gz_alltests_chr1.txt
-    Ignored:    data/Skin_Not_Sun_Exposed_Suprapubic.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Skin_Sun_Exposed_Lower_leg.allpairs.txt.gz_alltests_chr1.txt
-    Ignored:    data/Skin_Sun_Exposed_Lower_leg.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Small_Intestine_Terminal_Ileum.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Spleen.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Spleen.v8.signif_variant_gene_pairs_chr1.txt
-    Ignored:    data/Stomach.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Testis.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Thyroid.allpairs.txt.gz_alltests_chr1.txt
-    Ignored:    data/Thyroid.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Thyroid.v8.signif_variant_gene_pairs_chr1.txt
-    Ignored:    data/Uterus.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Vagina.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Whole_Blood.allpairs.txt.gz_alltests_chr1.txt
-    Ignored:    data/Whole_Blood.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Whole_Blood.v8.signif_variant_gene_pairs_chr1.txt
-    Ignored:    output/00_Figures/
-    Ignored:    output/01_simulations/
-    Ignored:    output/gtex10_chr1_QTLE.rds
-    Ignored:    output/gtex10_chr1_QTLE_filt.rds
-    Ignored:    output/gtex_estimated_params.rds
-    Ignored:    references/chr2.filtered.log
-    Ignored:    references/chr2.filtered.vcf
-    Ignored:    references/chr2.filtered2.log
-    Ignored:    references/chr2.filtered2.vcf
-    Ignored:    references/chr2.filtered3.log
-    Ignored:    references/chr2.filtered3.vcf
-    Ignored:    references/chr2.genes.gff3
-    Ignored:    references/chr2.vcf.gz
 
 Untracked files:
-    Untracked:  .gitignore
-    Untracked:  WEEO_2021_meta-eQTL.Rproj
-    Untracked:  analysis/02_simulation-analysis.Rmd
-    Untracked:  analysis/2021-08-03_pbmc8k-simulations.Rmd
-    Untracked:  code/preprocess_gtex.sh
-    Untracked:  site_libs/
-    Untracked:  workflow/
-
-Unstaged changes:
-    Deleted:    Snakefile
-    Modified:   analysis/01_GTEx-analysis.Rmd
-    Modified:   analysis/2021-07-30_pbmc8k-reference-processing.Rmd
-    Modified:   analysis/index.Rmd
-
-Staged changes:
-    New:        analysis/01_GTEx-analysis.Rmd
-    Modified:   analysis/index.Rmd
-    New:        code/preprocess_gtex_alltests.sh
-    Deleted:    code/sce_plots.R
-    Deleted:    code/sim_celltypes.R
-    Deleted:    code/sim_celltypes.Rmd
-    Deleted:    envs/myenv.yaml
-    Deleted:    resources/README.md
+    Untracked:  QTLE_Manuscript_results.Rproj
+    Untracked:  analysis/about_old.Rmd
 
 </code></pre>
 <p>
@@ -554,10 +444,61 @@ Message
 <tbody>
 <tr>
 <td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/dunstone-a/QTLE_Manuscript_results/blob/8987a3222e3881c106ad2508fe90b5c1e6376f88/analysis/index.Rmd" target="_blank">8987a32</a>
+</td>
+<td>
+dunstone-a
+</td>
+<td>
+2025-01-24
+</td>
+<td>
+wflow_publish("analysis/index.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/dunstone-a/QTLE_Manuscript_results/blob/5205ac9bb32547761816e50f1a0996c359f74b2e/analysis/index.Rmd" target="_blank">5205ac9</a>
+</td>
+<td>
+cazodi
+</td>
+<td>
+2022-11-10
+</td>
+<td>
+manuscript figures
+</td>
+</tr>
+<tr>
+<td>
 html
 </td>
 <td>
-<a href="https://gitlab.svi.edu.au/biocellgen-private/WEEO_2022_multistateQTL/blob/eb6e33cf1f8ea7a52c1b26d48024a8ae193329ad/public/index.html" target="_blank">eb6e33c</a>
+<a href="https://rawcdn.githack.com/dunstone-a/QTLE_Manuscript_results/5205ac9bb32547761816e50f1a0996c359f74b2e/public/index.html" target="_blank">5205ac9</a>
+</td>
+<td>
+cazodi
+</td>
+<td>
+2022-11-10
+</td>
+<td>
+manuscript figures
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/dunstone-a/QTLE_Manuscript_results/eb6e33cf1f8ea7a52c1b26d48024a8ae193329ad/public/index.html" target="_blank">eb6e33c</a>
 </td>
 <td>
 cazodi
@@ -574,7 +515,7 @@ estimate pbmc8k splatPop params
 html
 </td>
 <td>
-<a href="https://gitlab.svi.edu.au/biocellgen-private/WEEO_2022_multistateQTL/blob/0032c48d3f4d3c91570db14155cbea138797f79c/public/index.html" target="_blank">0032c48</a>
+<a href="https://rawcdn.githack.com/dunstone-a/QTLE_Manuscript_results/0032c48d3f4d3c91570db14155cbea138797f79c/public/index.html" target="_blank">0032c48</a>
 </td>
 <td>
 cazodi
@@ -591,7 +532,7 @@ estimate pbmc8k splatPop params
 Rmd
 </td>
 <td>
-<a href="https://gitlab.svi.edu.au/biocellgen-private/WEEO_2022_multistateQTL/blob/a23584f023894660c13b18f282ddf1769ea97f56/analysis/index.Rmd" target="_blank">a23584f</a>
+<a href="https://github.com/dunstone-a/QTLE_Manuscript_results/blob/a23584f023894660c13b18f282ddf1769ea97f56/analysis/index.Rmd" target="_blank">a23584f</a>
 </td>
 <td>
 cazodi
@@ -608,7 +549,7 @@ estimate pbmc8k splatPop params
 html
 </td>
 <td>
-<a href="https://gitlab.svi.edu.au/biocellgen-private/WEEO_2022_multistateQTL/blob/a23584f023894660c13b18f282ddf1769ea97f56/public/index.html" target="_blank">a23584f</a>
+<a href="https://rawcdn.githack.com/dunstone-a/QTLE_Manuscript_results/a23584f023894660c13b18f282ddf1769ea97f56/public/index.html" target="_blank">a23584f</a>
 </td>
 <td>
 cazodi
@@ -625,7 +566,7 @@ estimate pbmc8k splatPop params
 Rmd
 </td>
 <td>
-<a href="https://gitlab.svi.edu.au/biocellgen-private/WEEO_2022_multistateQTL/blob/b200a1f3bdff39cbc3cf6743f030d6960f7ce619/analysis/index.Rmd" target="_blank">b200a1f</a>
+<a href="https://github.com/dunstone-a/QTLE_Manuscript_results/blob/b200a1f3bdff39cbc3cf6743f030d6960f7ce619/analysis/index.Rmd" target="_blank">b200a1f</a>
 </td>
 <td>
 cazodi
@@ -642,7 +583,7 @@ removing accidental commits by christina…
 Rmd
 </td>
 <td>
-<a href="https://gitlab.svi.edu.au/biocellgen-private/WEEO_2022_multistateQTL/blob/9057b09a6b2e7812472c30ec2ac2207074033e71/analysis/index.Rmd" target="_blank">9057b09</a>
+<a href="https://github.com/dunstone-a/QTLE_Manuscript_results/blob/9057b09a6b2e7812472c30ec2ac2207074033e71/analysis/index.Rmd" target="_blank">9057b09</a>
 </td>
 <td>
 cazodi
@@ -659,7 +600,7 @@ Revert "initial repo change"
 Rmd
 </td>
 <td>
-<a href="https://gitlab.svi.edu.au/biocellgen-private/WEEO_2022_multistateQTL/blob/0c6d3c6db6441404af9b70cce96dce19ed0d5333/analysis/index.Rmd" target="_blank">0c6d3c6</a>
+<a href="https://github.com/dunstone-a/QTLE_Manuscript_results/blob/0c6d3c6db6441404af9b70cce96dce19ed0d5333/analysis/index.Rmd" target="_blank">0c6d3c6</a>
 </td>
 <td>
 cazodi
@@ -676,7 +617,7 @@ initial repo change
 Rmd
 </td>
 <td>
-<a href="https://gitlab.svi.edu.au/biocellgen-private/WEEO_2022_multistateQTL/blob/c57ac08311a07a29bbe2db43cf50d0f67540a4c0/analysis/index.Rmd" target="_blank">c57ac08</a>
+<a href="https://github.com/dunstone-a/QTLE_Manuscript_results/blob/c57ac08311a07a29bbe2db43cf50d0f67540a4c0/analysis/index.Rmd" target="_blank">c57ac08</a>
 </td>
 <td>
 Christina Azodi
@@ -693,7 +634,7 @@ First init
 Rmd
 </td>
 <td>
-<a href="https://gitlab.svi.edu.au/biocellgen-private/WEEO_2022_multistateQTL/blob/b1f309cd921c5423049b786ae95d2540a891f0c5/analysis/index.Rmd" target="_blank">b1f309c</a>
+<a href="https://github.com/dunstone-a/QTLE_Manuscript_results/blob/b1f309cd921c5423049b786ae95d2540a891f0c5/analysis/index.Rmd" target="_blank">b1f309c</a>
 </td>
 <td>
 Davis McCarthy
@@ -710,7 +651,7 @@ Updating template with improvements.
 Rmd
 </td>
 <td>
-<a href="https://gitlab.svi.edu.au/biocellgen-private/WEEO_2022_multistateQTL/blob/d73fd375ae2e4e63d90b25ec4cc76044396f5b4a/analysis/index.Rmd" target="_blank">d73fd37</a>
+<a href="https://github.com/dunstone-a/QTLE_Manuscript_results/blob/d73fd375ae2e4e63d90b25ec4cc76044396f5b4a/analysis/index.Rmd" target="_blank">d73fd37</a>
 </td>
 <td>
 Davis McCarthy
@@ -731,16 +672,22 @@ Initial commit
 </div>
 <div id="project-overview" class="section level2">
 <h2>Project overview</h2>
+<p>Reproducible workflow to create figures from the manuscript
+‘Orchestrating multi-state QTL analysis in R’. This manuscript describes
+two R packages:</p>
 <ol style="list-style-type: decimal">
 <li>QTLExperiment; a container for storing and manipulating QTL summary
 statistics and associated metadata; and</li>
 <li>multistateQTL; a toolkit for simulating, analyzing, and visualizing
 multi-state QTL summary statistics.</li>
 </ol>
+<p>The steps below provide a broad overview of how to reproduce the
+results related to the GTEx Consortium data and simulated data, as shown
+in the paper.</p>
 </div>
 <div id="empirical-data-pre-processing" class="section level2">
 <h2>1. Empirical Data Pre-processing</h2>
-<p>The GTEx v8 data was downloaded from <a
+<p>The GTEx v8 data for 10 tissue types was downloaded from <a
 href="https://console.cloud.google.com/storage/browser/gtex-resources/GTEx_Analysis_v8_QTLs/GTEx_Analysis_v8_eQTL_all_associations?pageState=(%22StorageObjectListTable%22%3A(%22f%22%3A%22%255B%255D%22))&amp;prefix&amp;forceOnObjectsSortingFiltering=false&amp;cloudshell=true">Google
 Cloud</a>) and then filtered to keep only associations tested on
 chromosome 1. This processing is described in
