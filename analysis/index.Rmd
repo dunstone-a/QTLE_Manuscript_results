@@ -9,14 +9,18 @@ output:
 
 ## Project overview
 
+Reproducible workflow to create figures from the manuscript 'Orchestrating multi-state QTL analysis in R'. 
+This manuscript describes two R packages:
+
 (1) QTLExperiment; a container for storing and manipulating QTL summary statistics and associated metadata; and
 (2) multistateQTL; a toolkit for simulating, analyzing, and visualizing multi-state QTL summary statistics. 
+
+The steps below provide a broad overview of how to reproduce the results related to the GTEx Consortium data and simulated data, as shown in the paper.
 
 
 ## 1. Empirical Data Pre-processing
 
-The GTEx v8 data was downloaded from [Google Cloud](https://console.cloud.google.com/storage/browser/gtex-resources/GTEx_Analysis_v8_QTLs/GTEx_Analysis_v8_eQTL_all_associations?pageState=(%22StorageObjectListTable%22%3A(%22f%22%3A%22%255B%255D%22))&prefix&forceOnObjectsSortingFiltering=false&cloudshell=true)) and then filtered to keep only associations tested on chromosome 1. This processing is described in `code/preprocess_gtex_alltests.sh`. 
-
+The GTEx v8 data for 10 tissue types was downloaded from [Google Cloud](https://console.cloud.google.com/storage/browser/gtex-resources/GTEx_Analysis_v8_QTLs/GTEx_Analysis_v8_eQTL_all_associations?pageState=(%22StorageObjectListTable%22%3A(%22f%22%3A%22%255B%255D%22))&prefix&forceOnObjectsSortingFiltering=false&cloudshell=true)) and then filtered to keep only associations tested on chromosome 1. This processing is described in `code/preprocess_gtex_alltests.sh`. 
 
 ## 2. GTEx examples
 
