@@ -9,13 +9,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="C.B. Del Azodi" />
+<meta name="author" content="C.B. Del Azodi and A.M. Dunstone" />
 
-<meta name="date" content="2022-11-10" />
+<meta name="date" content="2025-01-24" />
 
 <title>QTLExperiment and multistateQTL: GTEx analysis</title>
 
-<script src="site_libs/header-attrs-2.15/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
@@ -31,13 +31,13 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
-<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
 
 <link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
 <!-- Add a small amount of space between sections. -->
@@ -295,8 +295,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -304,16 +304,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -449,6 +442,12 @@ div.tocify {
   <a href="about.html">About</a>
 </li>
 <li>
+  <a href="01_GTEx-analysis.html">GTEx Analysis</a>
+</li>
+<li>
+  <a href="02_simulation-analysis.html">Simulation Analysis</a>
+</li>
+<li>
   <a href="license.html">License</a>
 </li>
       </ul>
@@ -478,8 +477,8 @@ div.tocify {
 
 <h1 class="title toc-ignore">QTLExperiment and multistateQTL: GTEx
 analysis</h1>
-<h4 class="author">C.B. Del Azodi</h4>
-<h4 class="date">2022-11-10</h4>
+<h4 class="author">C.B. Del Azodi and A.M. Dunstone</h4>
+<h4 class="date">2025-01-24</h4>
 
 </div>
 
@@ -487,7 +486,7 @@ analysis</h1>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -498,8 +497,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -508,17 +507,17 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-11-10
+<strong>Last updated:</strong> 2025-01-24
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
-<strong>Knit directory:</strong> <code>WEEO_2021_meta-eQTL/</code> <span
-class="glyphicon glyphicon-question-sign" aria-hidden="true"
+<strong>Knit directory:</strong> <code>QTLE_Manuscript_results/</code>
+<span class="glyphicon glyphicon-question-sign" aria-hidden="true"
 title="This is the local directory in which the code in this file was executed.">
 </span>
 </p>
@@ -526,7 +525,7 @@ title="This is the local directory in which the code in this file was executed."
 This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
 analysis was created with <a
   href="https://github.com/workflowr/workflowr">workflowr</a> (version
-1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+1.7.1). The <em>Checks</em> tab describes the reproducibility checks
 that were applied when the results were created. The <em>Past
 versions</em> tab lists the development history.
 </p>
@@ -537,21 +536,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has staged changes. To know which version of the
-R Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -642,15 +638,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgitlabsvieduaubiocellgenprivateWEEO2022multistateQTLtree83405215772a39a777bd477308feb9ba4b0b9f14targetblank8340521a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomdunstoneaQTLEManuscriptresultstree99c78b8b37a208f7f6c1ea394159116e099bf11btargetblank99c78b8a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://gitlab.svi.edu.au/biocellgen-private/WEEO_2022_multistateQTL/tree/83405215772a39a777bd477308feb9ba4b0b9f14" target="_blank">8340521</a>
+<a href="https://github.com/dunstone-a/QTLE_Manuscript_results/tree/99c78b8b37a208f7f6c1ea394159116e099bf11b" target="_blank">99c78b8</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgitlabsvieduaubiocellgenprivateWEEO2022multistateQTLtree83405215772a39a777bd477308feb9ba4b0b9f14targetblank8340521a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomdunstoneaQTLEManuscriptresultstree99c78b8b37a208f7f6c1ea394159116e099bf11btargetblank99c78b8a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -660,7 +656,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://gitlab.svi.edu.au/biocellgen-private/WEEO_2022_multistateQTL/tree/83405215772a39a777bd477308feb9ba4b0b9f14" target="_blank">8340521</a>.
+<a href="https://github.com/dunstone-a/QTLE_Manuscript_results/tree/99c78b8b37a208f7f6c1ea394159116e099bf11b" target="_blank">99c78b8</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -675,110 +671,35 @@ were generated:
 </p>
 <pre><code>
 Ignored files:
+    Ignored:    .RData
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-    Ignored:    Manuscript-Figures_files/
     Ignored:    data/Adipose_Subcutaneous.allpairs.txt.gz_alltests_chr1.txt
-    Ignored:    data/Adipose_Subcutaneous.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Adipose_Visceral_Omentum.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Adrenal_Gland.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Artery_Aorta.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Artery_Coronary.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
     Ignored:    data/Artery_Tibial.allpairs.txt.gz_alltests_chr1.txt
-    Ignored:    data/Artery_Tibial.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Brain_Amygdala.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Brain_Anterior_cingulate_cortex_BA24.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Brain_Caudate_basal_ganglia.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Brain_Cerebellar_Hemisphere.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Brain_Cerebellum.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Brain_Cortex.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Brain_Frontal_Cortex_BA9.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Brain_Hippocampus.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Brain_Hypothalamus.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Brain_Nucleus_accumbens_basal_ganglia.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Brain_Putamen_basal_ganglia.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Brain_Spinal_cord_cervical_c-1.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Brain_Substantia_nigra.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Breast_Mammary_Tissue.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Cells_Cultured_fibroblasts.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Cells_EBV-transformed_lymphocytes.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Colon_Sigmoid.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Colon_Transverse.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Esophagus_Gastroesophageal_Junction.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
     Ignored:    data/Esophagus_Mucosa.allpairs.txt.gz_alltests_chr1.txt
-    Ignored:    data/Esophagus_Mucosa.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Esophagus_Muscularis.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/GTEx_Analysis_v8_eQTL_all_associations/
-    Ignored:    data/Heart_Atrial_Appendage.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Heart_Left_Ventricle.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Kidney_Cortex.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Liver.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
     Ignored:    data/Lung.allpairs.txt.gz_alltests_chr1.txt
-    Ignored:    data/Lung.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Lung.v8.signif_variant_gene_pairs_chr1.txt
-    Ignored:    data/Minor_Salivary_Gland.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
     Ignored:    data/Muscle_Skeletal.allpairs.txt.gz_alltests_chr1.txt
-    Ignored:    data/Muscle_Skeletal.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
     Ignored:    data/Nerve_Tibial.allpairs.txt.gz_alltests_chr1.txt
-    Ignored:    data/Nerve_Tibial.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Ovary.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Pancreas.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Pituitary.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Prostate.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
     Ignored:    data/Skin_Not_Sun_Exposed_Suprapubic.allpairs.txt.gz_alltests_chr1.txt
-    Ignored:    data/Skin_Not_Sun_Exposed_Suprapubic.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
     Ignored:    data/Skin_Sun_Exposed_Lower_leg.allpairs.txt.gz_alltests_chr1.txt
-    Ignored:    data/Skin_Sun_Exposed_Lower_leg.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Small_Intestine_Terminal_Ileum.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Spleen.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Spleen.v8.signif_variant_gene_pairs_chr1.txt
-    Ignored:    data/Stomach.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Testis.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
     Ignored:    data/Thyroid.allpairs.txt.gz_alltests_chr1.txt
-    Ignored:    data/Thyroid.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Thyroid.v8.signif_variant_gene_pairs_chr1.txt
-    Ignored:    data/Uterus.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Vagina.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
     Ignored:    data/Whole_Blood.allpairs.txt.gz_alltests_chr1.txt
-    Ignored:    data/Whole_Blood.v8.signif_variant_gene_pairs.txt.gz_chr1.txt
-    Ignored:    data/Whole_Blood.v8.signif_variant_gene_pairs_chr1.txt
-    Ignored:    docs/
     Ignored:    output/00_Figures/
-    Ignored:    output/01_simulations/
     Ignored:    output/gtex10_chr1_QTLE.rds
     Ignored:    output/gtex10_chr1_QTLE_filt.rds
-    Ignored:    references/chr2.filtered.log
-    Ignored:    references/chr2.filtered.vcf
-    Ignored:    references/chr2.filtered2.log
-    Ignored:    references/chr2.filtered2.vcf
-    Ignored:    references/chr2.filtered3.log
-    Ignored:    references/chr2.filtered3.vcf
-    Ignored:    references/chr2.genes.gff3
-    Ignored:    references/chr2.vcf.gz
+    Ignored:    output/gtex_estimated_params.rds
 
 Untracked files:
-    Untracked:  .gitignore
-    Untracked:  WEEO_2021_meta-eQTL.Rproj
-    Untracked:  analysis/02_simulation-analysis.Rmd
-    Untracked:  analysis/2021-08-03_pbmc8k-simulations.Rmd
-    Untracked:  analysis/figure/
-    Untracked:  code/preprocess_gtex.sh
-    Untracked:  site_libs/
-    Untracked:  workflow/
+    Untracked:  QTLE_Manuscript_results.Rproj
+    Untracked:  analysis/01_GTEx-analysis_old.Rmd
+    Untracked:  analysis/about_old.Rmd
 
 Unstaged changes:
-    Deleted:    Snakefile
-    Modified:   analysis/01_GTEx-analysis.Rmd
-    Modified:   analysis/2021-07-30_pbmc8k-reference-processing.Rmd
-    Modified:   analysis/index.Rmd
-
-Staged changes:
-    New:        analysis/01_GTEx-analysis.Rmd
-    Modified:   analysis/index.Rmd
-    New:        code/preprocess_gtex_alltests.sh
-    Deleted:    code/sce_plots.R
-    Deleted:    code/sim_celltypes.R
-    Deleted:    code/sim_celltypes.Rmd
+    Deleted:    analysis/2021-07-30_pbmc8k-reference-processing.Rmd
+    Deleted:    analysis/2021-08-03_pbmc8k-simulations.Rmd
+    Modified:   analysis/_site.yml
+    Modified:   code/preprocess_gtex_alltests.sh
+    Modified:   data/README.md
 
 </code></pre>
 <p>
@@ -793,48 +714,131 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/01_GTEx-analysis.Rmd</code>) and
+HTML (<code>public/01_GTEx-analysis.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/dunstone-a/QTLE_Manuscript_results/blob/99c78b8b37a208f7f6c1ea394159116e099bf11b/analysis/01_GTEx-analysis.Rmd" target="_blank">99c78b8</a>
+</td>
+<td>
+dunstone-a
+</td>
+<td>
+2025-01-24
+</td>
+<td>
+wflow_publish("analysis/01_GTEx-analysis.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/dunstone-a/QTLE_Manuscript_results/blob/5205ac9bb32547761816e50f1a0996c359f74b2e/analysis/01_GTEx-analysis.Rmd" target="_blank">5205ac9</a>
+</td>
+<td>
+cazodi
+</td>
+<td>
+2022-11-10
+</td>
+<td>
+manuscript figures
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/dunstone-a/QTLE_Manuscript_results/5205ac9bb32547761816e50f1a0996c359f74b2e/public/01_GTEx-analysis.html" target="_blank">5205ac9</a>
+</td>
+<td>
+cazodi
+</td>
+<td>
+2022-11-10
+</td>
+<td>
+manuscript figures
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
 </div>
 <div id="set-up-environment" class="section level2">
 <h2>Set up environment</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(ggpubr)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(dplyr)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(ComplexHeatmap)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(cowplot)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(QTLExperiment)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  devtools<span class="sc">::</span><span class="fu">load_all</span>(<span class="st">&quot;/mnt/mcfiles/cazodi/Software/multiStateQTL&quot;</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>rerun <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>plot_theme <span class="ot">&lt;-</span> <span class="fu">theme_cowplot</span>(<span class="dv">8</span>)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>save <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>save.loc <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;output/00_Figures/&quot;</span>, <span class="fu">Sys.Date</span>(), <span class="st">&quot;_&quot;</span>)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulation parameters</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>n_tests <span class="ot">&lt;-</span> <span class="dv">500</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>n_states <span class="ot">&lt;-</span> <span class="dv">6</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>thresh <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>second_thresh <span class="ot">&lt;-</span> <span class="fl">0.2</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>factor <span class="ot">&lt;-</span> <span class="fl">0.75</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>sharing <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>    <span class="fu">library</span>(ggpubr)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>    <span class="fu">library</span>(dplyr)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>    <span class="fu">library</span>(ComplexHeatmap)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>    <span class="fu">library</span>(cowplot)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>    <span class="fu">library</span>(QTLExperiment)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>    <span class="fu">library</span>(multistateQTL)</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>})</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: Change this to &#39;TRUE&#39; if this is the first time the code has been run. </span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>rerun <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>plot_theme <span class="ot">&lt;-</span> <span class="fu">theme_cowplot</span>(<span class="dv">8</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>save <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>save.loc <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;output/00_Figures/&quot;</span>, <span class="fu">Sys.Date</span>(), <span class="st">&quot;_&quot;</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co"># Remove line if not needed due to workflowr</span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">&quot;output/00_Figures/&quot;</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="co"># Simulation parameters</span></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a>n_tests <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a>n_states <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a>thresh <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a>second_thresh <span class="ot">&lt;-</span> <span class="fl">0.2</span></span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a>factor <span class="ot">&lt;-</span> <span class="fl">0.75</span></span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a>sharing <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
 </div>
 <div id="gtex-analysis" class="section level1">
 <h1>GTEx analysis</h1>
 <div id="load-empirical-data" class="section level2">
 <h2>Load empirical data</h2>
 <p>For this study and to set default simulation parameters for
-<code>qtleParams()</code>, GTEx v8 eQTL summary statistics from 10
-tissues with the largest sample size for eQTL mapping:</p>
+<code>qtleParams()</code>, we used GTEx v8 eQTL summary statistics from
+the 10 tissues with the largest sample size for eQTL mapping:</p>
 <ol style="list-style-type: decimal">
 <li>Muscle_Skeletal : 706</li>
 <li>Whole_Blood : 670</li>
@@ -849,40 +853,46 @@ tissues with the largest sample size for eQTL mapping:</p>
 </ol>
 <p>Data were downloaded from <a
 href="https://console.cloud.google.com/storage/browser/gtex-resources/GTEx_Analysis_v8_QTLs/GTEx_Analysis_v8_eQTL_all_associations?pageState=(%22StorageObjectListTable%22%3A(%22f%22%3A%22%255B%255D%22))&amp;prefix&amp;forceOnObjectsSortingFiltering=false&amp;cloudshell=true">Google
-Cloud</a>). To speed up calculations, only associations on chromosome 1
-were used. The threshold for tests used to estimate significant
-parameters was &lt;0.01 and for null QTL parameters was &gt;0.1.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(rerun){</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  wd <span class="ot">&lt;-</span> <span class="st">&quot;data/&quot;</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  file_id <span class="ot">&lt;-</span> <span class="st">&quot;.allpairs.txt.gz_alltests_chr1.txt&quot;</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  input_hpc <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">Lung =</span> <span class="fu">paste0</span>(wd, <span class="st">&quot;Lung&quot;</span>, file_id),</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Whole_Blood =</span> <span class="fu">paste0</span>(wd, <span class="st">&quot;Whole_Blood&quot;</span>, file_id),</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Thyroid =</span> <span class="fu">paste0</span>(wd, <span class="st">&quot;Thyroid&quot;</span>, file_id),</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Skin_nosun =</span> <span class="fu">paste0</span>(wd, <span class="st">&quot;Skin_Not_Sun_Exposed_Suprapubic&quot;</span>, file_id),</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Skin_sun =</span> <span class="fu">paste0</span>(wd, <span class="st">&quot;Skin_Sun_Exposed_Lower_leg&quot;</span>, file_id),</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Nerve_Tibial =</span> <span class="fu">paste0</span>(wd, <span class="st">&quot;Nerve_Tibial&quot;</span>, file_id),</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Muscle_Skeletal =</span> <span class="fu">paste0</span>(wd, <span class="st">&quot;Muscle_Skeletal&quot;</span>, file_id),</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Adipose_Subcutaneous =</span> <span class="fu">paste0</span>(wd, <span class="st">&quot;Adipose_Subcutaneous&quot;</span>, file_id),</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Artery_Tibial =</span> <span class="fu">paste0</span>(wd, <span class="st">&quot;Artery_Tibial&quot;</span>, file_id),</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Esophagus_Mucosa =</span> <span class="fu">paste0</span>(wd, <span class="st">&quot;Esophagus_Mucosa&quot;</span>, file_id))</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">system.time</span>(gtex <span class="ot">&lt;-</span> <span class="fu">sumstats2qtle</span>(input_hpc, </span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">feature_id=</span><span class="st">&quot;gene_id&quot;</span>,</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">variant_id=</span><span class="st">&quot;variant_id&quot;</span>, </span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">betas =</span> <span class="st">&quot;slope&quot;</span>, </span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">errors =</span> <span class="st">&quot;slope_se&quot;</span>,</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">pvalues =</span> <span class="st">&quot;pval_nominal&quot;</span>))</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(gtex, <span class="st">&quot;output/gtex10_chr1_QTLE.rds&quot;</span>)</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;Filtering to remove tests with NAs in any tissue:&quot;</span>)</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">system.time</span>(gtex <span class="ot">&lt;-</span> <span class="fu">getComplete</span>(gtex, <span class="at">verbose=</span><span class="cn">TRUE</span>))</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(gtex, <span class="st">&quot;output/gtex10_chr1_QTLE_filt.rds&quot;</span>)</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span>{</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  gtex <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;output/gtex10_chr1_QTLE_filt.rds&quot;</span>)</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>gtex</span></code></pre></div>
+Cloud</a>). Next, the bash script
+<code>code/preprocess_gtex_alltests.sh</code> was used to unzip the data
+and move it into the <code>data/</code> directory of this project.</p>
+<p>To speed up calculations, only associations on chromosome 1 were
+used.<br />
+The threshold for tests used to estimate significant parameters was
+&lt;0.01 and for null QTL parameters was &gt;0.1.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="cf">if</span>(rerun){</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>    wd <span class="ot">&lt;-</span> <span class="st">&quot;data/&quot;</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>    file_id <span class="ot">&lt;-</span> <span class="st">&quot;.allpairs.txt.gz_alltests_chr1.txt&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>    input_hpc <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>        <span class="at">Lung =</span> <span class="fu">paste0</span>(wd, <span class="st">&quot;Lung&quot;</span>, file_id),</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>        <span class="at">Whole_Blood =</span> <span class="fu">paste0</span>(wd, <span class="st">&quot;Whole_Blood&quot;</span>, file_id),</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>        <span class="at">Thyroid =</span> <span class="fu">paste0</span>(wd, <span class="st">&quot;Thyroid&quot;</span>, file_id),</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>        <span class="at">Skin_nosun =</span> <span class="fu">paste0</span>(wd, <span class="st">&quot;Skin_Not_Sun_Exposed_Suprapubic&quot;</span>, file_id),</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>        <span class="at">Skin_sun =</span> <span class="fu">paste0</span>(wd, <span class="st">&quot;Skin_Sun_Exposed_Lower_leg&quot;</span>, file_id),</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>        <span class="at">Nerve_Tibial =</span> <span class="fu">paste0</span>(wd, <span class="st">&quot;Nerve_Tibial&quot;</span>, file_id),</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>        <span class="at">Muscle_Skeletal =</span> <span class="fu">paste0</span>(wd, <span class="st">&quot;Muscle_Skeletal&quot;</span>, file_id),</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>        <span class="at">Adipose_Subcutaneous =</span> <span class="fu">paste0</span>(wd, <span class="st">&quot;Adipose_Subcutaneous&quot;</span>, file_id),</span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>        <span class="at">Artery_Tibial =</span> <span class="fu">paste0</span>(wd, <span class="st">&quot;Artery_Tibial&quot;</span>, file_id),</span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>        <span class="at">Esophagus_Mucosa =</span> <span class="fu">paste0</span>(wd, <span class="st">&quot;Esophagus_Mucosa&quot;</span>, file_id))</span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>  </span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>    <span class="fu">system.time</span>(gtex <span class="ot">&lt;-</span> <span class="fu">sumstats2qtle</span>(</span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>        input_hpc, </span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a>        <span class="at">feature_id=</span><span class="st">&quot;gene_id&quot;</span>,</span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>        <span class="at">variant_id=</span><span class="st">&quot;variant_id&quot;</span>, </span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>        <span class="at">betas =</span> <span class="st">&quot;slope&quot;</span>, </span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a>        <span class="at">errors =</span> <span class="st">&quot;slope_se&quot;</span>,</span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a>        <span class="at">pvalues =</span> <span class="st">&quot;pval_nominal&quot;</span>))</span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a>    <span class="fu">saveRDS</span>(gtex, <span class="st">&quot;output/gtex10_chr1_QTLE.rds&quot;</span>)</span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a>    </span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a>    <span class="fu">message</span>(<span class="st">&quot;Filtering to remove tests with NAs in any tissue:&quot;</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a>    <span class="fu">system.time</span>(gtex <span class="ot">&lt;-</span> <span class="fu">getComplete</span>(gtex))</span>
+<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a>    <span class="fu">saveRDS</span>(gtex, <span class="st">&quot;output/gtex10_chr1_QTLE_filt.rds&quot;</span>)</span>
+<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a>  </span>
+<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a>} <span class="cf">else</span>{</span>
+<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a>    gtex <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;output/gtex10_chr1_QTLE_filt.rds&quot;</span>)</span>
+<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a>}</span>
+<span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a>gtex</span></code></pre></div>
 <pre><code>class: QTLExperiment 
 dim: 11680281 10 
 metadata(0):
@@ -905,22 +915,60 @@ least one tissue and &lt; 0.05 in any other tissues using
 <code>callSignificance()</code>. We then filter to keep only the most
 significant QTL for each feature (i.e. gene) for each tissue using
 <code>getTopHits()</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(gtex <span class="ot">&lt;-</span> <span class="fu">callSignificance</span>(gtex, </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">assay=</span><span class="st">&quot;pvalues&quot;</span>,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">thresh=</span>thresh, </span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">second.thresh=</span>second_thresh))</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">system.time</span>(gtex <span class="ot">&lt;-</span> <span class="fu">callSignificance</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>    gtex, </span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>    <span class="at">assay=</span><span class="st">&quot;pvalues&quot;</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>    <span class="at">thresh=</span>thresh, </span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>    <span class="at">secondThresh=</span>second_thresh))</span></code></pre></div>
 <pre><code>   user  system elapsed 
- 11.458   1.099  14.120 </code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(gtex_top <span class="ot">&lt;-</span> <span class="fu">getTopHits</span>(gtex, <span class="at">mode=</span><span class="st">&quot;state&quot;</span>))</span></code></pre></div>
+  7.598   0.582   8.218 </code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">system.time</span>(gtex_top <span class="ot">&lt;-</span> <span class="fu">getTopHits</span>(gtex, <span class="at">mode=</span><span class="st">&quot;state&quot;</span>))</span></code></pre></div>
 <pre><code>   user  system elapsed 
- 37.907   3.612  41.799 </code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">table</span>(<span class="fu">feature_id</span>(gtex_top)), <span class="at">xlab =</span> <span class="st">&quot;# top QTL per feature&quot;</span>)</span></code></pre></div>
+ 22.177   1.930  24.207 </code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">table</span>(<span class="fu">feature_id</span>(gtex_top)), <span class="at">xlab =</span> <span class="st">&quot;# top QTL per feature&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="figure/01_GTEx-analysis.Rmd/get-top-hits-stats-1.png" alt="The distribution of the number of top-QTL hits for each feature, where 10 means a different QTL was the top hit in each tissue." width="768" />
 <p class="caption">
 The distribution of the number of top-QTL hits for each feature, where
 10 means a different QTL was the top hit in each tissue.
 </p>
+</div>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-get-top-hits-stats-1">
+Past versions of get-top-hits-stats-1.png
+</button>
+</p>
+<div id="fig-get-top-hits-stats-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/dunstone-a/QTLE_Manuscript_results/blob/5205ac9bb32547761816e50f1a0996c359f74b2e/public/figure/01_GTEx-analysis.Rmd/get-top-hits-stats-1.png" target="_blank">5205ac9</a>
+</td>
+<td>
+cazodi
+</td>
+<td>
+2022-11-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 <div id="global-patterns-of-multi-tissue-qtl" class="section level2">
@@ -929,48 +977,87 @@ The distribution of the number of top-QTL hits for each feature, where
 pairwise sharing of eQTL across tissues using the
 <code>runPairwiseSharing()</code> function and visualize the pattern of
 sharing with <code>plotPairwiseSharing()</code></p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(gtex_top <span class="ot">&lt;-</span> <span class="fu">runPairwiseSharing</span>(gtex_top, </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">assay=</span><span class="st">&quot;significant&quot;</span>, </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">factor=</span>factor))</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">system.time</span>(gtex_top <span class="ot">&lt;-</span> <span class="fu">runPairwiseSharing</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>    gtex_top, </span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>    <span class="at">assay=</span><span class="st">&quot;significant&quot;</span>, </span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>    <span class="at">factor=</span>factor))</span></code></pre></div>
 <pre><code>   user  system elapsed 
-  0.164   0.000   0.164 </code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(p_gtex <span class="ot">&lt;-</span> <span class="fu">plotPairwiseSharing</span>(gtex_top, </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">cell_annotate =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">col_range =</span> sharing))</span></code></pre></div>
+  0.146   0.000   0.147 </code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">system.time</span>(p_gtex <span class="ot">&lt;-</span> <span class="fu">plotPairwiseSharing</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>    gtex_top, </span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>    <span class="at">annotateCells =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>    <span class="at">colourRange =</span> sharing))</span></code></pre></div>
 <pre><code>   user  system elapsed 
-  0.121   0.001   0.229 </code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">draw</span>(p_gtex)</span></code></pre></div>
+  0.068   0.001   0.071 </code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">draw</span>(p_gtex)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="figure/01_GTEx-analysis.Rmd/plot-gtex-pairwise-sharing-1.png" alt="Pairwise sharing of GTEx top-eQTL." width="576" />
 <p class="caption">
 Pairwise sharing of GTEx top-eQTL.
 </p>
 </div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(save){</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  tmp <span class="ot">&lt;-</span> <span class="fu">paste0</span>(save.loc, <span class="st">&quot;gtex_pairwise.pdf&quot;</span>)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;Saving to: &quot;</span>, tmp)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pdf</span>(tmp, <span class="at">height=</span><span class="dv">6</span>, <span class="at">width=</span><span class="fl">6.5</span>)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">draw</span>(p_gtex)</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (<span class="sc">!</span><span class="fu">is.null</span>(<span class="fu">dev.list</span>()))  <span class="fu">dev.off</span>()</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;Comparing skin sun vs skin no-sun:&quot;</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">plotCompareStates</span>(gtex_top, <span class="at">x=</span><span class="st">&quot;Skin_sun&quot;</span>, <span class="at">y=</span><span class="st">&quot;Skin_nosun&quot;</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>p1<span class="sc">$</span>counts</span></code></pre></div>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-gtex-pairwise-sharing-1">
+Past versions of plot-gtex-pairwise-sharing-1.png
+</button>
+</p>
+<div id="fig-plot-gtex-pairwise-sharing-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/dunstone-a/QTLE_Manuscript_results/blob/5205ac9bb32547761816e50f1a0996c359f74b2e/public/figure/01_GTEx-analysis.Rmd/plot-gtex-pairwise-sharing-1.png" target="_blank">5205ac9</a>
+</td>
+<td>
+cazodi
+</td>
+<td>
+2022-11-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="cf">if</span>(save){</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>  tmp <span class="ot">&lt;-</span> <span class="fu">paste0</span>(save.loc, <span class="st">&quot;gtex_pairwise.pdf&quot;</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;Saving to: &quot;</span>, tmp)</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>  <span class="fu">pdf</span>(tmp, <span class="at">height=</span><span class="dv">6</span>, <span class="at">width=</span><span class="fl">6.5</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>  <span class="fu">draw</span>(p_gtex)</span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>  <span class="cf">while</span> (<span class="sc">!</span><span class="fu">is.null</span>(<span class="fu">dev.list</span>()))  <span class="fu">dev.off</span>()</span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;Comparing skin sun vs skin no-sun:&quot;</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">plotCompareStates</span>(gtex_top, <span class="at">x=</span><span class="st">&quot;Skin_sun&quot;</span>, <span class="at">y=</span><span class="st">&quot;Skin_nosun&quot;</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>p1<span class="sc">$</span>counts</span></code></pre></div>
 <pre><code>
 both_diverging    both_shared        not_sig     Skin_nosun       Skin_sun 
            152           6393           4088           1905           2223 </code></pre>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> p1<span class="sc">$</span>plot <span class="sc">+</span> <span class="fu">theme_cowplot</span>()</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;Comparing skin sun vs whole blood:&quot;</span>)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">plotCompareStates</span>(gtex_top, <span class="at">x=</span><span class="st">&quot;Skin_sun&quot;</span>, <span class="at">y=</span><span class="st">&quot;Whole_Blood&quot;</span>)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>p2<span class="sc">$</span>counts</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> p1<span class="sc">$</span>plot <span class="sc">+</span> <span class="fu">theme_cowplot</span>()</span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="fu">message</span>(<span class="st">&quot;Comparing skin sun vs whole blood:&quot;</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">plotCompareStates</span>(gtex_top, <span class="at">x=</span><span class="st">&quot;Skin_sun&quot;</span>, <span class="at">y=</span><span class="st">&quot;Whole_Blood&quot;</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>p2<span class="sc">$</span>counts</span></code></pre></div>
 <pre><code>
 both_diverging    both_shared        not_sig       Skin_sun    Whole_Blood 
            921           4610           3665           3237           2328 </code></pre>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> p2<span class="sc">$</span>plot <span class="sc">+</span> <span class="fu">theme_cowplot</span>()</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_grid</span>(p1 <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>), p2, </span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">rel_widths =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">1.6</span>), <span class="at">labels =</span> <span class="st">&quot;auto&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> p2<span class="sc">$</span>plot <span class="sc">+</span> <span class="fu">theme_cowplot</span>()</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a><span class="fu">plot_grid</span>(p1 <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>), p2, </span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>          <span class="at">rel_widths =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">1.6</span>), <span class="at">labels =</span> <span class="st">&quot;auto&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="figure/01_GTEx-analysis.Rmd/plot-gtex-comparisons-1.png" alt="Comparison of estimated effect sizes of top-eQTL in (a) skin sun vs skin no-sun and (b) skin sun vs whole blood." width="672" />
 <p class="caption">
@@ -978,21 +1065,58 @@ Comparison of estimated effect sizes of top-eQTL in (a) skin sun vs skin
 no-sun and (b) skin sun vs whole blood.
 </p>
 </div>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(save){</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggsave</span>(<span class="fu">paste0</span>(save.loc, <span class="st">&quot;GTEX_compare-states.pdf&quot;</span>), <span class="fu">last_plot</span>(), <span class="at">height =</span> <span class="dv">4</span>, <span class="at">width =</span> <span class="dv">7</span>)</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-gtex-comparisons-1">
+Past versions of plot-gtex-comparisons-1.png
+</button>
+</p>
+<div id="fig-plot-gtex-comparisons-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/dunstone-a/QTLE_Manuscript_results/blob/5205ac9bb32547761816e50f1a0996c359f74b2e/public/figure/01_GTEx-analysis.Rmd/plot-gtex-comparisons-1.png" target="_blank">5205ac9</a>
+</td>
+<td>
+cazodi
+</td>
+<td>
+2022-11-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="cf">if</span>(save){</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>  <span class="fu">ggsave</span>(<span class="fu">paste0</span>(save.loc, <span class="st">&quot;GTEX_compare-states.pdf&quot;</span>), <span class="fu">last_plot</span>(), <span class="at">height =</span> <span class="dv">4</span>, <span class="at">width =</span> <span class="dv">7</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="inspecting-multi-tissue-qtl" class="section level2">
 <h2>Inspecting multi-tissue QTL</h2>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>gtex_top <span class="ot">&lt;-</span> <span class="fu">runTestMetrics</span>(gtex_top, <span class="at">global_buffer =</span> <span class="dv">2</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">rowData</span>(gtex_top)<span class="sc">$</span>qtl_type_simple)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>gtex_top <span class="ot">&lt;-</span> <span class="fu">runTestMetrics</span>(gtex_top, <span class="at">global_buffer =</span> <span class="dv">2</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">rowData</span>(gtex_top)<span class="sc">$</span>qtl_type_simple)</span></code></pre></div>
 <pre><code>
     global multistate     unique 
-      5169       8880        712 </code></pre>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>gtex_top_multistate <span class="ot">&lt;-</span> <span class="fu">subset</span>(gtex_top, nSignificant <span class="sc">&gt;</span> <span class="dv">4</span> <span class="sc">&amp;</span> nSignificant <span class="sc">&lt;=</span> <span class="dv">8</span>)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>p_qtl <span class="ot">&lt;-</span> <span class="fu">plotQTLClusters</span>(gtex_top_multistate, <span class="at">FUN=</span>abs, <span class="at">row_km =</span> <span class="dv">5</span>, </span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">annotate_tests =</span> <span class="fu">c</span>(<span class="st">&quot;effect_sd&quot;</span>, <span class="st">&quot;nSignificant&quot;</span>))</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">draw</span>(p_qtl)</span></code></pre></div>
+      2600      11449        712 </code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>gtex_top_multistate <span class="ot">&lt;-</span> <span class="fu">subset</span>(gtex_top, nSignificant <span class="sc">&gt;</span> <span class="dv">4</span> <span class="sc">&amp;</span> nSignificant <span class="sc">&lt;=</span> <span class="dv">8</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>p_qtl <span class="ot">&lt;-</span> <span class="fu">plotQTLClusters</span>(gtex_top_multistate, <span class="at">FUN=</span>abs, <span class="at">row_km =</span> <span class="dv">5</span>, </span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>                         <span class="at">annotateRowsBy =</span> <span class="fu">c</span>(<span class="st">&quot;effect_sd&quot;</span>, <span class="st">&quot;nSignificant&quot;</span>))</span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a><span class="fu">draw</span>(p_qtl)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="figure/01_GTEx-analysis.Rmd/plot-GTEx-tissue-specific-1.png" alt="The absolute values of estimated effect sizes for a subset of multi-state QTL." width="384" />
 <p class="caption">
@@ -1000,13 +1124,50 @@ The absolute values of estimated effect sizes for a subset of
 multi-state QTL.
 </p>
 </div>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(save){</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  tmp <span class="ot">&lt;-</span> <span class="fu">paste0</span>(save.loc, <span class="st">&quot;sim_simple_pairwise.pdf&quot;</span>)</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;Saving to: &quot;</span>, tmp)</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pdf</span>(tmp, <span class="at">height=</span><span class="dv">5</span>, <span class="at">width=</span><span class="dv">4</span>)</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">draw</span>(p_qtl)</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (<span class="sc">!</span><span class="fu">is.null</span>(<span class="fu">dev.list</span>()))  <span class="fu">dev.off</span>()</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-GTEx-tissue-specific-1">
+Past versions of plot-GTEx-tissue-specific-1.png
+</button>
+</p>
+<div id="fig-plot-GTEx-tissue-specific-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/dunstone-a/QTLE_Manuscript_results/blob/5205ac9bb32547761816e50f1a0996c359f74b2e/public/figure/01_GTEx-analysis.Rmd/plot-GTEx-tissue-specific-1.png" target="_blank">5205ac9</a>
+</td>
+<td>
+cazodi
+</td>
+<td>
+2022-11-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="cf">if</span>(save){</span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>  tmp <span class="ot">&lt;-</span> <span class="fu">paste0</span>(save.loc, <span class="st">&quot;sim_simple_pairwise.pdf&quot;</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;Saving to: &quot;</span>, tmp)</span>
+<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a>  <span class="fu">pdf</span>(tmp, <span class="at">height=</span><span class="dv">5</span>, <span class="at">width=</span><span class="dv">4</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a>  <span class="fu">draw</span>(p_qtl)</span>
+<span id="cb24-6"><a href="#cb24-6" tabindex="-1"></a>  <span class="cf">while</span> (<span class="sc">!</span><span class="fu">is.null</span>(<span class="fu">dev.list</span>()))  <span class="fu">dev.off</span>()</span>
+<span id="cb24-7"><a href="#cb24-7" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="estimating-simulation-parameters" class="section level2">
 <h2>Estimating simulation parameters</h2>
@@ -1015,41 +1176,42 @@ estimated from the provided GTEx data. The GTEx summary statistics with
 p values in the lowest quantile are used to estimate parameters to
 significant tests and those in the largest quantile are used to estimate
 parameters for null tests.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">qtleEstimate</span>(gtex, <span class="at">assay =</span> <span class="st">&quot;pvalues&quot;</span>, <span class="at">verbose=</span><span class="cn">TRUE</span>,</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">thresh_sig=</span><span class="fl">0.001</span>, </span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">thresh_null=</span><span class="fl">0.1</span>)</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(save){</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(params, <span class="st">&quot;output/gtex_estimated_params.rds&quot;</span>)</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>params</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">qtleEstimate</span>(</span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>    gtex, <span class="at">assay =</span> <span class="st">&quot;pvalues&quot;</span>, <span class="at">verbose=</span><span class="cn">TRUE</span>,</span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>    <span class="at">threshSig=</span><span class="fl">0.001</span>, </span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>    <span class="at">threshNull=</span><span class="fl">0.1</span>)</span>
+<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a><span class="cf">if</span>(save){</span>
+<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a>  <span class="fu">saveRDS</span>(params, <span class="st">&quot;output/gtex_estimated_params.rds&quot;</span>)</span>
+<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a>}</span>
+<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a>params</span></code></pre></div>
 <pre><code>$cv.sig.shape
-[1] 16.6759
+[1] 13.59969
 
 $cv.sig.rate
-[1] 35.56338
+[1] 0.03282103
 
 $cv.null.shape
-[1] 1.698207
+[1] 3.995155e-05
 
 $cv.null.rate
-[1] 0.7553863
+[1] 476510.7
 
 $betas.sig.shape
-[1] 2.160473
+[1] 2.160491
 
 $betas.sig.rate
-[1] 14.19137
+[1] 14.19135
 
 $betas.null.shape
-[1] 1.053135
+[1] 1.053145
 
 $betas.null.rate
-[1] 22.55316</code></pre>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotSimulationParams</span>(<span class="at">params=</span>params) <span class="sc">+</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Dark2&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Dark2&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  plot_theme</span></code></pre></div>
+[1] 22.55344</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="fu">plotSimulationParams</span>(<span class="at">params=</span>params) <span class="sc">+</span></span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Dark2&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Dark2&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a>  plot_theme</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="figure/01_GTEx-analysis.Rmd/plot-estimated%20params-1.png" alt="Distribution of sampled betas and coefficient of variation values for significant and null tests using the parameters estimated from GTEx." width="576" />
 <p class="caption">
@@ -1057,22 +1219,59 @@ Distribution of sampled betas and coefficient of variation values for
 significant and null tests using the parameters estimated from GTEx.
 </p>
 </div>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(save){</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggsave</span>(<span class="fu">paste0</span>(save.loc, <span class="st">&quot;GTEX_estParam.pdf&quot;</span>), <span class="fu">last_plot</span>(), <span class="at">height =</span> <span class="dv">4</span>, <span class="at">width =</span> <span class="dv">6</span>)</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-plot-estimated-params-1">
+Past versions of "plot-estimated params-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-plot-estimated-params-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/dunstone-a/QTLE_Manuscript_results/blob/5205ac9bb32547761816e50f1a0996c359f74b2e/public/figure/01_GTEx-analysis.Rmd/plot-estimated params-1.png" target="_blank">5205ac9</a>
+</td>
+<td>
+cazodi
+</td>
+<td>
+2022-11-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="cf">if</span>(save){</span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>  <span class="fu">ggsave</span>(<span class="fu">paste0</span>(save.loc, <span class="st">&quot;GTEX_estParam.pdf&quot;</span>), <span class="fu">last_plot</span>(), <span class="at">height =</span> <span class="dv">4</span>, <span class="at">width =</span> <span class="dv">6</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>}</span></code></pre></div>
 <p>These parameters are used as the default parameters with
 <code>qtleParams()</code>.</p>
 </div>
 </div>
 <div id="session-info" class="section level1">
 <h1>Session Info</h1>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
-<pre><code>R version 4.2.1 (2022-06-23)
-Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Rocky Linux 8.6 (Green Obsidian)
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
+<pre><code>R version 4.4.1 (2024-06-14)
+Platform: x86_64-pc-linux-gnu
+Running under: Rocky Linux 8.10 (Green Obsidian)
 
 Matrix products: default
-BLAS/LAPACK: /usr/lib64/libopenblasp-r0.3.15.so
+BLAS/LAPACK: /usr/lib64/libopenblasp-r0.3.15.so;  LAPACK version 3.9.0
 
 locale:
  [1] LC_CTYPE=en_AU.UTF-8       LC_NUMERIC=C              
@@ -1082,67 +1281,62 @@ locale:
  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
 [11] LC_MEASUREMENT=en_AU.UTF-8 LC_IDENTIFICATION=C       
 
+time zone: Australia/Melbourne
+tzcode source: system (glibc)
+
 attached base packages:
 [1] stats4    grid      stats     graphics  grDevices utils     datasets 
 [8] methods   base     
 
 other attached packages:
- [1] multiStateQTL_0.1.0         testthat_3.1.4             
- [3] collapse_1.8.8              data.table_1.14.4          
- [5] QTLExperiment_0.1.0         SummarizedExperiment_1.26.1
- [7] Biobase_2.56.0              GenomicRanges_1.48.0       
- [9] GenomeInfoDb_1.32.4         IRanges_2.30.1             
-[11] S4Vectors_0.34.0            BiocGenerics_0.42.0        
-[13] MatrixGenerics_1.8.1        matrixStats_0.62.0         
-[15] cowplot_1.1.1               ComplexHeatmap_2.12.1      
-[17] dplyr_1.0.10                ggpubr_0.4.0               
-[19] ggplot2_3.3.6              
+ [1] multistateQTL_1.1.0         collapse_2.0.16            
+ [3] data.table_1.16.0           QTLExperiment_1.3.0        
+ [5] SummarizedExperiment_1.35.2 Biobase_2.65.1             
+ [7] GenomicRanges_1.57.1        GenomeInfoDb_1.41.1        
+ [9] IRanges_2.39.2              S4Vectors_0.43.2           
+[11] BiocGenerics_0.51.2         MatrixGenerics_1.17.0      
+[13] matrixStats_1.4.1           cowplot_1.1.3              
+[15] ComplexHeatmap_2.21.1       dplyr_1.1.4                
+[17] ggpubr_0.6.0                ggplot2_3.5.1              
 
 loaded via a namespace (and not attached):
-  [1] backports_1.4.1        circlize_0.4.15        workflowr_1.7.0       
-  [4] systemfonts_1.0.4      plyr_1.8.7             splines_4.2.1         
-  [7] usethis_2.1.6          digest_0.6.30          invgamma_1.1          
- [10] foreach_1.5.2          htmltools_0.5.3        magick_2.7.3          
- [13] viridis_0.6.2          SQUAREM_2021.1         fansi_1.0.3           
- [16] magrittr_2.0.3         checkmate_2.1.0        memoise_2.0.1         
- [19] cluster_2.1.3          doParallel_1.0.17      tzdb_0.3.0            
- [22] remotes_2.4.2          vroom_1.6.0            prettyunits_1.1.1     
- [25] colorspace_2.0-3       textshaping_0.3.6      xfun_0.32             
- [28] callr_3.7.1            crayon_1.5.2           RCurl_1.98-1.9        
- [31] jsonlite_1.8.3         survival_3.3-1         iterators_1.0.14      
- [34] glue_1.6.2             gtable_0.3.1           zlibbioc_1.42.0       
- [37] XVector_0.36.0         GetoptLong_1.0.5       DelayedArray_0.22.0   
- [40] car_3.1-0              pkgbuild_1.3.1         shape_1.4.6           
- [43] abind_1.4-5            scales_1.2.1           mvtnorm_1.1-3         
- [46] DBI_1.1.3              rstatix_0.7.0          miniUI_0.1.1.1        
- [49] Rcpp_1.0.9             viridisLite_0.4.1      xtable_1.8-4          
- [52] clue_0.3-61            bit_4.0.4              profvis_0.3.7         
- [55] truncnorm_1.0-8        htmlwidgets_1.5.4      RColorBrewer_1.1-3    
- [58] ellipsis_0.3.2         farver_2.1.1           urlchecker_1.0.1      
- [61] pkgconfig_2.0.3        mashr_0.2.57           sass_0.4.2            
- [64] utf8_1.2.2             labeling_0.4.2         softImpute_1.4-1      
- [67] tidyselect_1.2.0       rlang_1.0.5            later_1.3.0           
- [70] munsell_0.5.0          tools_4.2.1            cachem_1.0.6          
- [73] cli_3.4.0              generics_0.1.3         devtools_2.4.4        
- [76] broom_1.0.0            evaluate_0.16          stringr_1.4.1         
- [79] fastmap_1.1.0          ragg_1.2.2             yaml_2.3.6            
- [82] processx_3.7.0         knitr_1.39             bit64_4.0.5           
- [85] fs_1.5.2               fitdistrplus_1.1-8     purrr_0.3.5           
- [88] mime_0.12              brio_1.1.3             compiler_4.2.1        
- [91] rstudioapi_0.14        png_0.1-7              ggsignif_0.6.3        
- [94] tibble_3.1.8           bslib_0.4.0            stringi_1.7.8         
- [97] highr_0.9              ps_1.7.1               desc_1.4.1            
-[100] lattice_0.20-45        Matrix_1.4-1           vctrs_0.4.1           
-[103] pillar_1.8.1           lifecycle_1.0.2        jquerylib_0.1.4       
-[106] GlobalOptions_0.1.2    bitops_1.0-7           irlba_2.3.5.1         
-[109] httpuv_1.6.5           R6_2.5.1               promises_1.2.0.1      
-[112] gridExtra_2.3          sessioninfo_1.2.2      codetools_0.2-18      
-[115] MASS_7.3-57            assertthat_0.2.1       pkgload_1.3.0         
-[118] rprojroot_2.0.3        rjson_0.2.21           withr_2.5.0           
-[121] GenomeInfoDbData_1.2.8 parallel_4.2.1         tidyr_1.2.1           
-[124] rmarkdown_2.15         carData_3.0-5          ashr_2.2-54           
-[127] Cairo_1.6-0            git2r_0.30.1           mixsqp_0.3-47         
-[130] shiny_1.7.2            rmeta_3.0             </code></pre>
+  [1] gridExtra_2.3           rlang_1.1.4             magrittr_2.0.3         
+  [4] clue_0.3-65             GetoptLong_1.0.5        git2r_0.33.0           
+  [7] compiler_4.4.1          systemfonts_1.1.0       png_0.1-8              
+ [10] vctrs_0.6.5             stringr_1.5.1           pkgconfig_2.0.3        
+ [13] shape_1.4.6.1           crayon_1.5.3            fastmap_1.2.0          
+ [16] backports_1.5.0         XVector_0.45.0          labeling_0.4.3         
+ [19] utf8_1.2.4              promises_1.3.0          rmarkdown_2.28         
+ [22] tzdb_0.4.0              UCSC.utils_1.1.0        ragg_1.3.3             
+ [25] bit_4.5.0               purrr_1.0.2             xfun_0.47              
+ [28] zlibbioc_1.51.1         cachem_1.1.0            jsonlite_1.8.9         
+ [31] highr_0.11              later_1.3.2             DelayedArray_0.31.12   
+ [34] broom_1.0.7             irlba_2.3.5.1           parallel_4.4.1         
+ [37] cluster_2.1.6           R6_2.5.1                bslib_0.8.0            
+ [40] stringi_1.8.4           RColorBrewer_1.1-3      SQUAREM_2021.1         
+ [43] car_3.1-3               jquerylib_0.1.4         assertthat_0.2.1       
+ [46] Rcpp_1.0.13             iterators_1.0.14        knitr_1.48             
+ [49] splines_4.4.1           httpuv_1.6.15           Matrix_1.7-0           
+ [52] tidyselect_1.2.1        viridis_0.6.5           rstudioapi_0.16.0      
+ [55] abind_1.4-8             yaml_2.3.10             doParallel_1.0.17      
+ [58] codetools_0.2-20        plyr_1.8.9              lattice_0.22-6         
+ [61] tibble_3.2.1            withr_3.0.1             evaluate_1.0.0         
+ [64] survival_3.7-0          fitdistrplus_1.2-1      circlize_0.4.16        
+ [67] pillar_1.9.0            carData_3.0-5           whisker_0.4.1          
+ [70] checkmate_2.3.2         foreach_1.5.2           generics_0.1.3         
+ [73] vroom_1.6.5             rprojroot_2.0.4         invgamma_1.1           
+ [76] truncnorm_1.0-9         munsell_0.5.1           scales_1.3.0           
+ [79] ashr_2.2-63             glue_1.8.0              tools_4.4.1            
+ [82] ggsignif_0.6.4          mvtnorm_1.3-1           fs_1.6.4               
+ [85] tidyr_1.3.1             colorspace_2.1-1        mashr_0.2.79           
+ [88] GenomeInfoDbData_1.2.13 Formula_1.2-5           cli_3.6.3              
+ [91] textshaping_0.4.0       workflowr_1.7.1         fansi_1.0.6            
+ [94] viridisLite_0.4.2       mixsqp_0.3-54           S4Arrays_1.5.10        
+ [97] gtable_0.3.5            rstatix_0.7.2           sass_0.4.9             
+[100] digest_0.6.37           SparseArray_1.5.41      farver_2.1.2           
+[103] rjson_0.2.23            htmltools_0.5.8.1       lifecycle_1.0.4        
+[106] rmeta_3.0               httr_1.4.7              GlobalOptions_0.1.2    
+[109] MASS_7.3-61             bit64_4.5.2            </code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1151,173 +1345,164 @@ Session information
 </button>
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">session_info</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">session_info</span>()</span></code></pre></div>
 <pre><code>─ Session info ───────────────────────────────────────────────────────────────
  setting  value
- version  R version 4.2.1 (2022-06-23)
- os       Rocky Linux 8.6 (Green Obsidian)
+ version  R version 4.4.1 (2024-06-14)
+ os       Rocky Linux 8.10 (Green Obsidian)
  system   x86_64, linux-gnu
  ui       X11
  language (EN)
  collate  en_AU.UTF-8
  ctype    en_AU.UTF-8
  tz       Australia/Melbourne
- date     2022-11-10
- pandoc   2.19.2 @ /usr/lib/rstudio-server/bin/quarto/bin/tools/ (via rmarkdown)
+ date     2025-01-24
+ pandoc   3.1.1 @ /usr/lib/rstudio-server/bin/quarto/bin/tools/ (via rmarkdown)
 
 ─ Packages ───────────────────────────────────────────────────────────────────
- ! package              * version  date (UTC) lib source
-   abind                  1.4-5    2016-07-21 [1] CRAN (R 4.2.1)
-   ashr                   2.2-54   2022-02-22 [1] CRAN (R 4.2.1)
-   assertthat             0.2.1    2019-03-21 [1] CRAN (R 4.2.1)
-   backports              1.4.1    2021-12-13 [1] CRAN (R 4.2.1)
-   Biobase              * 2.56.0   2022-04-26 [1] Bioconductor
-   BiocGenerics         * 0.42.0   2022-04-26 [1] Bioconductor
-   bit                    4.0.4    2020-08-04 [1] CRAN (R 4.2.1)
-   bit64                  4.0.5    2020-08-30 [1] CRAN (R 4.2.1)
-   bitops                 1.0-7    2021-04-24 [1] CRAN (R 4.2.1)
-   brio                   1.1.3    2021-11-30 [1] CRAN (R 4.2.1)
-   broom                  1.0.0    2022-07-01 [1] CRAN (R 4.2.1)
-   bslib                  0.4.0    2022-07-16 [1] CRAN (R 4.2.1)
-   cachem                 1.0.6    2021-08-19 [1] CRAN (R 4.2.1)
-   Cairo                  1.6-0    2022-07-05 [1] CRAN (R 4.2.1)
-   callr                  3.7.1    2022-07-13 [1] CRAN (R 4.2.1)
-   car                    3.1-0    2022-06-15 [1] CRAN (R 4.2.1)
-   carData                3.0-5    2022-01-06 [1] CRAN (R 4.2.1)
-   checkmate              2.1.0    2022-04-21 [1] CRAN (R 4.2.1)
-   circlize               0.4.15   2022-05-10 [1] CRAN (R 4.2.1)
-   cli                    3.4.0    2022-09-08 [1] CRAN (R 4.2.1)
-   clue                   0.3-61   2022-05-30 [1] CRAN (R 4.2.1)
-   cluster                2.1.3    2022-03-28 [2] CRAN (R 4.2.1)
-   codetools              0.2-18   2020-11-04 [2] CRAN (R 4.2.1)
-   collapse             * 1.8.8    2022-08-15 [1] CRAN (R 4.2.1)
-   colorspace             2.0-3    2022-02-21 [1] CRAN (R 4.2.1)
-   ComplexHeatmap       * 2.12.1   2022-08-09 [1] Bioconductor
-   cowplot              * 1.1.1    2020-12-30 [1] CRAN (R 4.2.1)
-   crayon                 1.5.2    2022-09-29 [1] CRAN (R 4.2.1)
-   data.table           * 1.14.4   2022-10-17 [1] CRAN (R 4.2.1)
-   DBI                    1.1.3    2022-06-18 [1] CRAN (R 4.2.1)
-   DelayedArray           0.22.0   2022-04-26 [1] Bioconductor
-   desc                   1.4.1    2022-03-06 [1] CRAN (R 4.2.1)
-   devtools               2.4.4    2022-07-20 [1] CRAN (R 4.2.1)
-   digest                 0.6.30   2022-10-18 [1] CRAN (R 4.2.1)
-   doParallel             1.0.17   2022-02-07 [1] CRAN (R 4.2.1)
-   dplyr                * 1.0.10   2022-09-01 [1] CRAN (R 4.2.1)
-   ellipsis               0.3.2    2021-04-29 [1] CRAN (R 4.2.1)
-   evaluate               0.16     2022-08-09 [1] CRAN (R 4.2.1)
-   fansi                  1.0.3    2022-03-24 [1] CRAN (R 4.2.1)
-   farver                 2.1.1    2022-07-06 [1] CRAN (R 4.2.1)
-   fastmap                1.1.0    2021-01-25 [1] CRAN (R 4.2.1)
-   fitdistrplus           1.1-8    2022-03-10 [1] CRAN (R 4.2.1)
-   foreach                1.5.2    2022-02-02 [1] CRAN (R 4.2.1)
-   fs                     1.5.2    2021-12-08 [1] CRAN (R 4.2.1)
-   generics               0.1.3    2022-07-05 [1] CRAN (R 4.2.1)
-   GenomeInfoDb         * 1.32.4   2022-09-06 [1] Bioconductor
-   GenomeInfoDbData       1.2.8    2022-08-04 [1] Bioconductor
-   GenomicRanges        * 1.48.0   2022-04-26 [1] Bioconductor
-   GetoptLong             1.0.5    2020-12-15 [1] CRAN (R 4.2.1)
-   ggplot2              * 3.3.6    2022-05-03 [1] CRAN (R 4.2.1)
-   ggpubr               * 0.4.0    2020-06-27 [1] CRAN (R 4.2.1)
-   ggsignif               0.6.3    2021-09-09 [1] CRAN (R 4.2.1)
-   git2r                  0.30.1   2022-03-16 [1] CRAN (R 4.2.1)
-   GlobalOptions          0.1.2    2020-06-10 [1] CRAN (R 4.2.1)
-   glue                   1.6.2    2022-02-24 [1] CRAN (R 4.2.1)
-   gridExtra              2.3      2017-09-09 [1] CRAN (R 4.2.1)
-   gtable                 0.3.1    2022-09-01 [1] CRAN (R 4.2.1)
-   highr                  0.9      2021-04-16 [1] CRAN (R 4.2.1)
-   htmltools              0.5.3    2022-07-18 [1] CRAN (R 4.2.1)
-   htmlwidgets            1.5.4    2021-09-08 [1] CRAN (R 4.2.1)
-   httpuv                 1.6.5    2022-01-05 [1] CRAN (R 4.2.1)
-   invgamma               1.1      2017-05-07 [1] CRAN (R 4.2.1)
-   IRanges              * 2.30.1   2022-08-18 [1] Bioconductor
-   irlba                  2.3.5.1  2022-10-03 [1] CRAN (R 4.2.1)
-   iterators              1.0.14   2022-02-05 [1] CRAN (R 4.2.1)
-   jquerylib              0.1.4    2021-04-26 [1] CRAN (R 4.2.1)
-   jsonlite               1.8.3    2022-10-21 [1] CRAN (R 4.2.1)
-   knitr                  1.39     2022-04-26 [1] CRAN (R 4.2.1)
-   labeling               0.4.2    2020-10-20 [1] CRAN (R 4.2.1)
-   later                  1.3.0    2021-08-18 [1] CRAN (R 4.2.1)
-   lattice                0.20-45  2021-09-22 [2] CRAN (R 4.2.1)
-   lifecycle              1.0.2    2022-09-09 [1] CRAN (R 4.2.1)
-   magick                 2.7.3    2021-08-18 [1] CRAN (R 4.2.1)
-   magrittr               2.0.3    2022-03-30 [1] CRAN (R 4.2.1)
-   mashr                  0.2.57   2022-01-25 [1] CRAN (R 4.2.1)
-   MASS                   7.3-57   2022-04-22 [2] CRAN (R 4.2.1)
-   Matrix                 1.4-1    2022-03-23 [2] CRAN (R 4.2.1)
-   MatrixGenerics       * 1.8.1    2022-06-26 [1] Bioconductor
-   matrixStats          * 0.62.0   2022-04-19 [1] CRAN (R 4.2.1)
-   memoise                2.0.1    2021-11-26 [1] CRAN (R 4.2.1)
-   mime                   0.12     2021-09-28 [1] CRAN (R 4.2.1)
-   miniUI                 0.1.1.1  2018-05-18 [1] CRAN (R 4.2.1)
-   mixsqp                 0.3-47   2022-10-31 [1] Github (stephenslab/mixsqp@0a80f7e)
- R multiStateQTL        * 0.1.0    &lt;NA&gt;       [?] &lt;NA&gt;
-   munsell                0.5.0    2018-06-12 [1] CRAN (R 4.2.1)
-   mvtnorm                1.1-3    2021-10-08 [1] CRAN (R 4.2.1)
-   pillar                 1.8.1    2022-08-19 [1] CRAN (R 4.2.1)
-   pkgbuild               1.3.1    2021-12-20 [1] CRAN (R 4.2.1)
-   pkgconfig              2.0.3    2019-09-22 [1] CRAN (R 4.2.1)
-   pkgload                1.3.0    2022-06-27 [1] CRAN (R 4.2.1)
-   plyr                   1.8.7    2022-03-24 [1] CRAN (R 4.2.1)
-   png                    0.1-7    2013-12-03 [1] CRAN (R 4.2.1)
-   prettyunits            1.1.1    2020-01-24 [1] CRAN (R 4.2.1)
-   processx               3.7.0    2022-07-07 [1] CRAN (R 4.2.1)
-   profvis                0.3.7    2020-11-02 [1] CRAN (R 4.2.1)
-   promises               1.2.0.1  2021-02-11 [1] CRAN (R 4.2.1)
-   ps                     1.7.1    2022-06-18 [1] CRAN (R 4.2.1)
-   purrr                  0.3.5    2022-10-06 [1] CRAN (R 4.2.1)
-   QTLExperiment        * 0.1.0    2022-11-09 [1] git2r (https://gitlab.svi.edu.au/biocellgen-public/qtlexperiment.git@42ab7e2)
-   R6                     2.5.1    2021-08-19 [1] CRAN (R 4.2.1)
-   ragg                   1.2.2    2022-02-21 [1] CRAN (R 4.2.1)
-   RColorBrewer           1.1-3    2022-04-03 [1] CRAN (R 4.2.1)
-   Rcpp                   1.0.9    2022-07-08 [1] CRAN (R 4.2.1)
-   RCurl                  1.98-1.9 2022-10-03 [1] CRAN (R 4.2.1)
-   remotes                2.4.2    2021-11-30 [1] CRAN (R 4.2.1)
-   rjson                  0.2.21   2022-01-09 [1] CRAN (R 4.2.1)
-   rlang                  1.0.5    2022-08-31 [1] CRAN (R 4.2.1)
-   rmarkdown              2.15     2022-08-16 [1] CRAN (R 4.2.1)
-   rmeta                  3.0      2018-03-20 [1] CRAN (R 4.2.1)
-   rprojroot              2.0.3    2022-04-02 [1] CRAN (R 4.2.1)
-   rstatix                0.7.0    2021-02-13 [1] CRAN (R 4.2.1)
-   rstudioapi             0.14     2022-08-22 [1] CRAN (R 4.2.1)
-   S4Vectors            * 0.34.0   2022-04-26 [1] Bioconductor
-   sass                   0.4.2    2022-07-16 [1] CRAN (R 4.2.1)
-   scales                 1.2.1    2022-08-20 [1] CRAN (R 4.2.1)
-   sessioninfo            1.2.2    2021-12-06 [1] CRAN (R 4.2.1)
-   shape                  1.4.6    2021-05-19 [1] CRAN (R 4.2.1)
-   shiny                  1.7.2    2022-07-19 [1] CRAN (R 4.2.1)
-   softImpute             1.4-1    2021-05-09 [1] CRAN (R 4.2.1)
-   SQUAREM                2021.1   2021-01-13 [1] CRAN (R 4.2.1)
-   stringi                1.7.8    2022-07-11 [1] CRAN (R 4.2.1)
-   stringr                1.4.1    2022-08-20 [1] CRAN (R 4.2.1)
-   SummarizedExperiment * 1.26.1   2022-04-29 [1] Bioconductor
-   survival               3.3-1    2022-03-03 [2] CRAN (R 4.2.1)
-   systemfonts            1.0.4    2022-02-11 [1] CRAN (R 4.2.1)
-   testthat             * 3.1.4    2022-04-26 [1] CRAN (R 4.2.1)
-   textshaping            0.3.6    2021-10-13 [1] CRAN (R 4.2.1)
-   tibble                 3.1.8    2022-07-22 [1] CRAN (R 4.2.1)
-   tidyr                  1.2.1    2022-09-08 [1] CRAN (R 4.2.1)
-   tidyselect             1.2.0    2022-10-10 [1] CRAN (R 4.2.1)
-   truncnorm              1.0-8    2018-02-27 [1] CRAN (R 4.2.1)
-   tzdb                   0.3.0    2022-03-28 [1] CRAN (R 4.2.1)
-   urlchecker             1.0.1    2021-11-30 [1] CRAN (R 4.2.1)
-   usethis                2.1.6    2022-05-25 [1] CRAN (R 4.2.1)
-   utf8                   1.2.2    2021-07-24 [1] CRAN (R 4.2.1)
-   vctrs                  0.4.1    2022-04-13 [1] CRAN (R 4.2.1)
-   viridis                0.6.2    2021-10-13 [1] CRAN (R 4.2.1)
-   viridisLite            0.4.1    2022-08-22 [1] CRAN (R 4.2.1)
-   vroom                  1.6.0    2022-09-30 [1] CRAN (R 4.2.1)
-   withr                  2.5.0    2022-03-03 [1] CRAN (R 4.2.1)
-   workflowr              1.7.0    2021-12-21 [1] CRAN (R 4.2.1)
-   xfun                   0.32     2022-08-10 [1] CRAN (R 4.2.1)
-   xtable                 1.8-4    2019-04-21 [1] CRAN (R 4.2.1)
-   XVector                0.36.0   2022-04-26 [1] Bioconductor
-   yaml                   2.3.6    2022-10-18 [1] CRAN (R 4.2.1)
-   zlibbioc               1.42.0   2022-04-26 [1] Bioconductor
+ package              * version date (UTC) lib source
+ abind                  1.4-8   2024-09-12 [1] CRAN (R 4.4.1)
+ ashr                   2.2-63  2023-08-21 [1] CRAN (R 4.4.1)
+ assertthat             0.2.1   2019-03-21 [1] CRAN (R 4.4.1)
+ backports              1.5.0   2024-05-23 [1] CRAN (R 4.4.1)
+ Biobase              * 2.65.1  2024-08-28 [1] Bioconductor 3.20 (R 4.4.1)
+ BiocGenerics         * 0.51.2  2024-09-27 [1] Bioconductor 3.20 (R 4.4.1)
+ bit                    4.5.0   2024-09-20 [1] CRAN (R 4.4.1)
+ bit64                  4.5.2   2024-09-22 [1] CRAN (R 4.4.1)
+ broom                  1.0.7   2024-09-26 [1] CRAN (R 4.4.1)
+ bslib                  0.8.0   2024-07-29 [1] CRAN (R 4.4.1)
+ cachem                 1.1.0   2024-05-16 [1] CRAN (R 4.4.1)
+ car                    3.1-3   2024-09-27 [1] CRAN (R 4.4.1)
+ carData                3.0-5   2022-01-06 [1] CRAN (R 4.4.1)
+ checkmate              2.3.2   2024-07-29 [1] CRAN (R 4.4.1)
+ circlize               0.4.16  2024-02-20 [1] CRAN (R 4.4.1)
+ cli                    3.6.3   2024-06-21 [1] CRAN (R 4.4.1)
+ clue                   0.3-65  2023-09-23 [1] CRAN (R 4.4.1)
+ cluster                2.1.6   2023-12-01 [2] CRAN (R 4.4.1)
+ codetools              0.2-20  2024-03-31 [2] CRAN (R 4.4.1)
+ collapse             * 2.0.16  2024-08-21 [1] CRAN (R 4.4.1)
+ colorspace             2.1-1   2024-07-26 [1] CRAN (R 4.4.1)
+ ComplexHeatmap       * 2.21.1  2024-09-24 [1] Bioconductor 3.20 (R 4.4.1)
+ cowplot              * 1.1.3   2024-01-22 [1] CRAN (R 4.4.1)
+ crayon                 1.5.3   2024-06-20 [1] CRAN (R 4.4.1)
+ data.table           * 1.16.0  2024-08-27 [1] CRAN (R 4.4.1)
+ DelayedArray           0.31.12 2024-09-27 [1] Bioconductor 3.20 (R 4.4.1)
+ devtools               2.4.5   2022-10-11 [1] CRAN (R 4.4.1)
+ digest                 0.6.37  2024-08-19 [1] CRAN (R 4.4.1)
+ doParallel             1.0.17  2022-02-07 [1] CRAN (R 4.4.1)
+ dplyr                * 1.1.4   2023-11-17 [1] CRAN (R 4.4.1)
+ ellipsis               0.3.2   2021-04-29 [1] CRAN (R 4.4.1)
+ evaluate               1.0.0   2024-09-17 [1] CRAN (R 4.4.1)
+ fansi                  1.0.6   2023-12-08 [1] CRAN (R 4.4.1)
+ farver                 2.1.2   2024-05-13 [1] CRAN (R 4.4.1)
+ fastmap                1.2.0   2024-05-15 [1] CRAN (R 4.4.1)
+ fitdistrplus           1.2-1   2024-07-12 [1] CRAN (R 4.4.1)
+ foreach                1.5.2   2022-02-02 [1] CRAN (R 4.4.1)
+ Formula                1.2-5   2023-02-24 [1] CRAN (R 4.4.1)
+ fs                     1.6.4   2024-04-25 [1] CRAN (R 4.4.1)
+ generics               0.1.3   2022-07-05 [1] CRAN (R 4.4.1)
+ GenomeInfoDb         * 1.41.1  2024-05-24 [1] Bioconductor 3.20 (R 4.4.1)
+ GenomeInfoDbData       1.2.13  2024-10-02 [1] Bioconductor
+ GenomicRanges        * 1.57.1  2024-06-12 [1] Bioconductor 3.20 (R 4.4.1)
+ GetoptLong             1.0.5   2020-12-15 [1] CRAN (R 4.4.1)
+ ggplot2              * 3.5.1   2024-04-23 [1] CRAN (R 4.4.1)
+ ggpubr               * 0.6.0   2023-02-10 [1] CRAN (R 4.4.1)
+ ggsignif               0.6.4   2022-10-13 [1] CRAN (R 4.4.1)
+ git2r                  0.33.0  2023-11-26 [1] CRAN (R 4.4.1)
+ GlobalOptions          0.1.2   2020-06-10 [1] CRAN (R 4.4.1)
+ glue                   1.8.0   2024-09-30 [1] CRAN (R 4.4.1)
+ gridExtra              2.3     2017-09-09 [1] CRAN (R 4.4.1)
+ gtable                 0.3.5   2024-04-22 [1] CRAN (R 4.4.1)
+ highr                  0.11    2024-05-26 [1] CRAN (R 4.4.1)
+ htmltools              0.5.8.1 2024-04-04 [1] CRAN (R 4.4.1)
+ htmlwidgets            1.6.4   2023-12-06 [1] CRAN (R 4.4.1)
+ httpuv                 1.6.15  2024-03-26 [1] CRAN (R 4.4.1)
+ httr                   1.4.7   2023-08-15 [1] CRAN (R 4.4.1)
+ invgamma               1.1     2017-05-07 [1] CRAN (R 4.4.1)
+ IRanges              * 2.39.2  2024-07-17 [1] Bioconductor 3.20 (R 4.4.1)
+ irlba                  2.3.5.1 2022-10-03 [1] CRAN (R 4.4.1)
+ iterators              1.0.14  2022-02-05 [1] CRAN (R 4.4.1)
+ jquerylib              0.1.4   2021-04-26 [1] CRAN (R 4.4.1)
+ jsonlite               1.8.9   2024-09-20 [1] CRAN (R 4.4.1)
+ knitr                  1.48    2024-07-07 [1] CRAN (R 4.4.1)
+ labeling               0.4.3   2023-08-29 [1] CRAN (R 4.4.1)
+ later                  1.3.2   2023-12-06 [1] CRAN (R 4.4.1)
+ lattice                0.22-6  2024-03-20 [2] CRAN (R 4.4.1)
+ lifecycle              1.0.4   2023-11-07 [1] CRAN (R 4.4.1)
+ magrittr               2.0.3   2022-03-30 [1] CRAN (R 4.4.1)
+ mashr                  0.2.79  2023-10-18 [1] CRAN (R 4.4.1)
+ MASS                   7.3-61  2024-06-13 [1] CRAN (R 4.4.1)
+ Matrix                 1.7-0   2024-04-26 [2] CRAN (R 4.4.1)
+ MatrixGenerics       * 1.17.0  2024-05-01 [1] Bioconductor 3.20 (R 4.4.1)
+ matrixStats          * 1.4.1   2024-09-08 [1] CRAN (R 4.4.1)
+ memoise                2.0.1   2021-11-26 [1] CRAN (R 4.4.1)
+ mime                   0.12    2021-09-28 [1] CRAN (R 4.4.1)
+ miniUI                 0.1.1.1 2018-05-18 [1] CRAN (R 4.4.1)
+ mixsqp                 0.3-54  2023-12-20 [1] CRAN (R 4.4.1)
+ multistateQTL        * 1.1.0   2024-05-01 [1] Bioconductor 3.20 (R 4.4.1)
+ munsell                0.5.1   2024-04-01 [1] CRAN (R 4.4.1)
+ mvtnorm                1.3-1   2024-09-03 [1] CRAN (R 4.4.1)
+ pillar                 1.9.0   2023-03-22 [1] CRAN (R 4.4.1)
+ pkgbuild               1.4.4   2024-03-17 [1] CRAN (R 4.4.1)
+ pkgconfig              2.0.3   2019-09-22 [1] CRAN (R 4.4.1)
+ pkgload                1.4.0   2024-06-28 [1] CRAN (R 4.4.1)
+ plyr                   1.8.9   2023-10-02 [1] CRAN (R 4.4.1)
+ png                    0.1-8   2022-11-29 [1] CRAN (R 4.4.1)
+ profvis                0.4.0   2024-09-20 [1] CRAN (R 4.4.1)
+ promises               1.3.0   2024-04-05 [1] CRAN (R 4.4.1)
+ purrr                  1.0.2   2023-08-10 [1] CRAN (R 4.4.1)
+ QTLExperiment        * 1.3.0   2024-10-05 [1] git2r (https://github.com/dunstone-a/QTLExperiment.git@4c1b6f8)
+ R6                     2.5.1   2021-08-19 [1] CRAN (R 4.4.1)
+ ragg                   1.3.3   2024-09-11 [1] CRAN (R 4.4.1)
+ RColorBrewer           1.1-3   2022-04-03 [1] CRAN (R 4.4.1)
+ Rcpp                   1.0.13  2024-07-17 [1] CRAN (R 4.4.1)
+ remotes                2.5.0   2024-03-17 [1] CRAN (R 4.4.1)
+ rjson                  0.2.23  2024-09-16 [1] CRAN (R 4.4.1)
+ rlang                  1.1.4   2024-06-04 [1] CRAN (R 4.4.1)
+ rmarkdown              2.28    2024-08-17 [1] CRAN (R 4.4.1)
+ rmeta                  3.0     2018-03-20 [1] CRAN (R 4.4.1)
+ rprojroot              2.0.4   2023-11-05 [1] CRAN (R 4.4.1)
+ rstatix                0.7.2   2023-02-01 [1] CRAN (R 4.4.1)
+ rstudioapi             0.16.0  2024-03-24 [1] CRAN (R 4.4.1)
+ S4Arrays               1.5.10  2024-09-29 [1] Bioconductor 3.20 (R 4.4.1)
+ S4Vectors            * 0.43.2  2024-07-17 [1] Bioconductor 3.20 (R 4.4.1)
+ sass                   0.4.9   2024-03-15 [1] CRAN (R 4.4.1)
+ scales                 1.3.0   2023-11-28 [1] CRAN (R 4.4.1)
+ sessioninfo            1.2.2   2021-12-06 [1] CRAN (R 4.4.1)
+ shape                  1.4.6.1 2024-02-23 [1] CRAN (R 4.4.1)
+ shiny                  1.9.1   2024-08-01 [1] CRAN (R 4.4.1)
+ SparseArray            1.5.41  2024-09-27 [1] Bioconductor 3.20 (R 4.4.1)
+ SQUAREM                2021.1  2021-01-13 [1] CRAN (R 4.4.1)
+ stringi                1.8.4   2024-05-06 [1] CRAN (R 4.4.1)
+ stringr                1.5.1   2023-11-14 [1] CRAN (R 4.4.1)
+ SummarizedExperiment * 1.35.2  2024-09-27 [1] Bioconductor 3.20 (R 4.4.1)
+ survival               3.7-0   2024-06-05 [1] CRAN (R 4.4.1)
+ systemfonts            1.1.0   2024-05-15 [1] CRAN (R 4.4.1)
+ textshaping            0.4.0   2024-05-24 [1] CRAN (R 4.4.1)
+ tibble                 3.2.1   2023-03-20 [1] CRAN (R 4.4.1)
+ tidyr                  1.3.1   2024-01-24 [1] CRAN (R 4.4.1)
+ tidyselect             1.2.1   2024-03-11 [1] CRAN (R 4.4.1)
+ truncnorm              1.0-9   2023-03-20 [1] CRAN (R 4.4.1)
+ tzdb                   0.4.0   2023-05-12 [1] CRAN (R 4.4.1)
+ UCSC.utils             1.1.0   2024-05-01 [1] Bioconductor 3.20 (R 4.4.1)
+ urlchecker             1.0.1   2021-11-30 [1] CRAN (R 4.4.1)
+ usethis                3.0.0   2024-07-29 [1] CRAN (R 4.4.1)
+ utf8                   1.2.4   2023-10-22 [1] CRAN (R 4.4.1)
+ vctrs                  0.6.5   2023-12-01 [1] CRAN (R 4.4.1)
+ viridis                0.6.5   2024-01-29 [1] CRAN (R 4.4.1)
+ viridisLite            0.4.2   2023-05-02 [1] CRAN (R 4.4.1)
+ vroom                  1.6.5   2023-12-05 [1] CRAN (R 4.4.1)
+ whisker                0.4.1   2022-12-05 [1] CRAN (R 4.4.1)
+ withr                  3.0.1   2024-07-31 [1] CRAN (R 4.4.1)
+ workflowr              1.7.1   2023-08-23 [1] CRAN (R 4.4.1)
+ xfun                   0.47    2024-08-17 [1] CRAN (R 4.4.1)
+ xtable                 1.8-4   2019-04-21 [1] CRAN (R 4.4.1)
+ XVector                0.45.0  2024-05-01 [1] Bioconductor 3.20 (R 4.4.1)
+ yaml                   2.3.10  2024-07-26 [1] CRAN (R 4.4.1)
+ zlibbioc               1.51.1  2024-06-05 [1] Bioconductor 3.20 (R 4.4.1)
 
- [1] /mnt/mcfiles/cazodi/R/x86_64-pc-linux-gnu-library/4.2
- [2] /opt/R/4.2.1/lib/R/library
-
- R ── Package was removed from disk.
+ [1] /mnt/beegfs/users/amelia.dunstone/R/x86_64-pc-linux-gnu-library/4.4
+ [2] /opt/R/4.4.1/lib/R/library
 
 ──────────────────────────────────────────────────────────────────────────────</code></pre>
 </div>
