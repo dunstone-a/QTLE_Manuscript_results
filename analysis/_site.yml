@@ -1,21 +1,26 @@
-name: "WEEO_2021_multi-QTL-benchmark"
-output_dir: "../public"
+name: WEEO_2021_multi-QTL-benchmark
+output_dir: ../docs
 navbar:
-  title: "WEEO_2021_multi-QTL-benchmark"
+  title: WEEO_2021_multi-QTL-benchmark
   left:
-    - text: "Home"
-      href: index.html
-    - text: "About"
-      href: about.html
-    - text: "License"
-      href: license.html
+  - text: Home
+    href: index.html
+  - text: About
+    href: about.html
+  - text: GTEx Analysis
+    href: 01_GTEx-analysis.html
+  - text: Simulation Analysis
+    href: 02_simulation-analysis.html
+  - text: License
+    href: license.html
   right:
-    - icon: fa-gitlab
-      href: https://gitlab.svi.edu.au/biocellgen-private/WEEO_2021_meta-eQTL
+  - icon: fab fa-github
+    text: Source code
+    href: https://github.com/dunstone-a/QTLE_Manuscript_results
 output:
   workflowr::wflow_html:
-    toc: true
-    toc_float: true
+    toc: yes
+    toc_float: yes
     theme: journal
     highlight: pygments
     code_folding: hide
