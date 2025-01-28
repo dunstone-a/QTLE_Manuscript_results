@@ -2,7 +2,7 @@
 
 ## Project overview
 
-https://biocellgen-private.svi.edu.au/WEEO_2022_multistateQTL
+https://dunstone-a.github.io/QTLE_Manuscript_results/index.html
 
 
 ## Acknowledgements
