@@ -11,5 +11,12 @@ license.
 
 Input data are available.
 
-To cite this work, please use...
+The full author list is as follows:
 
+Christina B. Del Azodi<sup>1,2,#</sup>, Amelia M. Dunstone<sup>1,2</sup>, Davis J. McCarthy<sup>1,2#</sup>
+
+<sup>1</sup>St Vincent’s Institute of Medical Research, Fitzroy, Victoria 3065, Australia. 
+
+<sup>2</sup>University of Melbourne, Parkville, Victoria 3052, Australia. 
+
+<sup>#</sup> Corresponding authors. 
