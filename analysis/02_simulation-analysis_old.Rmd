@@ -3,8 +3,6 @@ title: "QTLExperiment and multistateQTL: Simulation examples"
 author: "C.B. Del Azodi"
 date: "`r Sys.Date()`"
 output: html_document
-editor_options: 
-  chunk_output_type: console
 ---
 
 ## Set up environment
@@ -21,8 +19,8 @@ suppressPackageStartupMessages({
   library(dplyr)
   library(ComplexHeatmap)
   library(cowplot)
-  library(QTLExperiment)
-  library(multistateQTL)
+  devtools::load_all("~/Scratch/CBD_2021_qtlexperiment/") # QTLExperiment
+  devtools::load_all("~/Scratch/CBD_2021_multistateQTL/") # multiStateQTL
 })
 
 set.seed(42)
@@ -32,17 +30,7 @@ plot_theme <- theme_cowplot(8)
 save <- TRUE
 save.loc <- paste0("output/00_Figures/", Sys.Date(), "_")
 params <- readRDS("output/gtex_estimated_params.rds")
-params <- qtleParams()
-# Params from 10/11/2021
-params <- list(
-    betas.sig.shape = 2.160473,
-    betas.sig.rate = 14.19137,
-    cv.sig.shape = 16.6759,
-    cv.sig.rate = 35.56338,
-    betas.null.shape = 1.053135,
-    betas.null.rate = 22.55316,
-    cv.null.shape = 1.698207,
-    cv.null.rate = 0.7553863)
+params <- multiStateQTL::qtleParams()
 
 # Simulation parameters
 n_tests <- 500
@@ -50,7 +38,7 @@ n_states <- 6
 thresh <- 0.1
 second_thresh <- 0.2
 factor <- 0.75
-colourLims <- c(0, 1)
+sharing <- c(0, 1)
 ```
 
 
@@ -61,14 +49,14 @@ colourLims <- c(0, 1)
 Using the parameters estimated from the GTEx data, here we simulate a data set with 80% of QTL effects shared across all states and the remaining 20% of QTL effects unique to a single state. 
 
 ```{r global-QTL-simulation}
-sim_simple <- qtleSimulate(params=params, nTests=n_tests, nStates=n_states, 
+sim_simple <- multiStateQTL::qtleSimulate(params=params, ntests=n_tests, nstates=n_states, 
                            global=0.8, unique=0.2) 
 
-sim_simple <- callSignificance(sim_simple, assay="lfsrs", 
-                               thresh=thresh, secondThresh = second_thresh)
-sim_simple <- runPairwiseSharing(sim_simple, assay="significant", factor=factor)
-p_simple <- plotPairwiseSharing(sim_simple, colourRange=colourLims,
-                                annotateCells = TRUE)
+sim_simple <- multiStateQTL::callSignificance(sim_simple, assay="lfsrs", 
+                               thresh=thresh, second.thresh = second_thresh)
+sim_simple <- multiStateQTL::runPairwiseSharing(sim_simple, assay="significant", factor=factor)
+p_simple <- multiStateQTL::plotPairwiseSharing(sim_simple, col_range=sharing,
+                                cell_annotate = TRUE)
 draw(p_simple)
 
 if(save){
@@ -86,15 +74,15 @@ if(save){
 Simulating a data set again with 80% of QTL effects shared across all states and the remaining 20% of QTL effects unique to a single state. However, in this simulation, the betas for each state are sampled using state-specific standard deviations. This situation could occur if you have less data available for some states and therefore expect more variance in the estimated QTL effect sizes. Here we simulate S1-S4 with sd=0.1 (default), S5 with sd=1, and S6 with sd=2. 
 
 ```{r variable-sd-QTL-simulation}
-sim_sd <- qtleSimulate(params=params, nTests=n_tests, nStates=n_states, 
+sim_sd <- multiStateQTL::qtleSimulate(params=params, ntests=n_tests, nstates=n_states, 
                        global=0.8, unique=0.2, 
-                       betaSd =c(0.1, 0.1, 0.1, 0.1, 1, 2))
+                       beta_sd=c(0.1, 0.1, 0.1, 0.1, 1, 2))
 
-sim_sd <- callSignificance(sim_sd, assay="lfsrs", 
-                               thresh=thresh, secondThresh = second_thresh)
-sim_sd <- runPairwiseSharing(sim_sd, assay="significant", factor=factor)
-p_sd <- plotPairwiseSharing(sim_sd, colourRange=colourLims,
-                                annotateCells = TRUE)
+sim_sd <- multiStateQTL::callSignificance(sim_sd, assay="lfsrs", 
+                               thresh=thresh, second.thresh = second_thresh)
+sim_sd <- multiStateQTL::runPairwiseSharing(sim_sd, assay="significant", factor=factor)
+p_sd <- multiStateQTL::plotPairwiseSharing(sim_sd, col_range=sharing,
+                                cell_annotate = TRUE)
 draw(p_sd)
 
 if(save){
@@ -111,15 +99,15 @@ if(save){
 Simulating a dataset where states are clustered in groups, with 50% of QTL assigned randomly to only one cluster and 50% shared across all states. Here we simulate two clusters, but k can be set to any number smaller than the number of states.
 
 ```{r multistate-QTL-simulation}
-sim_multi <- qtleSimulate(params=params, nTests=n_tests, nStates=n_states, 
+sim_multi <- qtleSimulate(params=params, ntests=n_tests, nstates=n_states, 
                           global=0.5, multi=0.5, k=c(1, 1, 1, 1, 2, 2))
 
 sim_multi <- callSignificance(sim_multi, assay="lfsrs", 
-                               thresh=thresh, secondThresh = second_thresh)
+                               thresh=thresh, second.thresh = second_thresh)
 sim_multi <- runPairwiseSharing(sim_multi, assay="significant", factor=factor)
-p_multi1 <- plotPairwiseSharing(sim_multi, colourRange=colourLims,
-                                annotateCells = TRUE,
-                                annotateRowsBy = "multistateGroup")
+p_multi1 <- plotPairwiseSharing(sim_multi, col_range=sharing,
+                                cell_annotate = TRUE,
+                                annotate_rows = "multistateGroup")
 draw(p_multi1)
 
 
@@ -135,7 +123,7 @@ if(save){
 To get more detailed insight into the patterns of QTL sharing across states, we can also visualize sharing with UpSet plots. 
 
 ```{r multi-state-upset-plot, fig.height=5, fig.width=6, fig.cap="Upset plot of significant QTL tests for the multi-state simulation."}
-p_upset <- plotUpSet(sim_multi, annotateColsBy = c("multistateGroup", "nSignificant"), 
+p_upset <- plotUpSet(sim_multi, annotate_by = c("multistateGroup", "nSignificant"), 
                      set_order = NULL)
 draw(p_upset)
 
@@ -172,8 +160,8 @@ sim_multi_subset <- subset(sim_multi, QTL == "multistate")
 
 p_ms_clusters <- plotQTLClusters(sim_multi_subset,
                                  row_km = 5, 
-                                 annotateColsBy = c("multistateGroup"),
-                                 annotateRowsBy = c("mean_beta", "nSignificant"))
+                                 annotate_states = c("multistateGroup"),
+                                 annotate_tests = c("mean_beta", "nSignificant"))
 
 draw(p_ms_clusters)
 
