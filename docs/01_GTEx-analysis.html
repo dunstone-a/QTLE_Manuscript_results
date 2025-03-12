@@ -11,11 +11,11 @@
 
 <meta name="author" content="C.B. Del Azodi and A.M. Dunstone" />
 
-<meta name="date" content="2025-01-28" />
+<meta name="date" content="2025-03-12" />
 
 <title>QTLExperiment and multistateQTL: GTEx analysis</title>
 
-<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
@@ -36,8 +36,8 @@
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
-<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
 
 <link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
 <!-- Add a small amount of space between sections. -->
@@ -479,7 +479,7 @@ div.tocify {
 <h1 class="title toc-ignore">QTLExperiment and multistateQTL: GTEx
 analysis</h1>
 <h4 class="author">C.B. Del Azodi and A.M. Dunstone</h4>
-<h4 class="date">2025-01-28</h4>
+<h4 class="date">2025-03-12</h4>
 
 </div>
 
@@ -508,7 +508,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-01-28
+<strong>Last updated:</strong> 2025-03-12
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -526,7 +526,7 @@ title="This is the local directory in which the code in this file was executed."
 This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
 analysis was created with <a
   href="https://github.com/workflowr/workflowr">workflowr</a> (version
-1.7.1). The <em>Checks</em> tab describes the reproducibility checks
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
 that were applied when the results were created. The <em>Past
 versions</em> tab lists the development history.
 </p>
@@ -639,15 +639,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomdunstoneaQTLEManuscriptresultstree57309243e7bfa8525bb48ed827dddef85ca6c726targetblank5730924a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomdunstoneaQTLEManuscriptresultstree94002684bf8468c971011162e8c3bf33fbd5570ctargetblank9400268a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/dunstone-a/QTLE_Manuscript_results/tree/57309243e7bfa8525bb48ed827dddef85ca6c726" target="_blank">5730924</a>
+<a href="https://github.com/dunstone-a/QTLE_Manuscript_results/tree/94002684bf8468c971011162e8c3bf33fbd5570c" target="_blank">9400268</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomdunstoneaQTLEManuscriptresultstree57309243e7bfa8525bb48ed827dddef85ca6c726targetblank5730924a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomdunstoneaQTLEManuscriptresultstree94002684bf8468c971011162e8c3bf33fbd5570ctargetblank9400268a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -657,7 +657,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/dunstone-a/QTLE_Manuscript_results/tree/57309243e7bfa8525bb48ed827dddef85ca6c726" target="_blank">5730924</a>.
+<a href="https://github.com/dunstone-a/QTLE_Manuscript_results/tree/94002684bf8468c971011162e8c3bf33fbd5570c" target="_blank">9400268</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -675,6 +675,7 @@ Ignored files:
     Ignored:    .RData
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+    Ignored:    analysis/site_libs/
     Ignored:    data/Adipose_Subcutaneous.allpairs.txt.gz_alltests_chr1.txt
     Ignored:    data/Artery_Tibial.allpairs.txt.gz_alltests_chr1.txt
     Ignored:    data/Esophagus_Mucosa.allpairs.txt.gz_alltests_chr1.txt
@@ -689,18 +690,19 @@ Ignored files:
     Ignored:    output/gtex10_chr1_QTLE.rds
     Ignored:    output/gtex10_chr1_QTLE_filt.rds
     Ignored:    output/gtex_estimated_params.rds
+    Ignored:    output/gtex_estimated_params_20250311.rds
 
 Untracked files:
+    Untracked:  .Rprofile
     Untracked:  QTLE_Manuscript_results.Rproj
-    Untracked:  analysis/01_GTEx-analysis_old.Rmd
+    Untracked:  lock_file.txt
+    Untracked:  lock_file_0226
+    Untracked:  output_old/
+    Untracked:  renv.lock
+    Untracked:  renv/
 
 Unstaged changes:
-    Modified:   README.md
-    Deleted:    analysis/2021-07-30_pbmc8k-reference-processing.Rmd
-    Deleted:    analysis/2021-08-03_pbmc8k-simulations.Rmd
-    Modified:   analysis/license.Rmd
-    Modified:   code/preprocess_gtex_alltests.sh
-    Modified:   data/README.md
+    Modified:   analysis/01_GTEx-analysis_old.Rmd
 
 </code></pre>
 <p>
@@ -746,6 +748,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/dunstone-a/QTLE_Manuscript_results/blob/94002684bf8468c971011162e8c3bf33fbd5570c/analysis/01_GTEx-analysis.Rmd" target="_blank">9400268</a>
+</td>
+<td>
+dunstone-a
+</td>
+<td>
+2025-03-12
+</td>
+<td>
+workflowr::wflow_publish("analysis/01_GTEx-analysis.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/dunstone-a/QTLE_Manuscript_results/a6646efb45de8956f9ff174cfaf78720a663f151/docs/01_GTEx-analysis.html" target="_blank">a6646ef</a>
+</td>
+<td>
+dunstone-a
+</td>
+<td>
+2025-01-28
+</td>
+<td>
+Update GTEx analysis for new package syntax
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -811,27 +847,29 @@ manuscript figures
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>    <span class="fu">library</span>(dplyr)</span>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>    <span class="fu">library</span>(ComplexHeatmap)</span>
 <span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>    <span class="fu">library</span>(cowplot)</span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>    <span class="fu">library</span>(QTLExperiment)</span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>    <span class="fu">library</span>(multistateQTL)</span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>})</span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: Change this to &#39;TRUE&#39; if this is the first time the code has been run. </span></span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>rerun <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
-<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>plot_theme <span class="ot">&lt;-</span> <span class="fu">theme_cowplot</span>(<span class="dv">8</span>)</span>
-<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>save <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
-<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>save.loc <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;output/00_Figures/&quot;</span>, <span class="fu">Sys.Date</span>(), <span class="st">&quot;_&quot;</span>)</span>
-<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co"># Remove line if not needed due to workflowr</span></span>
-<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">&quot;output/00_Figures/&quot;</span>)</span>
-<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="co"># Simulation parameters</span></span>
-<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a>n_tests <span class="ot">&lt;-</span> <span class="dv">500</span></span>
-<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a>n_states <span class="ot">&lt;-</span> <span class="dv">6</span></span>
-<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a>thresh <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
-<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a>second_thresh <span class="ot">&lt;-</span> <span class="fl">0.2</span></span>
-<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a>factor <span class="ot">&lt;-</span> <span class="fl">0.75</span></span>
-<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a>sharing <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>    devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;https://github.com/dunstone-a/QTLExperiment.git@1.99.1&quot;</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>    devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;https://github.com/dunstone-a/multistateQTL.git@1.99.2&quot;</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>    <span class="fu">library</span>(QTLExperiment)</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>    <span class="fu">library</span>(multistateQTL)</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>})</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: Change this to &#39;TRUE&#39; if this is the first time the code has been run. </span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>rerun <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>plot_theme <span class="ot">&lt;-</span> <span class="fu">theme_cowplot</span>(<span class="dv">8</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>save <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a>save.loc <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;output/00_Figures/&quot;</span>, <span class="fu">Sys.Date</span>(), <span class="st">&quot;_&quot;</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="co"># Remove line if not needed due to workflowr</span></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">&quot;output/00_Figures/&quot;</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="co"># Simulation parameters</span></span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a>n_tests <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a>n_states <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a>thresh <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a>second_thresh <span class="ot">&lt;-</span> <span class="fl">0.2</span></span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a>factor <span class="ot">&lt;-</span> <span class="fl">0.75</span></span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a>sharing <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
 </div>
 <div id="gtex-analysis" class="section level1">
 <h1>GTEx analysis</h1>
@@ -902,7 +940,7 @@ rownames(11680281): ENSG00000227232.5|chr1_13550_G_A_b38
   ENSG00000227232.5|chr1_14671_G_C_b38 ...
   ENSG00000185220.11|chr1_248944397_A_C_b38
   ENSG00000185220.11|chr1_248945104_C_T_b38
-rowData names(2): variant_id feature_id
+rowData names(2): feature_id variant_id
 colnames(10): Lung Whole_Blood ... Artery_Tibial Esophagus_Mucosa
 colData names(1): state_id</code></pre>
 <p>Note it took 637.990 seconds (10 min 38 sec) to load 20,177,150 QTL
@@ -922,10 +960,10 @@ significant QTL for each feature (i.e. gene) for each tissue using
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>    <span class="at">thresh=</span>thresh, </span>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>    <span class="at">secondThresh=</span>second_thresh))</span></code></pre></div>
 <pre><code>   user  system elapsed 
-  8.263   0.550   8.886 </code></pre>
+  7.658   0.474   8.202 </code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">system.time</span>(gtex_top <span class="ot">&lt;-</span> <span class="fu">getTopHits</span>(gtex, <span class="at">mode=</span><span class="st">&quot;state&quot;</span>))</span></code></pre></div>
 <pre><code>   user  system elapsed 
- 23.935   2.037  26.113 </code></pre>
+ 21.514   2.171  23.817 </code></pre>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">table</span>(<span class="fu">feature_id</span>(gtex_top)), <span class="at">xlab =</span> <span class="st">&quot;# top QTL per feature&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="figure/01_GTEx-analysis.Rmd/get-top-hits-stats-1.png" alt="The distribution of the number of top-QTL hits for each feature, where 10 means a different QTL was the top hit in each tissue." width="768" />
@@ -983,13 +1021,13 @@ sharing with <code>plotPairwiseSharing()</code></p>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>    <span class="at">assay=</span><span class="st">&quot;significant&quot;</span>, </span>
 <span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>    <span class="at">factor=</span>factor))</span></code></pre></div>
 <pre><code>   user  system elapsed 
-  0.147   0.002   0.150 </code></pre>
+  0.187   0.001   0.190 </code></pre>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">system.time</span>(p_gtex <span class="ot">&lt;-</span> <span class="fu">plotPairwiseSharing</span>(</span>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>    gtex_top, </span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>    <span class="at">annotateCells =</span> <span class="cn">TRUE</span>, </span>
 <span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>    <span class="at">colourRange =</span> sharing))</span></code></pre></div>
 <pre><code>   user  system elapsed 
-  0.066   0.002   0.071 </code></pre>
+  0.093   0.006   0.181 </code></pre>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">draw</span>(p_gtex)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="figure/01_GTEx-analysis.Rmd/plot-gtex-pairwise-sharing-1.png" alt="Pairwise sharing of GTEx top-eQTL." width="576" />
@@ -1187,28 +1225,28 @@ parameters for null tests.</p>
 <span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a>}</span>
 <span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a>params</span></code></pre></div>
 <pre><code>$cv.sig.shape
-[1] 13.59969
+[1] 16.6759
 
 $cv.sig.rate
-[1] 0.03282103
+[1] 35.56338
 
 $cv.null.shape
-[1] 3.995155e-05
+[1] 1.698207
 
 $cv.null.rate
-[1] 476510.7
+[1] 0.7553863
 
 $betas.sig.shape
-[1] 2.160491
+[1] 2.160473
 
 $betas.sig.rate
-[1] 14.19135
+[1] 14.19137
 
 $betas.null.shape
-[1] 1.053145
+[1] 1.053135
 
 $betas.null.rate
-[1] 22.55344</code></pre>
+[1] 22.55316</code></pre>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="fu">plotSimulationParams</span>(<span class="at">params=</span>params) <span class="sc">+</span></span>
 <span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Dark2&quot;</span>) <span class="sc">+</span> </span>
 <span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Dark2&quot;</span>) <span class="sc">+</span> </span>
@@ -1267,12 +1305,12 @@ dunstone-a
 <div id="session-info" class="section level1">
 <h1>Session Info</h1>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
-<pre><code>R version 4.4.1 (2024-06-14)
-Platform: x86_64-pc-linux-gnu
+<pre><code>R version 4.2.1 (2022-06-23)
+Platform: x86_64-pc-linux-gnu (64-bit)
 Running under: Rocky Linux 8.10 (Green Obsidian)
 
 Matrix products: default
-BLAS/LAPACK: /usr/lib64/libopenblasp-r0.3.15.so;  LAPACK version 3.9.0
+BLAS/LAPACK: /usr/lib64/libopenblasp-r0.3.15.so
 
 locale:
  [1] LC_CTYPE=en_AU.UTF-8       LC_NUMERIC=C              
@@ -1282,62 +1320,64 @@ locale:
  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
 [11] LC_MEASUREMENT=en_AU.UTF-8 LC_IDENTIFICATION=C       
 
-time zone: Australia/Melbourne
-tzcode source: system (glibc)
-
 attached base packages:
-[1] stats4    grid      stats     graphics  grDevices utils     datasets 
+[1] stats4    grid      stats     graphics  grDevices datasets  utils    
 [8] methods   base     
 
 other attached packages:
- [1] multistateQTL_1.1.0         collapse_2.0.16            
- [3] data.table_1.16.0           QTLExperiment_1.3.0        
- [5] SummarizedExperiment_1.35.2 Biobase_2.65.1             
- [7] GenomicRanges_1.57.1        GenomeInfoDb_1.41.1        
- [9] IRanges_2.39.2              S4Vectors_0.43.2           
-[11] BiocGenerics_0.51.2         MatrixGenerics_1.17.0      
-[13] matrixStats_1.4.1           cowplot_1.1.3              
-[15] ComplexHeatmap_2.21.1       dplyr_1.1.4                
-[17] ggpubr_0.6.0                ggplot2_3.5.1              
+ [1] multistateQTL_1.99.2        collapse_2.1.0             
+ [3] data.table_1.14.4           QTLExperiment_1.99.1       
+ [5] SummarizedExperiment_1.26.1 Biobase_2.56.0             
+ [7] GenomicRanges_1.48.0        GenomeInfoDb_1.32.4        
+ [9] IRanges_2.30.1              S4Vectors_0.34.0           
+[11] BiocGenerics_0.42.0         MatrixGenerics_1.8.1       
+[13] matrixStats_1.5.0           cowplot_1.1.3              
+[15] ComplexHeatmap_2.12.1       dplyr_1.1.4                
+[17] ggpubr_0.4.0                ggplot2_3.5.1              
 
 loaded via a namespace (and not attached):
-  [1] gridExtra_2.3           rlang_1.1.4             magrittr_2.0.3         
-  [4] clue_0.3-65             GetoptLong_1.0.5        git2r_0.33.0           
-  [7] compiler_4.4.1          systemfonts_1.1.0       png_0.1-8              
- [10] vctrs_0.6.5             stringr_1.5.1           pkgconfig_2.0.3        
- [13] shape_1.4.6.1           crayon_1.5.3            fastmap_1.2.0          
- [16] backports_1.5.0         XVector_0.45.0          labeling_0.4.3         
- [19] utf8_1.2.4              promises_1.3.0          rmarkdown_2.28         
- [22] tzdb_0.4.0              UCSC.utils_1.1.0        ragg_1.3.3             
- [25] bit_4.5.0               purrr_1.0.2             xfun_0.47              
- [28] zlibbioc_1.51.1         cachem_1.1.0            jsonlite_1.8.9         
- [31] highr_0.11              later_1.3.2             DelayedArray_0.31.12   
- [34] broom_1.0.7             irlba_2.3.5.1           parallel_4.4.1         
- [37] cluster_2.1.6           R6_2.5.1                bslib_0.8.0            
- [40] stringi_1.8.4           RColorBrewer_1.1-3      SQUAREM_2021.1         
- [43] car_3.1-3               jquerylib_0.1.4         assertthat_0.2.1       
- [46] Rcpp_1.0.13             iterators_1.0.14        knitr_1.48             
- [49] splines_4.4.1           httpuv_1.6.15           Matrix_1.7-0           
- [52] tidyselect_1.2.1        viridis_0.6.5           rstudioapi_0.16.0      
- [55] abind_1.4-8             yaml_2.3.10             doParallel_1.0.17      
- [58] codetools_0.2-20        plyr_1.8.9              lattice_0.22-6         
- [61] tibble_3.2.1            withr_3.0.1             evaluate_1.0.0         
- [64] survival_3.7-0          fitdistrplus_1.2-1      circlize_0.4.16        
- [67] pillar_1.9.0            carData_3.0-5           whisker_0.4.1          
- [70] checkmate_2.3.2         foreach_1.5.2           generics_0.1.3         
- [73] vroom_1.6.5             rprojroot_2.0.4         invgamma_1.1           
- [76] truncnorm_1.0-9         munsell_0.5.1           scales_1.3.0           
- [79] ashr_2.2-63             glue_1.8.0              tools_4.4.1            
- [82] ggsignif_0.6.4          mvtnorm_1.3-1           fs_1.6.4               
- [85] tidyr_1.3.1             colorspace_2.1-1        mashr_0.2.79           
- [88] GenomeInfoDbData_1.2.13 Formula_1.2-5           cli_3.6.3              
- [91] textshaping_0.4.0       workflowr_1.7.1         fansi_1.0.6            
- [94] viridisLite_0.4.2       mixsqp_0.3-54           S4Arrays_1.5.10        
- [97] gtable_0.3.5            rstatix_0.7.2           sass_0.4.9             
-[100] digest_0.6.37           SparseArray_1.5.41      farver_2.1.2           
-[103] rjson_0.2.23            htmltools_0.5.8.1       lifecycle_1.0.4        
-[106] rmeta_3.0               httr_1.4.7              GlobalOptions_0.1.2    
-[109] MASS_7.3-61             bit64_4.5.2            </code></pre>
+  [1] backports_1.5.0        circlize_0.4.16        workflowr_1.7.0       
+  [4] systemfonts_1.2.1      plyr_1.8.9             splines_4.2.1         
+  [7] usethis_3.1.0          digest_0.6.37          invgamma_1.1          
+ [10] foreach_1.5.2          htmltools_0.5.8.1      viridis_0.6.2         
+ [13] SQUAREM_2021.1         magrittr_2.0.3         checkmate_2.3.2       
+ [16] memoise_2.0.1          cluster_2.1.8          doParallel_1.0.17     
+ [19] tzdb_0.4.0             remotes_2.5.0          vroom_1.6.5           
+ [22] colorspace_2.1-1       textshaping_1.0.0      xfun_0.51             
+ [25] crayon_1.5.3           RCurl_1.98-1.16        jsonlite_1.9.0        
+ [28] survival_3.8-3         iterators_1.0.14       glue_1.8.0            
+ [31] gtable_0.3.6           zlibbioc_1.42.0        XVector_0.36.0        
+ [34] GetoptLong_1.0.5       DelayedArray_0.22.0    car_3.1-3             
+ [37] pkgbuild_1.4.6         shape_1.4.6.1          abind_1.4-8           
+ [40] scales_1.3.0           mvtnorm_1.3-3          rstatix_0.7.0         
+ [43] miniUI_0.1.1.1         Rcpp_1.0.14            viridisLite_0.4.2     
+ [46] xtable_1.8-4           clue_0.3-66            bit_4.6.0             
+ [49] Formula_1.2-5          profvis_0.4.0          truncnorm_1.0-9       
+ [52] htmlwidgets_1.6.4      RColorBrewer_1.1-3     ellipsis_0.3.2        
+ [55] farver_2.1.2           urlchecker_1.0.1       pkgconfig_2.0.3       
+ [58] sass_0.4.9             mashr_0.2.57           labeling_0.4.3        
+ [61] tidyselect_1.2.1       rlang_1.1.5            softImpute_1.4-1      
+ [64] later_1.4.1            munsell_0.5.1          tools_4.2.1           
+ [67] cachem_1.1.0           cli_3.6.4              generics_0.1.3        
+ [70] devtools_2.4.4         broom_1.0.7            evaluate_1.0.3        
+ [73] stringr_1.5.1          fastmap_1.2.0          ragg_1.3.3            
+ [76] yaml_2.3.10            knitr_1.49             bit64_4.6.0-1         
+ [79] fs_1.6.5               fitdistrplus_1.1-8     purrr_1.0.4           
+ [82] whisker_0.4.1          mime_0.12              compiler_4.2.1        
+ [85] rstudioapi_0.17.1      curl_6.2.1             png_0.1-8             
+ [88] ggsignif_0.6.4         tibble_3.2.1           bslib_0.9.0           
+ [91] stringi_1.8.4          lattice_0.22-6         Matrix_1.6-0          
+ [94] vctrs_0.6.5            pillar_1.10.1          lifecycle_1.0.4       
+ [97] BiocManager_1.30.25    jquerylib_0.1.4        GlobalOptions_0.1.2   
+[100] bitops_1.0-9           irlba_2.3.5.1          httpuv_1.6.15         
+[103] R6_2.6.1               promises_1.3.2         renv_1.1.1            
+[106] gridExtra_2.3          sessioninfo_1.2.3      codetools_0.2-20      
+[109] MASS_7.3-57            assertthat_0.2.1       pkgload_1.4.0         
+[112] rprojroot_2.0.4        rjson_0.2.23           withr_3.0.2           
+[115] GenomeInfoDbData_1.2.8 parallel_4.2.1         tidyr_1.3.1           
+[118] rmarkdown_2.29         carData_3.0-5          ashr_2.2-63           
+[121] git2r_0.30.1           mixsqp_0.3-54          shiny_1.10.0          
+[124] rmeta_3.0             </code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1349,7 +1389,7 @@ Session information
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">session_info</span>()</span></code></pre></div>
 <pre><code>─ Session info ───────────────────────────────────────────────────────────────
  setting  value
- version  R version 4.4.1 (2024-06-14)
+ version  R version 4.2.1 (2022-06-23)
  os       Rocky Linux 8.10 (Green Obsidian)
  system   x86_64, linux-gnu
  ui       X11
@@ -1357,153 +1397,156 @@ Session information
  collate  en_AU.UTF-8
  ctype    en_AU.UTF-8
  tz       Australia/Melbourne
- date     2025-01-28
+ date     2025-03-12
  pandoc   3.1.1 @ /usr/lib/rstudio-server/bin/quarto/bin/tools/ (via rmarkdown)
+ quarto   1.3.450 @ /usr/lib/rstudio-server/bin/quarto/bin/quarto
 
 ─ Packages ───────────────────────────────────────────────────────────────────
- package              * version date (UTC) lib source
- abind                  1.4-8   2024-09-12 [1] CRAN (R 4.4.1)
- ashr                   2.2-63  2023-08-21 [1] CRAN (R 4.4.1)
- assertthat             0.2.1   2019-03-21 [1] CRAN (R 4.4.1)
- backports              1.5.0   2024-05-23 [1] CRAN (R 4.4.1)
- Biobase              * 2.65.1  2024-08-28 [1] Bioconductor 3.20 (R 4.4.1)
- BiocGenerics         * 0.51.2  2024-09-27 [1] Bioconductor 3.20 (R 4.4.1)
- bit                    4.5.0   2024-09-20 [1] CRAN (R 4.4.1)
- bit64                  4.5.2   2024-09-22 [1] CRAN (R 4.4.1)
- broom                  1.0.7   2024-09-26 [1] CRAN (R 4.4.1)
- bslib                  0.8.0   2024-07-29 [1] CRAN (R 4.4.1)
- cachem                 1.1.0   2024-05-16 [1] CRAN (R 4.4.1)
- car                    3.1-3   2024-09-27 [1] CRAN (R 4.4.1)
- carData                3.0-5   2022-01-06 [1] CRAN (R 4.4.1)
- checkmate              2.3.2   2024-07-29 [1] CRAN (R 4.4.1)
- circlize               0.4.16  2024-02-20 [1] CRAN (R 4.4.1)
- cli                    3.6.3   2024-06-21 [1] CRAN (R 4.4.1)
- clue                   0.3-65  2023-09-23 [1] CRAN (R 4.4.1)
- cluster                2.1.6   2023-12-01 [2] CRAN (R 4.4.1)
- codetools              0.2-20  2024-03-31 [2] CRAN (R 4.4.1)
- collapse             * 2.0.16  2024-08-21 [1] CRAN (R 4.4.1)
- colorspace             2.1-1   2024-07-26 [1] CRAN (R 4.4.1)
- ComplexHeatmap       * 2.21.1  2024-09-24 [1] Bioconductor 3.20 (R 4.4.1)
- cowplot              * 1.1.3   2024-01-22 [1] CRAN (R 4.4.1)
- crayon                 1.5.3   2024-06-20 [1] CRAN (R 4.4.1)
- data.table           * 1.16.0  2024-08-27 [1] CRAN (R 4.4.1)
- DelayedArray           0.31.12 2024-09-27 [1] Bioconductor 3.20 (R 4.4.1)
- devtools               2.4.5   2022-10-11 [1] CRAN (R 4.4.1)
- digest                 0.6.37  2024-08-19 [1] CRAN (R 4.4.1)
- doParallel             1.0.17  2022-02-07 [1] CRAN (R 4.4.1)
- dplyr                * 1.1.4   2023-11-17 [1] CRAN (R 4.4.1)
- ellipsis               0.3.2   2021-04-29 [1] CRAN (R 4.4.1)
- evaluate               1.0.0   2024-09-17 [1] CRAN (R 4.4.1)
- fansi                  1.0.6   2023-12-08 [1] CRAN (R 4.4.1)
- farver                 2.1.2   2024-05-13 [1] CRAN (R 4.4.1)
- fastmap                1.2.0   2024-05-15 [1] CRAN (R 4.4.1)
- fitdistrplus           1.2-1   2024-07-12 [1] CRAN (R 4.4.1)
- foreach                1.5.2   2022-02-02 [1] CRAN (R 4.4.1)
- Formula                1.2-5   2023-02-24 [1] CRAN (R 4.4.1)
- fs                     1.6.4   2024-04-25 [1] CRAN (R 4.4.1)
- generics               0.1.3   2022-07-05 [1] CRAN (R 4.4.1)
- GenomeInfoDb         * 1.41.1  2024-05-24 [1] Bioconductor 3.20 (R 4.4.1)
- GenomeInfoDbData       1.2.13  2024-10-02 [1] Bioconductor
- GenomicRanges        * 1.57.1  2024-06-12 [1] Bioconductor 3.20 (R 4.4.1)
- GetoptLong             1.0.5   2020-12-15 [1] CRAN (R 4.4.1)
- ggplot2              * 3.5.1   2024-04-23 [1] CRAN (R 4.4.1)
- ggpubr               * 0.6.0   2023-02-10 [1] CRAN (R 4.4.1)
- ggsignif               0.6.4   2022-10-13 [1] CRAN (R 4.4.1)
- git2r                  0.33.0  2023-11-26 [1] CRAN (R 4.4.1)
- GlobalOptions          0.1.2   2020-06-10 [1] CRAN (R 4.4.1)
- glue                   1.8.0   2024-09-30 [1] CRAN (R 4.4.1)
- gridExtra              2.3     2017-09-09 [1] CRAN (R 4.4.1)
- gtable                 0.3.5   2024-04-22 [1] CRAN (R 4.4.1)
- highr                  0.11    2024-05-26 [1] CRAN (R 4.4.1)
- htmltools              0.5.8.1 2024-04-04 [1] CRAN (R 4.4.1)
- htmlwidgets            1.6.4   2023-12-06 [1] CRAN (R 4.4.1)
- httpuv                 1.6.15  2024-03-26 [1] CRAN (R 4.4.1)
- httr                   1.4.7   2023-08-15 [1] CRAN (R 4.4.1)
- invgamma               1.1     2017-05-07 [1] CRAN (R 4.4.1)
- IRanges              * 2.39.2  2024-07-17 [1] Bioconductor 3.20 (R 4.4.1)
- irlba                  2.3.5.1 2022-10-03 [1] CRAN (R 4.4.1)
- iterators              1.0.14  2022-02-05 [1] CRAN (R 4.4.1)
- jquerylib              0.1.4   2021-04-26 [1] CRAN (R 4.4.1)
- jsonlite               1.8.9   2024-09-20 [1] CRAN (R 4.4.1)
- knitr                  1.48    2024-07-07 [1] CRAN (R 4.4.1)
- labeling               0.4.3   2023-08-29 [1] CRAN (R 4.4.1)
- later                  1.3.2   2023-12-06 [1] CRAN (R 4.4.1)
- lattice                0.22-6  2024-03-20 [2] CRAN (R 4.4.1)
- lifecycle              1.0.4   2023-11-07 [1] CRAN (R 4.4.1)
- magrittr               2.0.3   2022-03-30 [1] CRAN (R 4.4.1)
- mashr                  0.2.79  2023-10-18 [1] CRAN (R 4.4.1)
- MASS                   7.3-61  2024-06-13 [1] CRAN (R 4.4.1)
- Matrix                 1.7-0   2024-04-26 [2] CRAN (R 4.4.1)
- MatrixGenerics       * 1.17.0  2024-05-01 [1] Bioconductor 3.20 (R 4.4.1)
- matrixStats          * 1.4.1   2024-09-08 [1] CRAN (R 4.4.1)
- memoise                2.0.1   2021-11-26 [1] CRAN (R 4.4.1)
- mime                   0.12    2021-09-28 [1] CRAN (R 4.4.1)
- miniUI                 0.1.1.1 2018-05-18 [1] CRAN (R 4.4.1)
- mixsqp                 0.3-54  2023-12-20 [1] CRAN (R 4.4.1)
- multistateQTL        * 1.1.0   2024-05-01 [1] Bioconductor 3.20 (R 4.4.1)
- munsell                0.5.1   2024-04-01 [1] CRAN (R 4.4.1)
- mvtnorm                1.3-1   2024-09-03 [1] CRAN (R 4.4.1)
- pillar                 1.9.0   2023-03-22 [1] CRAN (R 4.4.1)
- pkgbuild               1.4.4   2024-03-17 [1] CRAN (R 4.4.1)
- pkgconfig              2.0.3   2019-09-22 [1] CRAN (R 4.4.1)
- pkgload                1.4.0   2024-06-28 [1] CRAN (R 4.4.1)
- plyr                   1.8.9   2023-10-02 [1] CRAN (R 4.4.1)
- png                    0.1-8   2022-11-29 [1] CRAN (R 4.4.1)
- profvis                0.4.0   2024-09-20 [1] CRAN (R 4.4.1)
- promises               1.3.0   2024-04-05 [1] CRAN (R 4.4.1)
- purrr                  1.0.2   2023-08-10 [1] CRAN (R 4.4.1)
- QTLExperiment        * 1.3.0   2024-10-05 [1] git2r (https://github.com/dunstone-a/QTLExperiment.git@4c1b6f8)
- R6                     2.5.1   2021-08-19 [1] CRAN (R 4.4.1)
- ragg                   1.3.3   2024-09-11 [1] CRAN (R 4.4.1)
- RColorBrewer           1.1-3   2022-04-03 [1] CRAN (R 4.4.1)
- Rcpp                   1.0.13  2024-07-17 [1] CRAN (R 4.4.1)
- remotes                2.5.0   2024-03-17 [1] CRAN (R 4.4.1)
- rjson                  0.2.23  2024-09-16 [1] CRAN (R 4.4.1)
- rlang                  1.1.4   2024-06-04 [1] CRAN (R 4.4.1)
- rmarkdown              2.28    2024-08-17 [1] CRAN (R 4.4.1)
- rmeta                  3.0     2018-03-20 [1] CRAN (R 4.4.1)
- rprojroot              2.0.4   2023-11-05 [1] CRAN (R 4.4.1)
- rstatix                0.7.2   2023-02-01 [1] CRAN (R 4.4.1)
- rstudioapi             0.16.0  2024-03-24 [1] CRAN (R 4.4.1)
- S4Arrays               1.5.10  2024-09-29 [1] Bioconductor 3.20 (R 4.4.1)
- S4Vectors            * 0.43.2  2024-07-17 [1] Bioconductor 3.20 (R 4.4.1)
- sass                   0.4.9   2024-03-15 [1] CRAN (R 4.4.1)
- scales                 1.3.0   2023-11-28 [1] CRAN (R 4.4.1)
- sessioninfo            1.2.2   2021-12-06 [1] CRAN (R 4.4.1)
- shape                  1.4.6.1 2024-02-23 [1] CRAN (R 4.4.1)
- shiny                  1.9.1   2024-08-01 [1] CRAN (R 4.4.1)
- SparseArray            1.5.41  2024-09-27 [1] Bioconductor 3.20 (R 4.4.1)
- SQUAREM                2021.1  2021-01-13 [1] CRAN (R 4.4.1)
- stringi                1.8.4   2024-05-06 [1] CRAN (R 4.4.1)
- stringr                1.5.1   2023-11-14 [1] CRAN (R 4.4.1)
- SummarizedExperiment * 1.35.2  2024-09-27 [1] Bioconductor 3.20 (R 4.4.1)
- survival               3.7-0   2024-06-05 [1] CRAN (R 4.4.1)
- systemfonts            1.1.0   2024-05-15 [1] CRAN (R 4.4.1)
- textshaping            0.4.0   2024-05-24 [1] CRAN (R 4.4.1)
- tibble                 3.2.1   2023-03-20 [1] CRAN (R 4.4.1)
- tidyr                  1.3.1   2024-01-24 [1] CRAN (R 4.4.1)
- tidyselect             1.2.1   2024-03-11 [1] CRAN (R 4.4.1)
- truncnorm              1.0-9   2023-03-20 [1] CRAN (R 4.4.1)
- tzdb                   0.4.0   2023-05-12 [1] CRAN (R 4.4.1)
- UCSC.utils             1.1.0   2024-05-01 [1] Bioconductor 3.20 (R 4.4.1)
- urlchecker             1.0.1   2021-11-30 [1] CRAN (R 4.4.1)
- usethis                3.0.0   2024-07-29 [1] CRAN (R 4.4.1)
- utf8                   1.2.4   2023-10-22 [1] CRAN (R 4.4.1)
- vctrs                  0.6.5   2023-12-01 [1] CRAN (R 4.4.1)
- viridis                0.6.5   2024-01-29 [1] CRAN (R 4.4.1)
- viridisLite            0.4.2   2023-05-02 [1] CRAN (R 4.4.1)
- vroom                  1.6.5   2023-12-05 [1] CRAN (R 4.4.1)
- whisker                0.4.1   2022-12-05 [1] CRAN (R 4.4.1)
- withr                  3.0.1   2024-07-31 [1] CRAN (R 4.4.1)
- workflowr              1.7.1   2023-08-23 [1] CRAN (R 4.4.1)
- xfun                   0.47    2024-08-17 [1] CRAN (R 4.4.1)
- xtable                 1.8-4   2019-04-21 [1] CRAN (R 4.4.1)
- XVector                0.45.0  2024-05-01 [1] Bioconductor 3.20 (R 4.4.1)
- yaml                   2.3.10  2024-07-26 [1] CRAN (R 4.4.1)
- zlibbioc               1.51.1  2024-06-05 [1] Bioconductor 3.20 (R 4.4.1)
+ ! package              * version   date (UTC) lib source
+   abind                  1.4-8     2024-09-12 [1] CRAN (R 4.2.1)
+   ashr                   2.2-63    2023-08-21 [1] CRAN (R 4.2.1)
+   assertthat             0.2.1     2019-03-21 [1] CRAN (R 4.2.1)
+   backports              1.5.0     2024-05-23 [1] CRAN (R 4.2.1)
+   Biobase              * 2.56.0    2022-04-26 [1] Bioconductor
+   BiocGenerics         * 0.42.0    2022-04-26 [1] Bioconductor
+ P BiocManager            1.30.25   2024-08-28 [?] CRAN (R 4.2.1)
+   bit                    4.6.0     2025-03-06 [1] CRAN (R 4.2.1)
+   bit64                  4.6.0-1   2025-01-16 [1] CRAN (R 4.2.1)
+   bitops                 1.0-9     2024-10-03 [1] CRAN (R 4.2.1)
+   broom                  1.0.7     2024-09-26 [1] CRAN (R 4.2.1)
+   bslib                  0.9.0     2025-01-30 [1] CRAN (R 4.2.1)
+   cachem                 1.1.0     2024-05-16 [1] CRAN (R 4.2.1)
+   car                    3.1-3     2024-09-27 [1] CRAN (R 4.2.1)
+   carData                3.0-5     2022-01-06 [1] CRAN (R 4.2.1)
+   checkmate              2.3.2     2024-07-29 [1] CRAN (R 4.2.1)
+   circlize               0.4.16    2024-02-20 [1] CRAN (R 4.2.1)
+   cli                    3.6.4     2025-02-13 [1] CRAN (R 4.2.1)
+   clue                   0.3-66    2024-11-13 [1] CRAN (R 4.2.1)
+   cluster                2.1.8     2024-12-11 [1] CRAN (R 4.2.1)
+   codetools              0.2-20    2024-03-31 [1] CRAN (R 4.2.1)
+   collapse             * 2.1.0     2025-03-10 [1] CRAN (R 4.2.1)
+   colorspace             2.1-1     2024-07-26 [1] CRAN (R 4.2.1)
+   ComplexHeatmap       * 2.12.1    2022-08-09 [1] Bioconductor
+   cowplot              * 1.1.3     2024-01-22 [1] CRAN (R 4.2.1)
+   crayon                 1.5.3     2024-06-20 [1] CRAN (R 4.2.1)
+   curl                   6.2.1     2025-02-19 [1] CRAN (R 4.2.1)
+   data.table           * 1.14.4    2022-10-17 [1] CRAN (R 4.2.1)
+   DelayedArray           0.22.0    2022-04-26 [1] Bioconductor
+   devtools               2.4.4     2022-07-20 [1] CRAN (R 4.2.1)
+   digest                 0.6.37    2024-08-19 [1] CRAN (R 4.2.1)
+   doParallel             1.0.17    2022-02-07 [1] CRAN (R 4.2.1)
+   dplyr                * 1.1.4     2023-11-17 [1] CRAN (R 4.2.1)
+   ellipsis               0.3.2     2021-04-29 [1] CRAN (R 4.2.1)
+   evaluate               1.0.3     2025-01-10 [1] CRAN (R 4.2.1)
+   farver                 2.1.2     2024-05-13 [1] CRAN (R 4.2.1)
+   fastmap                1.2.0     2024-05-15 [1] CRAN (R 4.2.1)
+   fitdistrplus           1.1-8     2022-03-10 [1] CRAN (R 4.2.1)
+   foreach                1.5.2     2022-02-02 [1] CRAN (R 4.2.1)
+   Formula                1.2-5     2023-02-24 [1] CRAN (R 4.2.1)
+   fs                     1.6.5     2024-10-30 [1] CRAN (R 4.2.1)
+   generics               0.1.3     2022-07-05 [1] CRAN (R 4.2.1)
+   GenomeInfoDb         * 1.32.4    2022-09-06 [1] Bioconductor
+   GenomeInfoDbData       1.2.8     2025-02-26 [1] Bioconductor
+   GenomicRanges        * 1.48.0    2022-04-26 [1] Bioconductor
+   GetoptLong             1.0.5     2020-12-15 [1] CRAN (R 4.2.1)
+   ggplot2              * 3.5.1     2024-04-23 [1] CRAN (R 4.2.1)
+   ggpubr               * 0.4.0     2020-06-27 [1] CRAN (R 4.2.1)
+   ggsignif               0.6.4     2022-10-13 [1] CRAN (R 4.2.1)
+   git2r                  0.30.1    2022-03-16 [1] CRAN (R 4.2.1)
+   GlobalOptions          0.1.2     2020-06-10 [1] CRAN (R 4.2.1)
+   glue                   1.8.0     2024-09-30 [1] CRAN (R 4.2.1)
+   gridExtra              2.3       2017-09-09 [1] CRAN (R 4.2.1)
+   gtable                 0.3.6     2024-10-25 [1] CRAN (R 4.2.1)
+   htmltools              0.5.8.1   2024-04-04 [1] CRAN (R 4.2.1)
+   htmlwidgets            1.6.4     2023-12-06 [1] CRAN (R 4.2.1)
+   httpuv                 1.6.15    2024-03-26 [1] CRAN (R 4.2.1)
+   invgamma               1.1       2017-05-07 [1] CRAN (R 4.2.1)
+   IRanges              * 2.30.1    2022-08-18 [1] Bioconductor
+   irlba                  2.3.5.1   2022-10-03 [1] CRAN (R 4.2.1)
+   iterators              1.0.14    2022-02-05 [1] CRAN (R 4.2.1)
+   jquerylib              0.1.4     2021-04-26 [1] CRAN (R 4.2.1)
+   jsonlite               1.9.0     2025-02-19 [1] CRAN (R 4.2.1)
+   knitr                  1.49      2024-11-08 [1] CRAN (R 4.2.1)
+   labeling               0.4.3     2023-08-29 [1] CRAN (R 4.2.1)
+   later                  1.4.1     2024-11-27 [1] CRAN (R 4.2.1)
+   lattice                0.22-6    2024-03-20 [1] CRAN (R 4.2.1)
+   lifecycle              1.0.4     2023-11-07 [1] CRAN (R 4.2.1)
+   magrittr               2.0.3     2022-03-30 [1] CRAN (R 4.2.1)
+   mashr                  0.2.57    2022-01-25 [1] CRAN (R 4.2.1)
+ P MASS                   7.3-57    2022-04-22 [?] CRAN (R 4.2.1)
+   Matrix                 1.6-0     2023-07-08 [1] CRAN (R 4.2.1)
+   MatrixGenerics       * 1.8.1     2022-06-26 [1] Bioconductor
+   matrixStats          * 1.5.0     2025-01-07 [1] CRAN (R 4.2.1)
+   memoise                2.0.1     2021-11-26 [1] CRAN (R 4.2.1)
+   mime                   0.12      2021-09-28 [1] CRAN (R 4.2.1)
+   miniUI                 0.1.1.1   2018-05-18 [1] CRAN (R 4.2.1)
+   mixsqp                 0.3-54    2023-12-20 [1] CRAN (R 4.2.1)
+   multistateQTL        * 1.99.2    2025-03-12 [1] Github (dunstone-a/multistateQTL@1c6ffa5)
+   munsell                0.5.1     2024-04-01 [1] CRAN (R 4.2.1)
+   mvtnorm                1.3-3     2025-01-10 [1] CRAN (R 4.2.1)
+   pillar                 1.10.1    2025-01-07 [1] CRAN (R 4.2.1)
+   pkgbuild               1.4.6     2025-01-16 [1] CRAN (R 4.2.1)
+   pkgconfig              2.0.3     2019-09-22 [1] CRAN (R 4.2.1)
+   pkgload                1.4.0     2024-06-28 [1] CRAN (R 4.2.1)
+   plyr                   1.8.9     2023-10-02 [1] CRAN (R 4.2.1)
+   png                    0.1-8     2022-11-29 [1] CRAN (R 4.2.1)
+   profvis                0.4.0     2024-09-20 [1] CRAN (R 4.2.1)
+   promises               1.3.2     2024-11-28 [1] CRAN (R 4.2.1)
+   purrr                  1.0.4     2025-02-05 [1] CRAN (R 4.2.1)
+   QTLExperiment        * 1.99.1    2025-03-12 [1] Github (dunstone-a/QTLExperiment@862780f)
+   R6                     2.6.1     2025-02-15 [1] CRAN (R 4.2.1)
+   ragg                   1.3.3     2024-09-11 [1] CRAN (R 4.2.1)
+   RColorBrewer           1.1-3     2022-04-03 [1] CRAN (R 4.2.1)
+   Rcpp                   1.0.14    2025-01-12 [1] CRAN (R 4.2.1)
+   RCurl                  1.98-1.16 2024-07-11 [1] CRAN (R 4.2.1)
+   remotes                2.5.0     2024-03-17 [1] CRAN (R 4.2.1)
+ P renv                   1.1.1     2025-02-07 [?] CRAN (R 4.2.1)
+   rjson                  0.2.23    2024-09-16 [1] CRAN (R 4.2.1)
+   rlang                  1.1.5     2025-01-17 [1] CRAN (R 4.2.1)
+   rmarkdown              2.29      2024-11-04 [1] CRAN (R 4.2.1)
+   rmeta                  3.0       2018-03-20 [1] CRAN (R 4.2.1)
+   rprojroot              2.0.4     2023-11-05 [1] CRAN (R 4.2.1)
+   rstatix                0.7.0     2021-02-13 [1] CRAN (R 4.2.1)
+   rstudioapi             0.17.1    2024-10-22 [1] CRAN (R 4.2.1)
+   S4Vectors            * 0.34.0    2022-04-26 [1] Bioconductor
+   sass                   0.4.9     2024-03-15 [1] CRAN (R 4.2.1)
+   scales                 1.3.0     2023-11-28 [1] CRAN (R 4.2.1)
+   sessioninfo            1.2.3     2025-02-05 [1] CRAN (R 4.2.1)
+   shape                  1.4.6.1   2024-02-23 [1] CRAN (R 4.2.1)
+   shiny                  1.10.0    2024-12-14 [1] CRAN (R 4.2.1)
+   softImpute             1.4-1     2021-05-09 [1] CRAN (R 4.2.1)
+   SQUAREM                2021.1    2021-01-13 [1] CRAN (R 4.2.1)
+   stringi                1.8.4     2024-05-06 [1] CRAN (R 4.2.1)
+   stringr                1.5.1     2023-11-14 [1] CRAN (R 4.2.1)
+   SummarizedExperiment * 1.26.1    2022-04-29 [1] Bioconductor
+   survival               3.8-3     2024-12-17 [1] CRAN (R 4.2.1)
+   systemfonts            1.2.1     2025-01-20 [1] CRAN (R 4.2.1)
+   textshaping            1.0.0     2025-01-20 [1] CRAN (R 4.2.1)
+   tibble                 3.2.1     2023-03-20 [1] CRAN (R 4.2.1)
+   tidyr                  1.3.1     2024-01-24 [1] CRAN (R 4.2.1)
+   tidyselect             1.2.1     2024-03-11 [1] CRAN (R 4.2.1)
+   truncnorm              1.0-9     2023-03-20 [1] CRAN (R 4.2.1)
+   tzdb                   0.4.0     2023-05-12 [1] CRAN (R 4.2.1)
+   urlchecker             1.0.1     2021-11-30 [1] CRAN (R 4.2.1)
+   usethis                3.1.0     2024-11-26 [1] CRAN (R 4.2.1)
+   vctrs                  0.6.5     2023-12-01 [1] CRAN (R 4.2.1)
+   viridis                0.6.2     2021-10-13 [1] CRAN (R 4.2.1)
+   viridisLite            0.4.2     2023-05-02 [1] CRAN (R 4.2.1)
+   vroom                  1.6.5     2023-12-05 [1] CRAN (R 4.2.1)
+   whisker                0.4.1     2022-12-05 [1] CRAN (R 4.2.1)
+   withr                  3.0.2     2024-10-28 [1] CRAN (R 4.2.1)
+   workflowr              1.7.0     2021-12-21 [1] CRAN (R 4.2.1)
+   xfun                   0.51      2025-02-19 [1] CRAN (R 4.2.1)
+   xtable                 1.8-4     2019-04-21 [1] CRAN (R 4.2.1)
+   XVector                0.36.0    2022-04-26 [1] Bioconductor
+ P yaml                   2.3.10    2024-07-26 [?] CRAN (R 4.2.1)
+   zlibbioc               1.42.0    2022-04-26 [1] Bioconductor
 
- [1] /mnt/beegfs/users/amelia.dunstone/R/x86_64-pc-linux-gnu-library/4.4
- [2] /opt/R/4.4.1/lib/R/library
+ [1] /mnt/beegfs/users/amelia.dunstone/R/x86_64-pc-linux-gnu-library/4.2
+ [2] /mnt/beegfs/users/amelia.dunstone/.cache/R/renv/sandbox/R-4.2/x86_64-pc-linux-gnu/6e5b3dc8
+
+ * ── Packages attached to the search path.
+ P ── Loaded and on-disk path mismatch.
 
 ──────────────────────────────────────────────────────────────────────────────</code></pre>
 </div>
