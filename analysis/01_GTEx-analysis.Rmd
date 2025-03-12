@@ -21,6 +21,8 @@ suppressPackageStartupMessages({
     library(dplyr)
     library(ComplexHeatmap)
     library(cowplot)
+    devtools::install_github("https://github.com/dunstone-a/QTLExperiment.git@1.99.1")
+    devtools::install_github("https://github.com/dunstone-a/multistateQTL.git@1.99.2")
     library(QTLExperiment)
     library(multistateQTL)
 })
